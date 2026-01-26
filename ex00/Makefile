@@ -6,14 +6,14 @@
 #    By: bepoisso <bepoisso@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 09:27:36 by bepoisso          #+#    #+#              #
-#    Updated: 2025/10/14 10:38:33 by bepoisso         ###   ########.fr        #
+#    Updated: 2026/01/26 12:10:31 by bepoisso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=exec
-CXX= c++ -Wall -Wextra -Werror -std=c++98 -g
+CXX= c++  -std=c++98 -g #-Wall -Wextra -Werror
 
-SRCS = main.cpp account.cpp bank.cpp
+SRCS = main.cpp Account.cpp Bank.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

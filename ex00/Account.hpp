@@ -21,10 +21,9 @@ private:
 	}
 	
 	/* Getter / Setter */
-	const int getId() const;
+	int getId() const;
 	int getValue() const;
 
-	const int setValue(int newValue);
 /* Methode */
 
 };
