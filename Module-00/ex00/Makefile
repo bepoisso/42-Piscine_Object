@@ -6,12 +6,12 @@
 #    By: bepoisso <bepoisso@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 09:27:36 by bepoisso          #+#    #+#              #
-#    Updated: 2026/01/26 14:09:18 by bepoisso         ###   ########.fr        #
+#    Updated: 2026/01/26 14:13:30 by bepoisso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=exec
-CXX= c++  -std=c++98 -g #-Wall -Wextra -Werror
+CXX= c++ -Wall -Wextra -Werror -std=c++98 -g
 
 SRCS = main.cpp Account.cpp Bank.cpp
 
