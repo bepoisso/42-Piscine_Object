@@ -6,6 +6,8 @@
 
 class Account;
 
+
+
 class Bank {
 private:
 	// Attributes
@@ -40,6 +42,10 @@ friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
 	void deletAccount(int id);
 	void editAccount(int id, int newValue);
 
-	
+	void deposit(int id, int addValue);
+	void loan(int id, int addValue);
+	void withdraw(int id, int minudValue);
+
+
 
 };

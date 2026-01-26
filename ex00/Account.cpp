@@ -9,11 +9,16 @@ Account::~Account() {
 /* Operator */
 
 /* Getter / Setter */
-int Account::getId() const {
-	return (id);
+
+const int& Account::getId() const {
+	return id;
 }
-int Account::getValue() const {
-	return(value);
+const int& Account::getValue() const {
+	return value;
+}
+
+void Account::setValue(int newValue) {
+	value = newValue;
 }
 
 /* Methode */
