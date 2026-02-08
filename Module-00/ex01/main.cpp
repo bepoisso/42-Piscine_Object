@@ -1,4 +1,3 @@
-// Squelette de test pour Graph et Vector2
 #include <iostream>
 #include "Graph.hpp"
 #include "Vector2.hpp"

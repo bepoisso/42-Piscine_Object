@@ -23,18 +23,20 @@ void Graph::draw() const {
 		for (int x = 0; x < size.getX(); ++x) {
 			bool found = false;
 			for (size_t i = 0; i < points.size(); ++i) {
-				if ((int)points[i].getX() == x && (int)points[i].getY() == y)
+				if ((int)points[i].getX() == x && (int)points[i].getY() == y) {
 					found = true;
-				if (found)
-					std::cout << "X";
-				else
-					std::cout << ".";
+					break;
+				}
 			}
-			std::cout << std::endl;
+			if (found)
+				std::cout << "X ";
+			else
+				std::cout << ". ";
 		}
-		std::cout << "  ";
-		for (int x = 0; x < size.getX(); ++x)
-			std::cout << x << " ";
 		std::cout << std::endl;
 	}
+	std::cout << "  ";
+	for (int x = 0; x < size.getX(); ++x)
+		std::cout << x << " ";
+	std::cout << std::endl;
 }
