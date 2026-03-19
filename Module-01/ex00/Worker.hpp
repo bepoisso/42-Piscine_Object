@@ -6,6 +6,7 @@
 #include "Struct.hpp"
 
 class Tool;
+class Workshop;
 
 
 class Worker
@@ -15,6 +16,7 @@ private:
 	Position pos;
 	Statistic stat;
 	std::vector<Tool *> tools;
+	std::vector<Workshop *> workshops;
 
 public:
 	Worker(std::string newName);
@@ -25,4 +27,8 @@ public:
 	void removeTools();
 	void takeTool(Tool *tool);
 	void takeTools();
+
+	void addWorkshop(Workshop *workshop);
+	void removeWorkshop(Workshop *workshop);
+	void work(Workshop *workshop);
 };

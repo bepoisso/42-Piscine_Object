@@ -6,7 +6,7 @@
 #    By: bepoisso <bepoisso@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/08 14:34:20 by bepoisso          #+#    #+#              #
-#    Updated: 2026/03/19 01:00:00 by bepoisso         ###   ########.fr        #
+#    Updated: 2026/03/19 01:27:23 by bepoisso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME=exec
 CXX= c++ -Wall -Wextra -Werror -std=c++98 -g
 
-SRCS = main.cpp Worker.cpp Shovel.cpp Hammer.cpp
+SRCS = main.cpp Worker.cpp Shovel.cpp Hammer.cpp Workshop.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

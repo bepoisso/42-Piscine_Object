@@ -1,12 +1,15 @@
 #include <iostream>
 #include "Worker.hpp"
 #include "Tool.hpp"
+#include "Workshop.hpp"
 
 Worker::Worker(std::string newName) : name(newName) {
 	std::cout << "Worker constructor called" << std::endl;
 }
 
 Worker::~Worker() {
+	while (!workshops.empty())
+		workshops.back()->releaseWorker(this);
 	removeTools();
 	std::cout << "Worker destructor called" << std::endl;
 }
@@ -88,5 +91,45 @@ void Worker::takeTools() {
 	std::cout << name << ": Worker use all tools" << std::endl;
 	for (std::vector<Tool *>::iterator it = tools.begin(); it != tools.end(); ++it)
 		(*it)->use();
+}
+
+void Worker::addWorkshop(Workshop *workshop) {
+	if (workshop == NULL)
+		return;
+
+	for (std::vector<Workshop *>::iterator it = workshops.begin(); it != workshops.end(); ++it) {
+		if (*it == workshop)
+			return;
+	}
+	workshops.push_back(workshop);
+}
+
+void Worker::removeWorkshop(Workshop *workshop) {
+	if (workshop == NULL)
+		return;
+
+	for (std::vector<Workshop *>::iterator it = workshops.begin(); it != workshops.end(); ++it) {
+		if (*it == workshop) {
+			workshops.erase(it);
+			return;
+		}
+	}
+}
+
+void Worker::work(Workshop *workshop) {
+	if (workshop == NULL) {
+		std::cout << name << ": invalid workshop" << std::endl;
+		return;
+	}
+
+	for (std::vector<Workshop *>::iterator it = workshops.begin(); it != workshops.end(); ++it) {
+		if (*it == workshop) {
+			std::cout << name << ": start working" << std::endl;
+			takeTools();
+			return;
+		}
+	}
+
+	std::cout << name << ": not registered to this workshop" << std::endl;
 }
 
