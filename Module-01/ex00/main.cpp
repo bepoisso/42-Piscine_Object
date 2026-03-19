@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Shovel.hpp"
+#include "Hammer.hpp"
 #include "Worker.hpp"
 
 int main () {
@@ -10,30 +11,26 @@ int main () {
 	Worker bob("Bob");
 	Worker alex("Alex");
 	Shovel shov;
+	Hammer ham;
 
-	std::cout << std::endl << "--- BOB USE ---" << std::endl;
-	bob.giveShovel(&shov);
-	bob.takeShovel();
-	bob.removeShovel();
-	bob.takeShovel();
-	bob.giveShovel(&shov);
+	std::cout << std::endl << "--- BOB TAKE TOOLS ---" << std::endl;
+	bob.giveTool(&shov);
+	bob.giveTool(&ham);
+	bob.takeTools();
 
-	std::cout << std::endl << "--- ALEX & BOB USE ---" << std::endl;
-	alex.giveShovel(&shov);
-	alex.takeShovel();
-	bob.takeShovel();
+	std::cout << std::endl << "--- ALEX TAKE SHOVEL ---" << std::endl;
+	alex.giveTool(&shov);
+	alex.takeTool(&shov);
+	bob.takeTool(&shov);
 
-	std::cout << std::endl << "--- ALEX USE ---" << std::endl;
-	alex.takeShovel();
-	alex.takeShovel();
-	alex.takeShovel();
-	alex.takeShovel();
+	std::cout << std::endl << "--- BOB RETURN ALL TOOLS ---" << std::endl;
+	bob.removeTools();
+	bob.takeTools();
+	alex.takeTools();
 
-	std::cout << std::endl << "--- BOB STEAL SHOVEL ---" << std::endl;
-	bob.giveShovel(&shov);
-	alex.takeShovel();
-	alex.takeShovel();
-	bob.takeShovel();
+	std::cout << std::endl << "--- ALEX RETURN SHOVEL ---" << std::endl;
+	alex.removeTool(&shov);
+	alex.takeTools();
 	
 	std::cout << std::endl << "--- DESTRUCTOR ---" << std::endl;
 

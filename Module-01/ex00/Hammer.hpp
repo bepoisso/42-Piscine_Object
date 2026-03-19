@@ -4,15 +4,15 @@
 
 class Worker;
 
-class Shovel : public Tool
+class Hammer : public Tool
 {
 private:
 	int numberOfUses;
 	Worker *owner;
 	
 public:
-	Shovel();
-	~Shovel();
+	Hammer();
+	~Hammer();
 
 	void use();
 	void setOwner(Worker *newWorker);
