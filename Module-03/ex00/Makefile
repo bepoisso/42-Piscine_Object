@@ -1,7 +1,7 @@
 NAME=exec
 CXX= c++ -Wall -Wextra -Werror -std=c++98 -g
 
-SRCS = main.cpp Car.cpp SteeringSystem.cpp BrakeSystem.cpp SpeedController.cpp Engine.cpp GearBox.cpp
+SRCS = main.cpp Car.cpp SteeringSystem.cpp BrakeSystem.cpp SpeedController.cpp Engine.cpp Gearbox.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

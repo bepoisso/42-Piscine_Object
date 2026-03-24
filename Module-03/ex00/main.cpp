@@ -35,6 +35,7 @@ int main() {
 	car.applyBrakes(40.0f);
 	car.shiftGearDown();
 	car.reverse();
+	car.applyBrakes(120.0f);
 	car.emergencyBrakes();
 	car.stop();
 
