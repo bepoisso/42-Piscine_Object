@@ -26,12 +26,12 @@ public:
 	void start();
 	void stop();
 	void accelerate(float speed);
-	void shiftGearUp();
-	void shiftGearDown();
+	void shift_gear_up();
+	void shift_gear_down();
 	void reverse();
-	void turnWheel(float angle);
-	void straightenWheels();
-	void applyBrakes(float force);
-	void emergencyBrakes();
+	void turn_wheel(float angle);
+	void straighten_wheels();
+	void apply_force_on_brakes(float force);
+	void apply_emergency_brakes();
 
 };
