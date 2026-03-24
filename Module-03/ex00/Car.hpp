@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine.hpp"
-#include "GearBox.hpp"
+#include "Gearbox.hpp"
 #include "SteeringSystem.hpp"
 #include "BrakeSystem.hpp"
 #include "SpeedController.hpp"
