@@ -29,14 +29,13 @@ int main() {
 	Car car;
 	car.start();
 	car.accelerate(30.0f);
-	car.shiftGearUp();
-	car.turnWheel(15.0f);
-	car.straightenWheels();
-	car.applyBrakes(40.0f);
-	car.shiftGearDown();
+	car.shift_gears_up();
+	car.turn_wheel(15.0f);
+	car.straighten_wheels();
+	car.apply_force_on_brakes(40.0f);
+	car.shift_gears_down();
 	car.reverse();
-	car.applyBrakes(120.0f);
-	car.emergencyBrakes();
+	car.apply_emergency_brakes();
 	car.stop();
 
 	return 0;
