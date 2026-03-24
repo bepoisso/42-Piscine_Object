@@ -26,8 +26,8 @@ public:
 	void start();
 	void stop();
 	void accelerate(float speed);
-	void shift_gear_up();
-	void shift_gear_down();
+	void shift_gears_up();
+	void shift_gears_down();
 	void reverse();
 	void turn_wheel(float angle);
 	void straighten_wheels();
