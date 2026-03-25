@@ -1,8 +1,7 @@
 NAME=exec
-CXX= c++ -Wall -Wextra -Werror -std=c++98 -g
+CXX= c++ -Wall -Wextra -Werror -g
 
-SRCS = main.cpp command.hpp thuesdayDiscount.hpp packageReductionDiscount.hpp
-
+SRCS = main.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all : $(NAME)
