@@ -4,6 +4,7 @@ Professor::Professor(std::string p_name) : Staff(p_name) {
 }
 
 void Professor::assignCourse(Course* p_course) {
+	(void)p_course;
 
 }
 

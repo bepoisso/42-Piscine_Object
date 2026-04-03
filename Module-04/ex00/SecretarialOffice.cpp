@@ -1,4 +1,5 @@
 #include "SecretarialOffice.hpp"
+#include "Form.hpp"
 
 SecretarialOffice::SecretarialOffice() {
 }

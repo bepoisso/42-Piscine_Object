@@ -12,9 +12,9 @@ private:
 
 public:
 	Room();
-	bool canEnter(Person*);
-	void enter(Person*);
-	void exit(Person*);
+	bool canEnter(Person* person);
+	void enter(Person* person);
+	void exit(Person* person);
 	
 	void printOccupant();
 };
