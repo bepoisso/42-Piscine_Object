@@ -22,3 +22,36 @@ Form* Secretary::createForm(FormType p_formType) {
 	}
 	return NULL;
 }
+
+void Secretary::fillForm(Form* p_form, const FormPayload& p_payload) {
+	if (!p_form)
+		return;
+
+	switch (p_form->getFormType())
+	{
+		case CourseFinished: {
+			CourseFinishedForm* courseFinishedForm = dynamic_cast<CourseFinishedForm*>(p_form);
+			if (courseFinishedForm)
+				courseFinishedForm->fillCourseResult(p_payload.text1, p_payload.text2, p_payload.number);
+			break;
+		}
+		case NeedMoreClassRoom: {
+			NeedMoreClassRoomForm* needMoreClassRoomForm = dynamic_cast<NeedMoreClassRoomForm*>(p_form);
+			if (needMoreClassRoomForm)
+				needMoreClassRoomForm->fillRequest(p_payload.text1, p_payload.text2, p_payload.number);
+			break;
+		}
+		case NeedCourseCreation: {
+			NeedCourseCreationForm* needCourseCreationForm = dynamic_cast<NeedCourseCreationForm*>(p_form);
+			if (needCourseCreationForm)
+				needCourseCreationForm->fillCoursePlan(p_payload.text1, p_payload.text2, p_payload.number);
+			break;
+		}
+		case SubscriptionToCourse: {
+			SubscriptionToCourseForm* subscriptionToCourseForm = dynamic_cast<SubscriptionToCourseForm*>(p_form);
+			if (subscriptionToCourseForm)
+				subscriptionToCourseForm->fillSubscription(p_payload.text1, p_payload.text2, p_payload.text3);
+			break;
+		}
+	}
+}

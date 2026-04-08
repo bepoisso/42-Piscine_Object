@@ -9,13 +9,14 @@
 class Headmaster : public Staff
 {
 private:
-	// Non-owning references: Headmaster validates but does not own these forms.
-	std::vector<Form*> _formToValidate;    // non-owning: Forms are managed by SecretarialOffice
+	std::vector<Form*> _formToValidate;
+	bool hasReceivedForm(Form* p_form) const;
 	
 public:
 	Headmaster(std::string p_name);
 	~Headmaster();
 
 	void	receiveForm(Form* p_form);
-	void	signeForm(Form* p_form);
+	void	signForm(Form* p_form);
+	void	executeForm(Form* p_form);
 };
