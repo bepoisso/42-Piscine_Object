@@ -19,5 +19,6 @@ private:
 public:
 	CourseFinishedForm();
 	void fillCourseResult(Student* newStudent, Course* newCourse, int p_finalGrade);
+	bool isComplete() const;
 	void execute();
 };

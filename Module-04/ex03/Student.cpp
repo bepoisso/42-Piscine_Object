@@ -1,18 +1,50 @@
 #include "Student.hpp"
 #include "Person.hpp"
 
+#include "Classroom.hpp"
+#include "Course.hpp"
+
+#include <iostream>
+
 Student::Student(std::string p_name) : Person(p_name) {
 }
 
 void Student::attendClass(Classroom* p_classroom) {
-	getCurrentRoom();
+	if (!p_classroom)
+		return;
+
+	if (getCurrentRoom())
+		exitClass();
+
+	p_classroom->enter(this);
+
+	Course* currentCourse = p_classroom->getCurrentCourse();
+	if (!currentCourse)
+		return;
+
+	for (std::vector<Course*>::iterator it = _subscribedCourse.begin(); it != _subscribedCourse.end(); ++it) {
+		if (*it == currentCourse)
+			return;
+	}
+	_subscribedCourse.push_back(currentCourse);
 }
 
 void Student::exitClass() {
-
+	Room* currentRoom = getCurrentRoom();
+	if (!currentRoom)
+		return;
+	currentRoom->exit(this);
 }
 
 void Student::graduate(Course* p_course) {
-	(void)p_course; //TODO fair la fonction student graduate()
-}
+	if (!p_course)
+		return;
 
+	for (std::vector<Course*>::iterator it = _subscribedCourse.begin(); it != _subscribedCourse.end(); ++it) {
+		if (*it == p_course) {
+			_subscribedCourse.erase(it);
+			std::cout << "Student " << getName() << " graduated from " << p_course->getName() << std::endl;
+			return;
+		}
+	}
+}

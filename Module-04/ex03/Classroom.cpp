@@ -1,6 +1,6 @@
 #include "Classroom.hpp"
 
-Classroom::Classroom() {
+Classroom::Classroom() : Room(0), _currentCourse(NULL) {
 }
 
 void Classroom::assignCourse(Course* p_course) {

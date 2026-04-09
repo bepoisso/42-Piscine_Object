@@ -21,4 +21,8 @@ public:
 	std::string getName() { return _name; }
 	Professor* getResponsable() { return _responsable; }
 	void setResponsable(Professor* newReponsable) { _responsable = newReponsable; }
+	int getNumberOfClassToGraduate() const { return _numberOfClassToGraduate; }
+	int getMaximumNumberOfStudent() const { return _maximumNumberOfStudent; }
+	void setNumberOfClassToGraduate(int value) { _numberOfClassToGraduate = value; }
+	void setMaximumNumberOfStudent(int value) { _maximumNumberOfStudent = value; }
 };

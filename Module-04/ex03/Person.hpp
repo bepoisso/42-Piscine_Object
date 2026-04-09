@@ -12,7 +12,6 @@ private:
 public:
 	Person(std::string p_name);
 	virtual ~Person();
-	Room* room() {return (_currentRoom);}
 
 	Room* getCurrentRoom() { return _currentRoom; }
 	void setCurrentRoom(Room* newRoom) { _currentRoom = newRoom; }

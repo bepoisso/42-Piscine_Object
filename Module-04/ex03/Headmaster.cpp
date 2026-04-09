@@ -5,6 +5,9 @@
 #include <iostream>
 
 Headmaster::~Headmaster() {
+	for (std::vector<Form*>::iterator it = _formToValidate.begin(); it != _formToValidate.end(); ++it)
+		delete *it;
+	_formToValidate.clear();
 }
 
 Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name), _secretary(newSecretary) {
@@ -50,6 +53,16 @@ bool Headmaster::hasReceivedForm(Form* p_form) const {
 	return false;
 }
 
+void Headmaster::releaseForm(Form* p_form) {
+	for (std::vector<Form*>::iterator it = _formToValidate.begin(); it != _formToValidate.end(); ++it) {
+		if (*it == p_form) {
+			delete *it;
+			_formToValidate.erase(it);
+			return;
+		}
+	}
+}
+
 void	Headmaster::signForm(Form* p_form) {
 	if (!hasReceivedForm(p_form)) {
 		std::cout << "Headmaster refused to sign: form was not received" << std::endl;
@@ -68,5 +81,6 @@ void	Headmaster::executeForm(Form* p_form) {
 		return;
 	}
 	p_form->execute();
+	releaseForm(p_form);
 }
 

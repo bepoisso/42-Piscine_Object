@@ -32,25 +32,25 @@ void Secretary::fillForm(Form* p_form, const FormPayload& p_payload) {
 		case CourseFinished: {
 			CourseFinishedForm* courseFinishedForm = dynamic_cast<CourseFinishedForm*>(p_form);
 			if (courseFinishedForm)
-				courseFinishedForm->fillCourseResult(p_payload.text1, p_payload.text2, p_payload.number);
+				courseFinishedForm->fillCourseResult(p_payload.student, p_payload.course, p_payload.number);
 			break;
 		}
 		case NeedMoreClassRoom: {
 			NeedMoreClassRoomForm* needMoreClassRoomForm = dynamic_cast<NeedMoreClassRoomForm*>(p_form);
 			if (needMoreClassRoomForm)
-				needMoreClassRoomForm->fillRequest(p_payload.text1, p_payload.text2, p_payload.number);
+				needMoreClassRoomForm->fillRequest(p_payload.professor, p_payload.text1, p_payload.number);
 			break;
 		}
 		case NeedCourseCreation: {
 			NeedCourseCreationForm* needCourseCreationForm = dynamic_cast<NeedCourseCreationForm*>(p_form);
 			if (needCourseCreationForm)
-				needCourseCreationForm->fillCoursePlan(p_payload.text1, p_payload.text2, p_payload.number);
+				needCourseCreationForm->fillCoursePlan(p_payload.course, p_payload.professor, p_payload.number);
 			break;
 		}
 		case SubscriptionToCourse: {
 			SubscriptionToCourseForm* subscriptionToCourseForm = dynamic_cast<SubscriptionToCourseForm*>(p_form);
 			if (subscriptionToCourseForm)
-				subscriptionToCourseForm->fillSubscription(p_payload.text1, p_payload.text2, p_payload.text3);
+				subscriptionToCourseForm->fillSubscription(p_payload.student, p_payload.course, p_payload.text3);
 			break;
 		}
 	}

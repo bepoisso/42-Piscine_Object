@@ -11,8 +11,9 @@ class Headmaster : public Staff
 {
 private:
 	Secretary* 			 _secretary;
-	std::vector<Form*> _formToValidate;
+	std::vector<Form*> _formToValidate; // owning: forms created by Secretary are destroyed by Headmaster
 	bool hasReceivedForm(Form* p_form) const;
+	void releaseForm(Form* p_form);
 	
 public:
 	Headmaster(std::string p_name, Secretary *newSecretary);
