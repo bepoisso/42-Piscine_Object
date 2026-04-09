@@ -16,7 +16,7 @@ public:
 	Professor(std::string p_name);
 	void assignCourse(Course* p_course);
 	void doClass();
-	void closeCourse();
+	void closeCourse(Headmaster* headmaster);
 
 	void needGraduateStudent(Headmaster* headmaster, Student* student);
 };

@@ -12,9 +12,20 @@ void Professor::assignCourse(Course* p_course) {
 
 void Professor::doClass() {
 	std::cout << "Professor " << getName() << " do class of " << _currentCourse->getName() << std::endl;
+	std::vector<Student*> studentsList = _currentCourse->getStudents();
+
+	for (size_t i = 0; i < studentsList.size(); ++i) {
+		studentsList[i]->receiveLesson();
+	}
 }
 
-void Professor::closeCourse() {
+void Professor::closeCourse(Headmaster* headmaster) {
+	std::vector<Student*> studentsList = _currentCourse->getStudents();
+
+	for (size_t i = 0; i < studentsList.size(); ++i) {
+		if (studentsList[i]->getCurrentScore() > _currentCourse->getNumberOfClassToGraduate())
+			needGraduateStudent(headmaster, studentsList[i])
+	}
 	_currentCourse = NULL;
 }
 

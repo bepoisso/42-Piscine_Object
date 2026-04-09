@@ -25,4 +25,5 @@ public:
 	int getMaximumNumberOfStudent() const { return _maximumNumberOfStudent; }
 	void setNumberOfClassToGraduate(int value) { _numberOfClassToGraduate = value; }
 	void setMaximumNumberOfStudent(int value) { _maximumNumberOfStudent = value; }
+	std::vector<Student*> getStudents() { return _students; }
 };

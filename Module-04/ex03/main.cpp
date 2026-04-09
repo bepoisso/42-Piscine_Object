@@ -3,5 +3,4 @@
 // todo: Le flux “prof sans cours ⇒ création d’un cours” n’est pas terminé.
 // todo: Le flux “pas de salle libre ⇒ création de classroom” n’est pas terminé.
 // todo: Le flux “étudiant non inscrit ⇒ tentative d’inscription” n’est pas terminé.
-// todo: Le flux “graduation après nombre de classes requis, sur recommandation du prof” n’est pas terminé.
 
