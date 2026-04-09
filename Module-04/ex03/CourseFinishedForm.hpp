@@ -4,17 +4,20 @@
 
 #include "Foward.hpp"
 #include "Form.hpp"
+#include "Student.hpp"
+#include "Course.hpp"
+#include "Person.hpp"
 
 class CourseFinishedForm : public Form
 {
 private:
-	std::string _studentName;
-	std::string _courseName;
-	int			 _finalGrade;
-	bool		 _isCompleted;
+	Student*		_student;
+	Course*			_course;
+	int				_finalGrade;
+	bool			_isCompleted;
 
 public:
 	CourseFinishedForm();
-	void fillCourseResult(const std::string& p_studentName, const std::string& p_courseName, int p_finalGrade);
+	void fillCourseResult(Student* newStudent, Course* newCourse, int p_finalGrade);
 	void execute();
 };

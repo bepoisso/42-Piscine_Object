@@ -5,9 +5,9 @@
 NeedCourseCreationForm::NeedCourseCreationForm() : Form(NeedCourseCreation), _weeklyHours(0), _isCreated(false) {
 }
 
-void NeedCourseCreationForm::fillCoursePlan(const std::string& p_courseName, const std::string& p_teacherName, int p_weeklyHours) {
-	_courseName = p_courseName;
-	_teacherName = p_teacherName;
+void NeedCourseCreationForm::fillCoursePlan(Course* newCourse, Professor* newProfessor, int p_weeklyHours) {
+	_course = newCourse;
+	_professor = newProfessor;
 	_weeklyHours = p_weeklyHours;
 	setIsDataFilled(true);
 }
@@ -22,6 +22,6 @@ void NeedCourseCreationForm::execute() {
 		return;
 	}
 	_isCreated = true;
-	std::cout << "Course created: " << _courseName << " assigned to " << _teacherName
+	std::cout << "Course created: " << _course->getName() << " assigned to " << _professor->getName()
 		<< " (" << _weeklyHours << "h/week)" << std::endl;
 }

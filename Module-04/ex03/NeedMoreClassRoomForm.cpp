@@ -5,8 +5,8 @@
 NeedMoreClassRoomForm::NeedMoreClassRoomForm() : Form(NeedMoreClassRoom), _additionalRoomsCount(0), _isApproved(false) {
 }
 
-void NeedMoreClassRoomForm::fillRequest(const std::string& p_requestedBy, const std::string& p_reason, int p_additionalRoomsCount) {
-	_requestedBy = p_requestedBy;
+void NeedMoreClassRoomForm::fillRequest(Professor* newProfessor, const std::string& p_reason, int p_additionalRoomsCount) {
+	_professor = newProfessor;
 	_reason = p_reason;
 	_additionalRoomsCount = p_additionalRoomsCount;
 	setIsDataFilled(true);
@@ -23,5 +23,5 @@ void NeedMoreClassRoomForm::execute() {
 	}
 	_isApproved = true;
 	std::cout << "Classroom extension approved: " << _additionalRoomsCount
-		<< " room(s) requested by " << _requestedBy << " (reason: " << _reason << ")" << std::endl;
+		<< " room(s) requested by " << _professor->getName() << " (reason: " << _reason << ")" << std::endl;
 }

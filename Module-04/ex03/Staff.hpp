@@ -2,14 +2,13 @@
 
 #include <string>
 
-#include "Foward.hpp"
 #include "Person.hpp"
 
 class Staff : public Person
 {
-public:
-	Staff(const std::string& p_name);
-	virtual ~Staff();
+private:
 
-	void sign(Form* p_form);
+public:
+	Staff(const std::string& p_name) : Person(p_name) {}
+	virtual ~Staff() {}
 };

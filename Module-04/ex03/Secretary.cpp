@@ -1,13 +1,11 @@
 #include "Secretary.hpp"
 
-#include <iostream>
-
 #include "CourseFinishedForm.hpp"
 #include "NeedMoreClassRoomForm.hpp"
 #include "NeedCourseCreationForm.hpp"
 #include "SubscriptionToCourseForm.hpp"
 
-Secretary::Secretary(const std::string& p_name) : Staff(p_name) {
+Secretary::Secretary(std::string p_name) : Staff(p_name) {
 }
 
 Form* Secretary::createForm(FormType p_formType) {

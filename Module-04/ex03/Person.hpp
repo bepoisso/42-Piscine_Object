@@ -8,13 +8,15 @@ class Person
 {
 private:
 	std::string _name;
-	Room* _currentRoom;
-
+	Room* _currentRoom;                    // non-owning: Room is managed elsewhere
 public:
-	Person(const std::string& p_name);
+	Person(std::string p_name);
 	virtual ~Person();
+	Room* room() {return (_currentRoom);}
 
-	const std::string& getName() const;
-	Room* room() const;
-	void setRoom(Room* p_room);
+	Room* getCurrentRoom() { return _currentRoom; }
+	void setCurrentRoom(Room* newRoom) { _currentRoom = newRoom; }
+	std::string getName() { return _name; }
+
+
 };

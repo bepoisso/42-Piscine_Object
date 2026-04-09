@@ -6,13 +6,11 @@
 class Classroom : public Room
 {
 private:
-	Course* _currentCourse;
+	Course* _currentCourse;                // non-owning: Course is managed elsewhere
 
 public:
 	Classroom();
-
 	void assignCourse(Course* p_course);
-	void clearCourse();
-	Course* getCurrentCourse() const;
-	bool isFree() const;
+
+	Course* getCurrentCourse() { return _currentCourse; }
 };

@@ -2,6 +2,10 @@
 
 #include "Foward.hpp"
 #include "Staff.hpp"
+#include "Headmaster.hpp"
+#include "Form.hpp"
+#include "CourseFinishedForm.hpp"
+#include "Staff.hpp"
 
 class Professor : public Staff
 {
@@ -9,10 +13,10 @@ private:
 	Course* _currentCourse;
 
 public:
-	Professor(const std::string& p_name);
-
+	Professor(std::string p_name);
 	void assignCourse(Course* p_course);
 	void doClass();
 	void closeCourse();
-	Course* getCurrentCourse() const;
+
+	void needGraduateStudent(Headmaster* headmaster, Student* student);
 };

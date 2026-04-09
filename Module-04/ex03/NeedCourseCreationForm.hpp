@@ -4,17 +4,24 @@
 
 #include "Foward.hpp"
 #include "Form.hpp"
+#include "Course.hpp"
+#include "Professor.hpp"
+#include "Person.hpp"
+#include "Staff.hpp"
 
 class NeedCourseCreationForm : public Form
 {
 private:
-	std::string _courseName;
-	std::string _teacherName;
+	Course*		_course;
+	Professor*	_professor;
 	int			 _weeklyHours;
 	bool		 _isCreated;
 
 public:
 	NeedCourseCreationForm();
-	void fillCoursePlan(const std::string& p_courseName, const std::string& p_teacherName, int p_weeklyHours);
+	void fillCoursePlan(Course* newCourse, Professor* newProfessor, int p_weeklyHours);
 	void execute();
+
+	Course* getCourse() { return _course; }
+	Professor* getProfessor() { return _professor; }
 };

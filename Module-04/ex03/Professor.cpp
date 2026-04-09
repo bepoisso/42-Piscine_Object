@@ -1,32 +1,40 @@
 #include "Professor.hpp"
 
 #include <iostream>
+#include <cmath>
 
-#include "Course.hpp"
-
-Professor::Professor(const std::string& p_name) : Staff(p_name), _currentCourse(0) {
+Professor::Professor(std::string p_name) : Staff(p_name), _currentCourse(NULL) {
 }
 
 void Professor::assignCourse(Course* p_course) {
 	_currentCourse = p_course;
-	if (_currentCourse)
-		_currentCourse->assign(this);
-	std::cout << getName() << " is now responsible for a course." << std::endl;
 }
 
 void Professor::doClass() {
-	if (!_currentCourse) {
-		std::cout << getName() << " has no course to teach." << std::endl;
-		return;
-	}
-	std::cout << getName() << " teaches " << _currentCourse->getName() << std::endl;
-	_currentCourse->teachSession();
+	std::cout << "Professor " << getName() << " do class of " << _currentCourse->getName() << std::endl;
 }
 
 void Professor::closeCourse() {
-	_currentCourse = 0;
+	_currentCourse = NULL;
 }
 
-Course* Professor::getCurrentCourse() const {
-	return _currentCourse;
+void Professor::needGraduateStudent(Headmaster* headmaster, Student* student) {
+	if (!headmaster || !student) {
+		std::cout << "Professor cannot request graduation: invalid mediator or student" << std::endl;
+		return;
+	}
+	if (!_currentCourse) {
+		std::cout << "Professor cannot request graduation: no assigned course" << std::endl;
+		return;
+	}
+
+	Form* form = headmaster->requestForm(CourseFinished);
+	CourseFinishedForm* graduateForm = dynamic_cast<CourseFinishedForm*>(form);
+	if (!graduateForm) {
+		std::cout << "Professor cannot request graduation: wrong form type received" << std::endl;
+		return;
+	}
+
+	graduateForm->fillCourseResult(student, _currentCourse, 50 + (std::rand() % 50));
+	headmaster->submitForm(graduateForm);
 }

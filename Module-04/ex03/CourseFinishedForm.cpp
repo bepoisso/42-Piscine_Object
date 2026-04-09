@@ -4,9 +4,9 @@
 CourseFinishedForm::CourseFinishedForm() : Form(CourseFinished), _finalGrade(0), _isCompleted(false) {
 }
 
-void CourseFinishedForm::fillCourseResult(const std::string& p_studentName, const std::string& p_courseName, int p_finalGrade) {
-	_studentName = p_studentName;
-	_courseName = p_courseName;
+void CourseFinishedForm::fillCourseResult(Student* newStudent, Course* newCourse, int p_finalGrade) {
+	_student = newStudent;
+	_course = newCourse;
 	_finalGrade = p_finalGrade;
 	setIsDataFilled(true);
 }
@@ -21,6 +21,7 @@ void CourseFinishedForm::execute() {
 		return;
 	}
 	_isCompleted = true;
-	std::cout << "Course validation done: " << _studentName << " finished " << _courseName
+	std::cout << "Course validation done: " << _student->getName() << " finished " << _course->getName()
 		<< " with grade " << _finalGrade << std::endl;
+	_student->exitClass();
 }

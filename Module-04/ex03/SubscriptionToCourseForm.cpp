@@ -5,9 +5,9 @@
 SubscriptionToCourseForm::SubscriptionToCourseForm() : Form(SubscriptionToCourse), _isSubscribed(false) {
 }
 
-void SubscriptionToCourseForm::fillSubscription(const std::string& p_studentName, const std::string& p_courseName, const std::string& p_semester) {
-	_studentName = p_studentName;
-	_courseName = p_courseName;
+void SubscriptionToCourseForm::fillSubscription(Student* newStudent, Course* newCourse, const std::string& p_semester) {
+	_student = newStudent;
+	_course = newCourse;
 	_semester = p_semester;
 	setIsDataFilled(true);
 }
@@ -22,6 +22,6 @@ void SubscriptionToCourseForm::execute() {
 		return;
 	}
 	_isSubscribed = true;
-	std::cout << "Subscription confirmed: " << _studentName << " -> " << _courseName
+	std::cout << "Subscription confirmed: " << _student->getName() << " -> " << _course->getName()
 		<< " (" << _semester << ")" << std::endl;
 }
