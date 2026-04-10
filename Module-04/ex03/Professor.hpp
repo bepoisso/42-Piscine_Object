@@ -5,18 +5,25 @@
 #include "Headmaster.hpp"
 #include "Form.hpp"
 #include "CourseFinishedForm.hpp"
+#include "NeedCourseCreationForm.hpp"
 #include "Staff.hpp"
 
 class Professor : public Staff
 {
 private:
 	Course* _currentCourse;
+	Headmaster* _headmasterMediator;
 
 public:
 	Professor(std::string p_name);
+	void setHeadmasterMediator(Headmaster* headmaster);
+	Headmaster* getheadmasterMediator() { return _headmasterMediator; }
 	void assignCourse(Course* p_course);
 	void doClass();
-	void closeCourse(Headmaster* headmaster);
+	void closeCourse();
 
-	void needGraduateStudent(Headmaster* headmaster, Student* student);
+	void needGraduateStudent(Student* student);
+	void needNewCourse();
+	Course* getCourse() { return _currentCourse; }
+	void setCourse(Course* p_course) { _currentCourse = p_course; }
 };

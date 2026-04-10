@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-NeedCourseCreationForm::NeedCourseCreationForm() : Form(NeedCourseCreation), _weeklyHours(0), _isCreated(false) {
+NeedCourseCreationForm::NeedCourseCreationForm() : Form(NeedCourseCreation), _name(""), _weeklyHours(0) {
 }
 
-void NeedCourseCreationForm::fillCoursePlan(Course* newCourse, Professor* newProfessor, int p_weeklyHours) {
-	_course = newCourse;
+void NeedCourseCreationForm::fillCoursePlan(std::string newName, Professor* newProfessor, int p_weeklyHours) {
+	_name = newName;
 	_professor = newProfessor;
 	_weeklyHours = p_weeklyHours;
 	setIsDataFilled(true);
@@ -21,7 +21,29 @@ void NeedCourseCreationForm::execute() {
 		std::cout << "NeedCourseCreationForm execution refused: missing course plan data" << std::endl;
 		return;
 	}
-	_isCreated = true;
-	std::cout << "Course created: " << _course->getName() << " assigned to " << _professor->getName()
+	std::cout << "Course created: " << _name << " assigned to " << _professor->getName()
 		<< " (" << _weeklyHours << "h/week)" << std::endl;
+
+	Course* newCourse = new Course(_name);
+	newCourse->assign(_professor);
+	newCourse->setMaximumNumberOfStudent((std::rand() % 10 + 1));
+	newCourse->setNumberOfClassToGraduate((std::rand() % 41 + 50));
+	_professor->getheadmasterMediator()->receiveCourse(newCourse);
+}
+
+bool NeedCourseCreationForm::isComplete() {
+	if (_name == ""){
+		std::cout << "NeedCrouseCreationForm not filled (name)" << std::endl;
+		return false;
+	}
+	if (!_professor) {
+		std::cout << "NeedCrouseCreationForm not filled (professor)" << std::endl;
+		return false;
+	}
+	if (_weeklyHours <= 0 || _weeklyHours > 10) {
+		std::cout << "NeedCourseCreationForm not filled (weeklyHours need beetwen 1 & 10)" << std::endl;
+		return false;
+	}
+	setIsDataFilled(true);
+	return true;
 }

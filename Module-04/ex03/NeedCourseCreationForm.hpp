@@ -12,16 +12,16 @@
 class NeedCourseCreationForm : public Form
 {
 private:
-	Course*		_course;
-	Professor*	_professor;
+	std::string	 _name;
+	Professor*	 _professor;
 	int			 _weeklyHours;
-	bool		 _isCreated;
 
 public:
 	NeedCourseCreationForm();
-	void fillCoursePlan(Course* newCourse, Professor* newProfessor, int p_weeklyHours);
+	void fillCoursePlan(std::string newName, Professor* newProfessor, int p_weeklyHours);
 	void execute();
+	bool isComplete();
 
-	Course* getCourse() { return _course; }
+	std::string getName() { return _name; }
 	Professor* getProfessor() { return _professor; }
 };

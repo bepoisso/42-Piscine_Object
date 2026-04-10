@@ -4,9 +4,16 @@
 #include "Classroom.hpp"
 #include "Course.hpp"
 
+#include "Headmaster.hpp"
+#include "SubscriptionToCourseForm.hpp"
+
 #include <iostream>
 
 Student::Student(std::string p_name) : Person(p_name), _currentScore(0) {
+}
+
+void Student::setHeadmasterMediator(Headmaster* headmaster) {
+	_headmasterMediator = headmaster;
 }
 
 void Student::attendClass(Classroom* p_classroom) {
@@ -52,4 +59,17 @@ void Student::graduate(Course* p_course) {
 
 void Student::receiveLesson() {
 	_currentScore += rand() % 5 + 1;
+}
+
+Course* Student::lookForClass() {
+	for (std::vector<Course*>::iterator it = _subscribedCourse.begin(); it != _subscribedCourse.end(); ++it) {
+		return (*it);
+	}
+
+	Form* form = _headmasterMediator->requestForm(SubscriptionToCourse);
+	SubscriptionToCourseForm* subForm = dynamic_cast<SubscriptionToCourseForm*>(form);
+
+	subForm->fillSubscription(this, )  //TODO remplir le formulaire d'inscription
+	// TODO: envoyer le formulaire d'inscription au Headmaster
+	// TODO: rajouter le cours dans la liste.
 }

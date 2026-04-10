@@ -8,6 +8,9 @@ Headmaster::~Headmaster() {
 	for (std::vector<Form*>::iterator it = _formToValidate.begin(); it != _formToValidate.end(); ++it)
 		delete *it;
 	_formToValidate.clear();
+	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it)
+		delete *it;
+	_courseList.clear();
 }
 
 Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name), _secretary(newSecretary) {
@@ -83,4 +86,13 @@ void	Headmaster::executeForm(Form* p_form) {
 	p_form->execute();
 	releaseForm(p_form);
 }
+
+void	Headmaster::receiveCourse(Course* p_course) {
+	if (!p_course) {
+		std::cout << "Headmaster cannot save this course. Course empty" << std::endl;
+		return ;
+	}
+	_courseList.push_back(p_course);
+}
+
 
