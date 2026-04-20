@@ -1,6 +1,8 @@
 #include "Classroom.hpp"
 
-Classroom::Classroom() : Room(0), _currentCourse(NULL) {
+long long Classroom::_nextId = 1;
+
+Classroom::Classroom() : Room(_nextId++), _currentCourse(NULL) {
 }
 
 void Classroom::assignCourse(Course* p_course) {

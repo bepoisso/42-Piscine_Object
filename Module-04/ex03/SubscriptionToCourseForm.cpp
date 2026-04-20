@@ -22,6 +22,10 @@ void SubscriptionToCourseForm::execute() {
 		return;
 	}
 	_isSubscribed = true;
+	
+	_student->addSubscribedCourse(_course);
+	_course->addStudent(_student);
+
 	std::cout << "Subscription confirmed: " << _student->getName() << " -> " << _course->getName()
 		<< " (" << _semester << ")" << std::endl;
 }

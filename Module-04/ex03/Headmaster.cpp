@@ -11,6 +11,9 @@ Headmaster::~Headmaster() {
 	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it)
 		delete *it;
 	_courseList.clear();
+	for (std::vector<Classroom*>::iterator it = _classroomList.begin(); it != _classroomList.end(); ++it)
+		delete *it;
+	_classroomList.clear();
 }
 
 Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name), _secretary(newSecretary) {
@@ -46,6 +49,7 @@ void Headmaster::submitForm(Form* p_form) {
 	signForm(p_form);
 	if (p_form->getIsSigned())
 		executeForm(p_form);
+	
 }
 
 bool Headmaster::hasReceivedForm(Form* p_form) const {
@@ -95,4 +99,16 @@ void	Headmaster::receiveCourse(Course* p_course) {
 	_courseList.push_back(p_course);
 }
 
+long long	Headmaster::getNextIndexClassroom() {
+	if (_classroomList.empty())
+		return 0;
+	return _classroomList.back()->getID() + 1;
+}
 
+Classroom*	Headmaster::giveClassroomToProfessor() {
+	for (std::vector<Classroom*>::iterator it = _classroomList.begin(); it != _classroomList.end(); ++it) {
+		if ((*it)->getCurrentCourse() == NULL)
+			return *it;
+	}
+	return NULL;
+}

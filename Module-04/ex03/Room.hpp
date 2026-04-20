@@ -19,4 +19,5 @@ public:
 	void exit(Person* person);
 	
 	void printOccupant();
+	long long getID() { return _ID; }
 };

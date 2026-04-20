@@ -6,6 +6,7 @@
 #include "Form.hpp"
 #include "CourseFinishedForm.hpp"
 #include "NeedCourseCreationForm.hpp"
+#include "NeedMoreClassRoomForm.hpp"
 #include "Staff.hpp"
 
 class Professor : public Staff
@@ -24,6 +25,7 @@ public:
 
 	void needGraduateStudent(Student* student);
 	void needNewCourse();
+	void needMoreClassRoom();
 	Course* getCourse() { return _currentCourse; }
 	void setCourse(Course* p_course) { _currentCourse = p_course; }
 };

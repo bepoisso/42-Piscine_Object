@@ -10,31 +10,22 @@
 #include <iostream>
 #include <cstdlib>
 
-Student::Student(std::string p_name) : Person(p_name), _currentScore(0), _headmasterMediator(NULL) {
+Student::Student(std::string p_name) : Person(p_name), _headmasterMediator(NULL) {
 }
 
 void Student::setHeadmasterMediator(Headmaster* headmaster) {
 	_headmasterMediator = headmaster;
 }
 
-void Student::attendClass(Classroom* p_classroom) {
-	if (!p_classroom)
-		return;
+void Student::attendClass() {
+	Course* currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
+	if (currentCourse == NULL) {
+		// Demander un formulaire d'inscription au cours
 
-	if (getCurrentRoom())
-		exitClass();
-
-	p_classroom->enter(this);
-
-	Course* currentCourse = p_classroom->getCurrentCourse();
-	if (!currentCourse)
-		return;
-
-	for (std::vector<Course*>::iterator it = _subscribedCourse.begin(); it != _subscribedCourse.end(); ++it) {
-		if (*it == currentCourse)
-			return;
+		currentCourse->addStudent(this);
 	}
-	_subscribedCourse.push_back(currentCourse);
+	
+	setCurrentRoom(currentCourse->getClassroom());
 }
 
 void Student::exitClass() {
@@ -55,24 +46,9 @@ void Student::graduate(Course* p_course) {
 			return;
 		}
 	}
-	_currentScore = 0;
+	_scoreCourse.erase(p_course);
 }
 
-void Student::receiveLesson() {
-	_currentScore += rand() % 5 + 1;
-}
-
-Course* Student::lookForClass() {
-	for (std::vector<Course*>::iterator it = _subscribedCourse.begin(); it != _subscribedCourse.end(); ++it) {
-		return (*it);
-	}
-
-	return NULL;
-
-	// Form* form = _headmasterMediator->requestForm(SubscriptionToCourse);
-	// SubscriptionToCourseForm* subForm = dynamic_cast<SubscriptionToCourseForm*>(form);
-
-	// subForm->fillSubscription(this, )  //TODO remplir le formulaire d'inscription
-	// TODO: envoyer le formulaire d'inscription au Headmaster
-	// TODO: rajouter le cours dans la liste.
+void Student::receiveLesson(Course* p_course) {
+	_scoreCourse[p_course] += rand() % 5 + 1;
 }

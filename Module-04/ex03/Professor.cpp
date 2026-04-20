@@ -22,11 +22,18 @@ void Professor::doClass() {
 		return;
 	}
 
+	if (this->getCurrentRoom() == NULL) {
+		Classroom* classroom = _headmasterMediator->giveClassroomToProfessor();
+		if (classroom == NULL) {
+			needMoreClassRoom();
+		}
+	}
+
 	std::cout << "Professor " << getName() << " do class of " << _currentCourse->getName() << std::endl;
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
 
 	for (size_t i = 0; i < studentsList.size(); ++i) {
-		studentsList[i]->receiveLesson();
+		studentsList[i]->receiveLesson(_currentCourse);
 	}
 }
 
@@ -37,10 +44,11 @@ void Professor::closeCourse() {
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
 
 	for (size_t i = 0; i < studentsList.size(); ++i) {
-		if (studentsList[i]->getCurrentScore() > _currentCourse->getNumberOfClassToGraduate())
+		if (studentsList[i]->getCurrentScore(_currentCourse) > _currentCourse->getNumberOfClassToGraduate())
 			needGraduateStudent(studentsList[i]);
 	}
-	_currentCourse = NULL;
+	// _currentCourse = NULL;
+	//? On vas perdre le cours. Il faut faire sortir le prof de la sall a la place
 }
 
 void Professor::needGraduateStudent(Student* student) {
@@ -60,7 +68,7 @@ void Professor::needGraduateStudent(Student* student) {
 		return;
 	}
 
-	graduateForm->fillCourseResult(student, _currentCourse, student->getCurrentScore());
+	graduateForm->fillCourseResult(student, _currentCourse, student->getCurrentScore(_currentCourse));
 	_headmasterMediator->submitForm(graduateForm);
 }
 
@@ -71,6 +79,7 @@ void Professor::needNewCourse() {
 		std::cout << "Professor cannot request new course: no mediator" << std::endl;
 		return;
 	}
+	// TODO: lorsque le formulaire est validé, récupérer le nouveau cours et l'assigner au professeur.
 	Form* form = _headmasterMediator->requestForm(NeedCourseCreation);
 	if (!form) {
 		std::cout << "Professor cannot request new course: form unavailable" << std::endl;
@@ -97,4 +106,20 @@ void Professor::needNewCourse() {
 
 	courseForm->fillCoursePlan(courseName, this, temp);
 	_headmasterMediator->submitForm(courseForm);
+}
+
+void Professor::needMoreClassRoom() {
+	if (!_headmasterMediator) {
+		std::cout << "Professor cannot request new classroom: no mediator" << std::endl;
+		return;
+	}
+	Form* form = _headmasterMediator->requestForm(NeedMoreClassRoom);
+	if (!form) {
+		std::cout << "Professor cannot request new classroom: form unavailable" << std::endl;
+		return;
+	}
+
+	NeedMoreClassRoomForm* classroomForm = dynamic_cast<NeedMoreClassRoomForm*>(form);
+	classroomForm->fillRequest(this, "No empty classroom found", 1);
+	_headmasterMediator->submitForm(classroomForm);
 }

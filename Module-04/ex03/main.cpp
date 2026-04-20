@@ -13,6 +13,9 @@
 #include "Student.hpp"
 #include "SubscriptionToCourseForm.hpp"
 
+//TODO: Attention on doit utiliser les singleton de l'exercices 01 !!!!!!
+//! TODO: Attention on doit utiliser les singleton de l'exercices 01 !!!!!!
+
 static void submitForm(Headmaster& headmaster, Secretary& secretary, FormType type, const FormPayload& payload)
 {
 	Form* form = headmaster.requestForm(type);
@@ -29,12 +32,13 @@ int main()
 	Secretary secretary("Ms. Handerson");
 	Headmaster headmaster("Mr. Dumbuldor", &secretary);
 
-	Professor professor("Professor Rigue");
+	Professor professor("Professor Rogue");
 	Student studentOne("Justine");
 	Student studentTwo("Antoine");
 	professor.setHeadmasterMediator(&headmaster);
 	studentOne.setHeadmasterMediator(&headmaster);
 	studentTwo.setHeadmasterMediator(&headmaster);
+	// TODO: supprimer les appels de préparation manuelle et laisser le Headmaster déclencher ces interactions.
 
 	Course cppCourse("C++ Basics");
 	Classroom mainClassroom;
@@ -49,8 +53,8 @@ int main()
 	std::cout << "Students: " << studentOne.getName() << ", " << studentTwo.getName() << std::endl;
 
 	std::cout << "\n--- Students join the classroom ---" << std::endl;
-	studentOne.attendClass(&mainClassroom);
-	studentTwo.attendClass(&mainClassroom);
+	studentOne.attendClass();
+	studentTwo.attendClass();
 	mainClassroom.printOccupant();
 
 	std::cout << "\n--- Course subscription list ---" << std::endl;
@@ -58,11 +62,11 @@ int main()
 	cppCourse.subscribe(&studentTwo);
 
 	std::cout << "\n--- Professor teaches one class ---" << std::endl;
-	std::cout << "Before class: " << studentOne.getName() << " score = " << studentOne.getCurrentScore() << std::endl;
-	std::cout << "Before class: " << studentTwo.getName() << " score = " << studentTwo.getCurrentScore() << std::endl;
+	std::cout << "Before class: " << studentOne.getName() << " score = " << studentOne.getCurrentScore(&cppCourse) << std::endl;
+	std::cout << "Before class: " << studentTwo.getName() << " score = " << studentTwo.getCurrentScore(&cppCourse) << std::endl;
 	professor.doClass();
-	std::cout << "After class: " << studentOne.getName() << " score = " << studentOne.getCurrentScore() << std::endl;
-	std::cout << "After class: " << studentTwo.getName() << " score = " << studentTwo.getCurrentScore() << std::endl;
+	std::cout << "After class: " << studentOne.getName() << " score = " << studentOne.getCurrentScore(&cppCourse) << std::endl;
+	std::cout << "After class: " << studentTwo.getName() << " score = " << studentTwo.getCurrentScore(&cppCourse) << std::endl;
 
 	std::cout << "\n--- Students leave the classroom ---" << std::endl;
 	studentOne.exitClass();

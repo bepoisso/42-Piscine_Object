@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include "Foward.hpp"
 #include "Person.hpp"
@@ -9,18 +10,18 @@ class Student : public Person
 {
 private:
 	std::vector<Course*> _subscribedCourse;
-	int _currentScore;
+	std::map<Course*, int> _scoreCourse;
 	Headmaster* _headmasterMediator;
 
 public:
 	Student(std::string p_name);
 	void setHeadmasterMediator(Headmaster* headmaster);
 	Headmaster* getheadmasterMediator() { return _headmasterMediator; }
-	int getCurrentScore() { return _currentScore; }
-	void attendClass(Classroom* p_classroom);
+	int getCurrentScore(Course* p_course) { return _scoreCourse[p_course]; }
+	void attendClass();
 	void exitClass();
 	void graduate(Course* p_course);
-	void receiveLesson();
-	Course* lookForClass();
+	void receiveLesson(Course* p_course);
+	void addSubscribedCourse(Course* p_course) { _subscribedCourse.push_back(p_course); }
 
 };
