@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 
 Professor::Professor(std::string p_name)
 	: Staff(p_name), _currentCourse(NULL), _headmasterMediator(NULL) {
@@ -92,7 +93,7 @@ void Professor::needNewCourse() {
 		courseName = "Web Developement";
 		break;
 	}
-	int temp = (std::rand() % 10 + 2);
+	int temp = (rand() % 10 + 2);
 
 	courseForm->fillCoursePlan(courseName, this, temp);
 	_headmasterMediator->submitForm(courseForm);

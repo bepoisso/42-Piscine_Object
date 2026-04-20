@@ -8,8 +8,9 @@
 #include "SubscriptionToCourseForm.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
-Student::Student(std::string p_name) : Person(p_name), _currentScore(0) {
+Student::Student(std::string p_name) : Person(p_name), _currentScore(0), _headmasterMediator(NULL) {
 }
 
 void Student::setHeadmasterMediator(Headmaster* headmaster) {
@@ -66,10 +67,12 @@ Course* Student::lookForClass() {
 		return (*it);
 	}
 
-	Form* form = _headmasterMediator->requestForm(SubscriptionToCourse);
-	SubscriptionToCourseForm* subForm = dynamic_cast<SubscriptionToCourseForm*>(form);
+	return NULL;
 
-	subForm->fillSubscription(this, )  //TODO remplir le formulaire d'inscription
+	// Form* form = _headmasterMediator->requestForm(SubscriptionToCourse);
+	// SubscriptionToCourseForm* subForm = dynamic_cast<SubscriptionToCourseForm*>(form);
+
+	// subForm->fillSubscription(this, )  //TODO remplir le formulaire d'inscription
 	// TODO: envoyer le formulaire d'inscription au Headmaster
 	// TODO: rajouter le cours dans la liste.
 }

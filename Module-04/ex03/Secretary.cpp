@@ -44,7 +44,10 @@ void Secretary::fillForm(Form* p_form, const FormPayload& p_payload) {
 		case NeedCourseCreation: {
 			NeedCourseCreationForm* needCourseCreationForm = dynamic_cast<NeedCourseCreationForm*>(p_form);
 			if (needCourseCreationForm)
-				needCourseCreationForm->fillCoursePlan(p_payload.course, p_payload.professor, p_payload.number);
+				needCourseCreationForm->fillCoursePlan(
+					p_payload.course ? p_payload.course->getName() : p_payload.text1,
+					p_payload.professor,
+					p_payload.number);
 			break;
 		}
 		case SubscriptionToCourse: {

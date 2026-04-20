@@ -1,6 +1,7 @@
 #include "NeedCourseCreationForm.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 NeedCourseCreationForm::NeedCourseCreationForm() : Form(NeedCourseCreation), _name(""), _weeklyHours(0) {
 }
@@ -26,9 +27,15 @@ void NeedCourseCreationForm::execute() {
 
 	Course* newCourse = new Course(_name);
 	newCourse->assign(_professor);
-	newCourse->setMaximumNumberOfStudent((std::rand() % 10 + 1));
-	newCourse->setNumberOfClassToGraduate((std::rand() % 41 + 50));
-	_professor->getheadmasterMediator()->receiveCourse(newCourse);
+	newCourse->setMaximumNumberOfStudent((rand() % 10 + 1));
+	newCourse->setNumberOfClassToGraduate((rand() % 41 + 50));
+	Headmaster* mediator = _professor->getheadmasterMediator();
+	if (!mediator) {
+		std::cout << "NeedCourseCreationForm execution warning: professor has no headmaster mediator" << std::endl;
+		delete newCourse;
+		return;
+	}
+	mediator->receiveCourse(newCourse);
 }
 
 bool NeedCourseCreationForm::isComplete() {
