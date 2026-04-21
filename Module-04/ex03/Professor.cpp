@@ -123,19 +123,27 @@ void Professor::needNewCourse() {
 
 	int i = 10;
 	while (i > 0 && (courseName == "" || _headmasterMediator->checkisCourseExist(courseName))) {
-		switch (std::rand() % 5 + 1) {
-			case 1:
-				courseName = "Algorithms";
-				break;
-			case 2:
-				courseName = "Database Design";
-				break;
-			case 3:
-				courseName = "Operating Systems";
-				break;
-			default:
-				courseName = "Web Developement";
-				break;
+		switch (std::rand() % 20 + 1) {
+			case 1:  courseName = "Algorithms"; break;
+			case 2:  courseName = "Database Design"; break;
+			case 3:  courseName = "Operating Systems"; break;
+			case 4:  courseName = "Web Development"; break;
+			case 5:  courseName = "Computer Networks"; break;
+			case 6:  courseName = "Data Structures"; break;
+			case 7:  courseName = "Object-Oriented Programming"; break;
+			case 8:  courseName = "Software Engineering"; break;
+			case 9:  courseName = "Distributed Systems"; break;
+			case 10: courseName = "Compilers"; break;
+			case 11: courseName = "Machine Learning"; break;
+			case 12: courseName = "Artificial Intelligence"; break;
+			case 13: courseName = "Cybersecurity"; break;
+			case 14: courseName = "Cloud Computing"; break;
+			case 15: courseName = "DevOps"; break;
+			case 16: courseName = "Computer Architecture"; break;
+			case 17: courseName = "Parallel Programming"; break;
+			case 18: courseName = "Theory of Computation"; break;
+			case 19: courseName = "Human-Computer Interaction"; break;
+			default: courseName = "Mobile Development"; break;
 		}
 		i--;
 	}

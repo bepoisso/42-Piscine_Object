@@ -28,6 +28,7 @@ public:
 	void setResponsable(Professor* newReponsable) { _responsable = newReponsable; }
 	int getNumberOfClassToGraduate() const { return _numberOfClassToGraduate; }
 	int getMaximumNumberOfStudent() const { return _maximumNumberOfStudent; }
+	int getNumberOfStudent();
 	void setNumberOfClassToGraduate(int value) { _numberOfClassToGraduate = value; }
 	void setMaximumNumberOfStudent(int value) { _maximumNumberOfStudent = value; }
 	std::vector<Student*> getStudents() { return _students; }

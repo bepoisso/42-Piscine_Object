@@ -117,7 +117,7 @@ Classroom*	Headmaster::giveClassroomToProfessor() {
 
 Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
 	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it) {
-		if (p_student->isGraduateCourse(*it) == false)
+		if (p_student->isGraduateCourse(*it) == false && (*it)->getMaximumNumberOfStudent() >= (*it)->getNumberOfStudent())
 			return *it;
 	}
 	return NULL;

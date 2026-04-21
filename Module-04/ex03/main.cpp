@@ -1,6 +1,10 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <map>
+#include <string>
+#include <sstream>
+
 
 #include "Classroom.hpp"
 #include "Course.hpp"
@@ -12,6 +16,12 @@
 #include "Secretary.hpp"
 #include "Student.hpp"
 #include "SubscriptionToCourseForm.hpp"
+
+static std::string intToString(int value) {
+	std::ostringstream oss;
+	oss << value;
+	return oss.str();
+}
 
 int main()
 {
@@ -30,21 +40,28 @@ int main()
 
 	// ===== STAFF SETUP =====
 	std::cout << "\n--- Creating professors ---" << std::endl;
-	Professor professorRogue("M. Rogue");
-	Professor professorGodwin("M. Godwin");
-	professorRogue.setHeadmasterMediator(&headmaster);
-	professorGodwin.setHeadmasterMediator(&headmaster);
-	std::cout << "Professors: " << professorRogue.getName() << ", " << professorGodwin.getName() << std::endl;
+
+	std::string pname = "Prof ";
+	std::map<int, Professor> professors;
+
+	for (int i = 0; i < 4; ++i) {
+		Professor p(pname + intToString(i));
+		p.setHeadmasterMediator(&headmaster);
+		professors.insert(std::make_pair(i, p));
+		std::cout << p.getName() << std::endl;
+	}
 	
 	std::cout << "\n--- Creating students ---" << std::endl;
-	Student studentOne("Harry Potter");
-	Student studentTwo("Hermione Granger");
-	Student studentThree("Ron Weasley");
-	studentOne.setHeadmasterMediator(&headmaster);
-	studentTwo.setHeadmasterMediator(&headmaster);
-	studentThree.setHeadmasterMediator(&headmaster);
-	std::cout << "Students: " << studentOne.getName() << ", " << studentTwo.getName() << ", " << studentThree.getName() << std::endl;
 
+	std::string sname = "Stud ";
+	std::map<int, Student> students;
+
+	for (int i = 0; i < 30; ++i) {
+		Student s(sname + intToString(i));
+		s.setHeadmasterMediator(&headmaster);
+		students.insert(std::make_pair(i, s));
+		std::cout << s.getName() << std::endl;
+	}
 
 	std::cout << std::endl << std::endl;
 	
@@ -52,26 +69,29 @@ int main()
 	std::cout << "           Start school simulation" << std::endl;
 	std::cout << "============================================" << std::endl;
 
-	std::cout << "--- Launch work for professors & students | day:0 (Back to school) ---" << std::endl;
-	std::cout  << "-Professor Rogue Task-" << std::endl;
-	professorRogue.backToSchool();
-	std::cout << std::endl << "-Professor Godwin Task-" << std::endl;
-	professorGodwin.backToSchool();
+	std::cout << "--- Launch work for professors | (Pre Back to school) ---" << std::endl;
+
+	for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
+		std::cout << std::endl << "-Professor " << it->second.getName() << " Task-" << std::endl;
+		it->second.backToSchool();
+	}
 
 	int day = 1;
-	while (day <= 100) {
+	while (day <= 5) {
 		std::cout << "\n--- Launch work for professors & students | day:" << day << " ---" << std::endl;
-		std::cout << "-Student Harry Task-" << std::endl;
-		studentOne.attendClass();
-		std::cout << std::endl << "-Student Hermione Task-" << std::endl;
-		studentTwo.attendClass();
-		std::cout << std::endl << "-Student Ron Task-" << std::endl;
-		studentThree.attendClass();
-		std::cout << std::endl << "-Professor Rogue Task-" << std::endl;
-		professorRogue.doClass();
-		std::cout << std::endl << "-Professor Godwin Task-" << std::endl;
-		professorGodwin.doClass();
-		std::cout << "--- Day: " << day << " Finished ---" << std::endl << std::endl;
+
+		std::cout << "--Students Task--" << std::endl;
+		for (std::map<int, Student>::iterator it = students.begin(); it != students.end(); ++it) {
+			std::cout << std::endl << "-Student " << it->second.getName() << " Task-" << std::endl;
+			it->second.attendClass();
+		}
+
+		std::cout << "--Professors Task--" << std::endl;
+		for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
+			std::cout << std::endl << "-Professor " << it->second.getName() << " Task-" << std::endl;
+			it->second.doClass();
+		}
+
 		day++;
 	}
 
@@ -81,7 +101,5 @@ int main()
 
 	return 0;
 }
-
-//TODO: le mediaton a redonner le cours graduer au student (a fix)
 
 //TODO: verifier le nombre de place dans un cours et si non renvoyer dans un autre cours

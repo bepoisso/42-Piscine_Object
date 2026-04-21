@@ -58,7 +58,7 @@ void Student::graduate(Course* p_course) {
 }
 
 void Student::receiveLesson(Course* p_course) {
-	int temp = rand() % 5 + 1;
+	int temp = rand() % 50 + 1;
 	_scoreCourse[p_course] += temp;
 	std::cout << "[Student] " << getName() << " Recive lesson for " << p_course->getName() << "'s course, with score " <<
 		_scoreCourse[p_course] << "/" << p_course->getNumberOfClassToGraduate() << std::endl; 

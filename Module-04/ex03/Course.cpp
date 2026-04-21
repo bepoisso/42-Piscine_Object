@@ -37,4 +37,12 @@ void Course::unsubscribe(Student* p_student) {
 	}
 }
 
+int Course::getNumberOfStudent() {
+	int result = 0;
+	for (std::vector<Student*>::iterator it = _students.begin(); it != _students.end(); ++it) {
+		result++;
+	}
+	return result;
+}
+
 
