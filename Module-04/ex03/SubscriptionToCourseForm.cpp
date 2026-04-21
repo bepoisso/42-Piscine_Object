@@ -5,11 +5,14 @@
 SubscriptionToCourseForm::SubscriptionToCourseForm() : Form(SubscriptionToCourse), _isSubscribed(false) {
 }
 
-void SubscriptionToCourseForm::fillSubscription(Student* newStudent, Course* newCourse, const std::string& p_semester) {
+void SubscriptionToCourseForm::fillSubscription(Student* newStudent) {
 	_student = newStudent;
-	_course = newCourse;
-	_semester = p_semester;
-	setIsDataFilled(true);
+	Headmaster *mediator = _student->getheadmasterMediator();
+	_course = mediator->giveNewCourseForStudent(_student);
+	if (_student && _course)
+		setIsDataFilled(true);
+	else
+		setIsDataFilled(false);
 }
 
 void SubscriptionToCourseForm::execute() {
@@ -26,6 +29,5 @@ void SubscriptionToCourseForm::execute() {
 	_student->addSubscribedCourse(_course);
 	_course->addStudent(_student);
 
-	std::cout << "Subscription confirmed: " << _student->getName() << " -> " << _course->getName()
-		<< " (" << _semester << ")" << std::endl;
+	std::cout << "Subscription confirmed: " << _student->getName() << " -> " << _course->getName() << std::endl;
 }

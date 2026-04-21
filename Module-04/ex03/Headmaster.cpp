@@ -21,12 +21,12 @@ Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_na
 
 Form* Headmaster::requestForm(FormType p_formType) {
 	if (!_secretary) {
-		std::cout << "Headmaster cannot request form: no secretary assigned" << std::endl;
+		std::cout << "[Headmaster] cannot request form: no secretary assigned" << std::endl;
 		return NULL;
 	}
 	Form* form = _secretary->createForm(p_formType);
 	if (!form) {
-		std::cout << "Headmaster failed to request form" << std::endl;
+		std::cout << "[Headmaster] failed to request form" << std::endl;
 		return NULL;
 	}
 	receiveForm(form);
@@ -72,28 +72,30 @@ void Headmaster::releaseForm(Form* p_form) {
 
 void	Headmaster::signForm(Form* p_form) {
 	if (!hasReceivedForm(p_form)) {
-		std::cout << "Headmaster refused to sign: form was not received" << std::endl;
+		std::cout << "[Headmaster] refused to sign: form was not received" << std::endl;
 		return;
 	}
 	if (!p_form->isComplete()) {
-		std::cout << "Headmaster refused to sign: mandatory form data is missing" << std::endl;
+		std::cout << "[Headmaster] refused to sign: mandatory form data is missing" << std::endl;
 		return;
 	}
+	std::cout << "[Headmaster] signed form " << p_form->getFormName() << std::endl;
 	p_form->setIsSigned(true);
 }
 
 void	Headmaster::executeForm(Form* p_form) {
 	if (!hasReceivedForm(p_form)) {
-		std::cout << "Headmaster refused to execute: form was not received" << std::endl;
+		std::cout << "[Headmaster] refused to execute: form was not received" << std::endl;
 		return;
 	}
+	std::cout << "[Headmaster] execute form " << p_form->getFormName() << std::endl;
 	p_form->execute();
 	releaseForm(p_form);
 }
 
 void	Headmaster::receiveCourse(Course* p_course) {
 	if (!p_course) {
-		std::cout << "Headmaster cannot save this course. Course empty" << std::endl;
+		std::cout << "[Headmaster] cannot save this course. Course empty" << std::endl;
 		return ;
 	}
 	_courseList.push_back(p_course);
@@ -111,4 +113,20 @@ Classroom*	Headmaster::giveClassroomToProfessor() {
 			return *it;
 	}
 	return NULL;
+}
+
+Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
+	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it) {
+		if (p_student->isGraduateCourse(*it) == false)
+			return *it;
+	}
+	return NULL;
+}
+
+bool		Headmaster::checkisCourseExist(std::string p_name) {
+	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it) {
+		if (p_name == (*it)->getName())
+			return true;
+	}
+	return false;
 }

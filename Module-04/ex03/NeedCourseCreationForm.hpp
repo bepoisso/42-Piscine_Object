@@ -20,7 +20,6 @@ public:
 	NeedCourseCreationForm();
 	void fillCoursePlan(std::string newName, Professor* newProfessor, int p_weeklyHours);
 	void execute();
-	bool isComplete();
 
 	std::string getName() { return _name; }
 	Professor* getProfessor() { return _professor; }

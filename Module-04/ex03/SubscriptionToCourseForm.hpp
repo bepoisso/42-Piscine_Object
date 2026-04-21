@@ -7,17 +7,18 @@
 #include "Student.hpp"
 #include "Person.hpp"
 #include "Course.hpp"
+#include "Headmaster.hpp"
 
 class SubscriptionToCourseForm : public Form
 {
 private:
-	Student* _student;
-	Course* _course;
-	std::string _semester;
-	bool		 _isSubscribed;
+	Student*	_student;
+	Course*		_course;
+	bool		_isSubscribed;
 
 public:
 	SubscriptionToCourseForm();
-	void fillSubscription(Student* newStudent, Course* newCourse, const std::string& p_semester);
-	void execute();
+
+	void	fillSubscription(Student* newStudent);
+	void	execute();
 };

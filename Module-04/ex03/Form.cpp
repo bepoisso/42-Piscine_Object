@@ -1,6 +1,25 @@
 #include "Form.hpp"
 
 Form::Form(FormType p_formType) :  _formType(p_formType) , _isSigned(false), _isDataFilled(false) {
+	switch (p_formType)
+	{
+	case 0:
+		_formName = "CourseFinished";
+		break;
+	case 1:
+		_formName = "NeedMoreClassRoom";
+		break;
+	case 2:
+		_formName = "NeedCourseCreation";
+		break;
+	case 3:
+		_formName = "SubscriptionToCourse";
+		break;
+	
+	default:
+		_formName = "[ERROR] FORM NAME";
+		break;
+	}
 }
 
 Form::~Form() {

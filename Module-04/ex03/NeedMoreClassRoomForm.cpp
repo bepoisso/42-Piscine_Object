@@ -27,7 +27,8 @@ void NeedMoreClassRoomForm::execute() {
 	Headmaster* mediator = _professor->getheadmasterMediator();
 	mediator->addClassroomList(newClassroom);
 
-	_professor->setCurrentRoom(newClassroom);
+	newClassroom->assignCourse(_professor->getCourse());
+	_professor->getCourse()->setClassroom(newClassroom);
 	std::cout << "Classroom extension approved: " << _additionalRoomsCount
 		<< " room(s) requested by " << _professor->getName() << " (reason: " << _reason << ")" << std::endl;
 }

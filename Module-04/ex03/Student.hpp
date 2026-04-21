@@ -11,6 +11,7 @@ class Student : public Person
 private:
 	std::vector<Course*> _subscribedCourse;
 	std::map<Course*, int> _scoreCourse;
+	std::vector<Course*> _graduateCourse;
 	Headmaster* _headmasterMediator;
 
 public:
@@ -23,5 +24,7 @@ public:
 	void graduate(Course* p_course);
 	void receiveLesson(Course* p_course);
 	void addSubscribedCourse(Course* p_course) { _subscribedCourse.push_back(p_course); }
+	void addGraduateCourse(Course* p_course) { _graduateCourse.push_back(p_course); }
+	bool isGraduateCourse(Course* p_course);
 
 };

@@ -10,7 +10,10 @@ void NeedCourseCreationForm::fillCoursePlan(std::string newName, Professor* newP
 	_name = newName;
 	_professor = newProfessor;
 	_weeklyHours = p_weeklyHours;
-	setIsDataFilled(true);
+	if (_name == "" || !_professor)
+		setIsDataFilled(false);
+	else
+		setIsDataFilled(true);
 }
 
 void NeedCourseCreationForm::execute() {
@@ -27,6 +30,7 @@ void NeedCourseCreationForm::execute() {
 
 	Course* newCourse = new Course(_name);
 	newCourse->assign(_professor);
+	_professor->setCourse(newCourse);
 	newCourse->setMaximumNumberOfStudent((rand() % 10 + 1));
 	newCourse->setNumberOfClassToGraduate((rand() % 41 + 50));
 	Headmaster* mediator = _professor->getheadmasterMediator();
@@ -36,21 +40,4 @@ void NeedCourseCreationForm::execute() {
 		return;
 	}
 	mediator->receiveCourse(newCourse);
-}
-
-bool NeedCourseCreationForm::isComplete() {
-	if (_name == ""){
-		std::cout << "NeedCrouseCreationForm not filled (name)" << std::endl;
-		return false;
-	}
-	if (!_professor) {
-		std::cout << "NeedCrouseCreationForm not filled (professor)" << std::endl;
-		return false;
-	}
-	if (_weeklyHours <= 0 || _weeklyHours > 10) {
-		std::cout << "NeedCourseCreationForm not filled (weeklyHours need beetwen 1 & 10)" << std::endl;
-		return false;
-	}
-	setIsDataFilled(true);
-	return true;
 }

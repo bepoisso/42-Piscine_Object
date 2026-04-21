@@ -32,8 +32,10 @@ public:
 	void		executeForm(Form* p_form);
 
 	void		receiveCourse(Course* p_course);
-	void		addClassroomList(Classroom* p_classroom) { _classroomList.push_back(p_classroom); }
+	void		addClassroomList(Classroom* p_classroom) { _classroomList.push_back(p_classroom); };
 	long long	getNextIndexClassroom();
+	bool		checkisCourseExist(std::string p_name);
 	Classroom*	giveClassroomToProfessor();
+	Course*		giveNewCourseForStudent(Student* p_student);
 
 };

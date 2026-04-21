@@ -13,81 +13,75 @@
 #include "Student.hpp"
 #include "SubscriptionToCourseForm.hpp"
 
-//TODO: Attention on doit utiliser les singleton de l'exercices 01 !!!!!!
-//! TODO: Attention on doit utiliser les singleton de l'exercices 01 !!!!!!
-
-static void submitForm(Headmaster& headmaster, Secretary& secretary, FormType type, const FormPayload& payload)
-{
-	Form* form = headmaster.requestForm(type);
-	secretary.fillForm(form, payload);
-	headmaster.submitForm(form);
-}
-
 int main()
 {
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
 
-	std::cout << "=== Module 04 - Ex03 demo ===" << std::endl;
+	std::cout << "============================================" << std::endl;
+	std::cout << "   Module 04 - Ex03 : School Management" << std::endl;
+	std::cout << "============================================" << std::endl;
 
+	std::cout << "\n--- Initializing school staff and mediator ---" << std::endl;
 	Secretary secretary("Ms. Handerson");
-	Headmaster headmaster("Mr. Dumbuldor", &secretary);
+	Headmaster headmaster("Mr. Dumbledore", &secretary);
 
-	Professor professor("Professor Rogue");
-	Student studentOne("Justine");
-	Student studentTwo("Antoine");
-	professor.setHeadmasterMediator(&headmaster);
+	std::cout << "Secretary: " << secretary.getName() << std::endl;
+	std::cout << "Headmaster: " << headmaster.getName() << std::endl;
+
+	// ===== STAFF SETUP =====
+	std::cout << "\n--- Creating professors ---" << std::endl;
+	Professor professorRogue("M. Rogue");
+	Professor professorGodwin("M. Godwin");
+	professorRogue.setHeadmasterMediator(&headmaster);
+	professorGodwin.setHeadmasterMediator(&headmaster);
+	std::cout << "Professors: " << professorRogue.getName() << ", " << professorGodwin.getName() << std::endl;
+	
+	std::cout << "\n--- Creating students ---" << std::endl;
+	Student studentOne("Harry Potter");
+	Student studentTwo("Hermione Granger");
+	Student studentThree("Ron Weasley");
 	studentOne.setHeadmasterMediator(&headmaster);
 	studentTwo.setHeadmasterMediator(&headmaster);
-	// TODO: supprimer les appels de préparation manuelle et laisser le Headmaster déclencher ces interactions.
+	studentThree.setHeadmasterMediator(&headmaster);
+	std::cout << "Students: " << studentOne.getName() << ", " << studentTwo.getName() << ", " << studentThree.getName() << std::endl;
 
-	Course cppCourse("C++ Basics");
-	Classroom mainClassroom;
 
-	std::cout << "\n--- Manual school setup ---" << std::endl;
-	professor.assignCourse(&cppCourse);
-	cppCourse.assign(&professor);
-	mainClassroom.assignCourse(&cppCourse);
+	std::cout << std::endl << std::endl;
+	
+	std::cout << "============================================" << std::endl;
+	std::cout << "           Start school simulation" << std::endl;
+	std::cout << "============================================" << std::endl;
 
-	std::cout << "Course: " << cppCourse.getName() << std::endl;
-	std::cout << "Professor: " << professor.getName() << std::endl;
-	std::cout << "Students: " << studentOne.getName() << ", " << studentTwo.getName() << std::endl;
+	std::cout << "--- Launch work for professors & students | day:0 (Back to school) ---" << std::endl;
+	std::cout  << "-Professor Rogue Task-" << std::endl;
+	professorRogue.backToSchool();
+	std::cout << std::endl << "-Professor Godwin Task-" << std::endl;
+	professorGodwin.backToSchool();
 
-	std::cout << "\n--- Students join the classroom ---" << std::endl;
-	studentOne.attendClass();
-	studentTwo.attendClass();
-	mainClassroom.printOccupant();
+	int day = 1;
+	while (day <= 100) {
+		std::cout << "\n--- Launch work for professors & students | day:" << day << " ---" << std::endl;
+		std::cout << "-Student Harry Task-" << std::endl;
+		studentOne.attendClass();
+		std::cout << std::endl << "-Student Hermione Task-" << std::endl;
+		studentTwo.attendClass();
+		std::cout << std::endl << "-Student Ron Task-" << std::endl;
+		studentThree.attendClass();
+		std::cout << std::endl << "-Professor Rogue Task-" << std::endl;
+		professorRogue.doClass();
+		std::cout << std::endl << "-Professor Godwin Task-" << std::endl;
+		professorGodwin.doClass();
+		std::cout << "--- Day: " << day << " Finished ---" << std::endl << std::endl;
+		day++;
+	}
 
-	std::cout << "\n--- Course subscription list ---" << std::endl;
-	cppCourse.subscribe(&studentOne);
-	cppCourse.subscribe(&studentTwo);
+	std::cout << "\n============================================" << std::endl;
+	std::cout << "           End of school simulation" << std::endl;
+	std::cout << "============================================" << std::endl;
 
-	std::cout << "\n--- Professor teaches one class ---" << std::endl;
-	std::cout << "Before class: " << studentOne.getName() << " score = " << studentOne.getCurrentScore(&cppCourse) << std::endl;
-	std::cout << "Before class: " << studentTwo.getName() << " score = " << studentTwo.getCurrentScore(&cppCourse) << std::endl;
-	professor.doClass();
-	std::cout << "After class: " << studentOne.getName() << " score = " << studentOne.getCurrentScore(&cppCourse) << std::endl;
-	std::cout << "After class: " << studentTwo.getName() << " score = " << studentTwo.getCurrentScore(&cppCourse) << std::endl;
-
-	std::cout << "\n--- Students leave the classroom ---" << std::endl;
-	studentOne.exitClass();
-	studentTwo.exitClass();
-	mainClassroom.printOccupant();
-
-	std::cout << "\n--- Secretary / Headmaster form workflow ---" << std::endl;
-
-	submitForm(headmaster, secretary, NeedCourseCreation,
-		FormPayload(NULL, &cppCourse, &professor, "", "", "Spring 2026", 4));
-
-	submitForm(headmaster, secretary, SubscriptionToCourse,
-		FormPayload(&studentOne, &cppCourse, &professor, "", "", "Fall 2026", 0));
-
-	submitForm(headmaster, secretary, NeedMoreClassRoom,
-		FormPayload(NULL, NULL, &professor, "No empty room available", "", "", 1));
-
-	submitForm(headmaster, secretary, CourseFinished,
-		FormPayload(&studentOne, &cppCourse, &professor, "", "", "", 100));
-
-	std::cout << "\n--- End of demo ---" << std::endl;
 	return 0;
 }
 
+//TODO: le mediaton a redonner le cours graduer au student (a fix)
+
+//TODO: verifier le nombre de place dans un cours et si non renvoyer dans un autre cours

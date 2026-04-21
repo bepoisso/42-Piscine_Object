@@ -17,6 +17,7 @@ public:
 	bool canEnter(Person* person);
 	void enter(Person* person);
 	void exit(Person* person);
+	bool isPresent(Person* p_person);
 	
 	void printOccupant();
 	long long getID() { return _ID; }

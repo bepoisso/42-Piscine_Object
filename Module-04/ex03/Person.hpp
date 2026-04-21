@@ -17,5 +17,4 @@ public:
 	void setCurrentRoom(Room* newRoom) { _currentRoom = newRoom; }
 	std::string getName() { return _name; }
 
-
 };

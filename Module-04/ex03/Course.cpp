@@ -23,3 +23,18 @@ void Course::subscribe(Student* p_student) {
 	}
 	_students.push_back(p_student);
 }
+
+void Course::setClassroom(Classroom* p_classroom) {
+	_classroom = p_classroom;
+}
+
+void Course::unsubscribe(Student* p_student) {
+	for (std::vector<Student*>::iterator it = _students.begin(); it != _students.end(); ++it) {
+		if (*it == p_student) {
+			_students.erase(it);
+			return;
+		}
+	}
+}
+
+

@@ -18,7 +18,7 @@ bool Room::canEnter(Person* person) {
 void Room::enter(Person* person) {
 	if (!canEnter(person))
 		return;
-	if (person->getCurrentRoom())
+	if (person->getCurrentRoom() != NULL)
 		person->getCurrentRoom()->exit(person);
 	_occupants.push_back(person);
 	person->setCurrentRoom(this);
@@ -42,5 +42,13 @@ void Room::printOccupant() {
 	for (std::vector<Person*>::iterator it = _occupants.begin(); it != _occupants.end(); ++it) {
 		std::cout << (*it)->getName() << std::endl;
 	}
+}
+
+bool Room::isPresent(Person* p_person) {
+	for (std::vector<Person*>::iterator it = _occupants.begin(); it != _occupants.end(); ++it) {
+		if ((*it) == p_person)
+			return true;
+	}
+	return false;
 }
 

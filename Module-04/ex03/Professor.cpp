@@ -16,55 +16,90 @@ void Professor::assignCourse(Course* p_course) {
 	_currentCourse = p_course;
 }
 
-void Professor::doClass() {
-	if (!_currentCourse) {
+void Professor::backToSchool() {
+	if (!_currentCourse)
 		needNewCourse();
-		return;
-	}
-
-	if (this->getCurrentRoom() == NULL) {
-		Classroom* classroom = _headmasterMediator->giveClassroomToProfessor();
-		if (classroom == NULL) {
+	Classroom* classroom = _currentCourse->getClassroom();
+	if (!classroom) {
+		classroom = _headmasterMediator->giveClassroomToProfessor();	
+		if (!classroom)
 			needMoreClassRoom();
+		else {
+			_currentCourse->setClassroom(classroom);
+			classroom->assignCourse(_currentCourse);
 		}
 	}
-
-	std::cout << "Professor " << getName() << " do class of " << _currentCourse->getName() << std::endl;
-	std::vector<Student*> studentsList = _currentCourse->getStudents();
-
-	for (size_t i = 0; i < studentsList.size(); ++i) {
-		studentsList[i]->receiveLesson(_currentCourse);
+	if (!classroom && !_currentCourse->getClassroom()) {
+		std::cout << "[DEBUG] ITERNAL ERROR FAIL TO CREATE ROOM" << std::endl;
+		return;
 	}
+}
+
+void Professor::doClass() {
+	if (!_currentCourse)
+		needNewCourse();
+	Classroom* classroom = _currentCourse->getClassroom();
+	if (!classroom) {
+		classroom = _headmasterMediator->giveClassroomToProfessor();	
+		if (!classroom)
+			needMoreClassRoom();
+		else {
+			_currentCourse->setClassroom(classroom);
+			classroom->assignCourse(_currentCourse);
+		}
+	}
+	if (!classroom && !_currentCourse->getClassroom()) {
+		std::cout << "[DEBUG] ITERNAL ERROR FAIL TO CREATE ROOM" << std::endl;
+		return;
+	}
+	
+	_currentCourse->getClassroom()->enter(this);
+	std::cout << "[Professor] " << getName() << " enter in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
+	std::cout << "[Professor] " << getName() << " do class of " << _currentCourse->getName() << " in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
+	std::vector<Student*> studentsList = _currentCourse->getStudents();
+	for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
+		if (_currentCourse->getClassroom()->isPresent(*it))
+			(*it)->receiveLesson(_currentCourse);
+		else
+			std::cout << "Student " << (*it)->getName() << " was not present!" << std::endl;
+	}
+	closeCourse();
 }
 
 void Professor::closeCourse() {
 	if (!_currentCourse)
 		return;
-
+	std::cout << "[Professor] " << getName() << " as finish course " << _currentCourse->getName() << std::endl;
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
 
 	for (size_t i = 0; i < studentsList.size(); ++i) {
-		if (studentsList[i]->getCurrentScore(_currentCourse) > _currentCourse->getNumberOfClassToGraduate())
+		if (studentsList[i]->getCurrentScore(_currentCourse) >= _currentCourse->getNumberOfClassToGraduate()) {
+			std::cout << "[DEBUG] professor " << getName() << " want to graduate " << studentsList[i]->getName() << " Note : " <<  studentsList[i]->getCurrentScore(_currentCourse) << "/" << _currentCourse->getNumberOfClassToGraduate() << std::endl;
 			needGraduateStudent(studentsList[i]);
+		}
+		if (getCurrentRoom()->isPresent(studentsList[i]))
+			studentsList[i]->exitClass();
 	}
-	// _currentCourse = NULL;
-	//? On vas perdre le cours. Il faut faire sortir le prof de la sall a la place
+	std::cout << "[Professor] " << getName() << " exit classroom " << getCurrentRoom()->getID() << std::endl;
+	getCurrentRoom()->exit(this);
+
 }
 
 void Professor::needGraduateStudent(Student* student) {
+	std::cout << "[Professor] " << getName() << " request CourseFinishedForm (GraduateForm)" << std::endl;
 	if (!_headmasterMediator || !student) {
-		std::cout << "Professor cannot request graduation: invalid mediator or student" << std::endl;
+		std::cout << "[Error] Professor cannot request graduation: invalid mediator or student" << std::endl;
 		return;
 	}
 	if (!_currentCourse) {
-		std::cout << "Professor cannot request graduation: no assigned course" << std::endl;
+		std::cout << "[Error] Professor cannot request graduation: no assigned course" << std::endl;
 		return;
 	}
 
 	Form* form = _headmasterMediator->requestForm(CourseFinished);
 	CourseFinishedForm* graduateForm = dynamic_cast<CourseFinishedForm*>(form);
 	if (!graduateForm) {
-		std::cout << "Professor cannot request graduation: wrong form type received" << std::endl;
+		std::cout << "[Error] Professor cannot request graduation: wrong form type received" << std::endl;
 		return;
 	}
 
@@ -73,34 +108,36 @@ void Professor::needGraduateStudent(Student* student) {
 }
 
 void Professor::needNewCourse() {
-
-	std::string courseName;
+	std::cout << "[Professor] " << getName() << " request NeedCourseCreationForm" << std::endl;
+	std::string courseName = "";
 	if (!_headmasterMediator) {
-		std::cout << "Professor cannot request new course: no mediator" << std::endl;
+		std::cout << "[Error] Professor cannot request new course: no mediator" << std::endl;
 		return;
 	}
-	// TODO: lorsque le formulaire est validé, récupérer le nouveau cours et l'assigner au professeur.
 	Form* form = _headmasterMediator->requestForm(NeedCourseCreation);
 	if (!form) {
-		std::cout << "Professor cannot request new course: form unavailable" << std::endl;
+		std::cout << "[Error] Professor cannot request new course: form unavailable" << std::endl;
 		return;
 	}
 	NeedCourseCreationForm* courseForm = dynamic_cast<NeedCourseCreationForm*>(form);
 
-	switch (std::rand() % 5 + 1)
-	{
-	case 1:
-		courseName = "Algorithms";
-		break;
-	case 2:
-		courseName = "Database Design";
-		break;
-	case 3:
-		courseName = "Operating Systems";
-		break;
-	default:
-		courseName = "Web Developement";
-		break;
+	int i = 10;
+	while (i > 0 && (courseName == "" || _headmasterMediator->checkisCourseExist(courseName))) {
+		switch (std::rand() % 5 + 1) {
+			case 1:
+				courseName = "Algorithms";
+				break;
+			case 2:
+				courseName = "Database Design";
+				break;
+			case 3:
+				courseName = "Operating Systems";
+				break;
+			default:
+				courseName = "Web Developement";
+				break;
+		}
+		i--;
 	}
 	int temp = (rand() % 10 + 2);
 
@@ -109,13 +146,14 @@ void Professor::needNewCourse() {
 }
 
 void Professor::needMoreClassRoom() {
+	std::cout << "[Professor] " << getName() << " request needMoreClassRoom" << std::endl;
 	if (!_headmasterMediator) {
-		std::cout << "Professor cannot request new classroom: no mediator" << std::endl;
+		std::cout << "[Error] Professor cannot request new classroom: no mediator" << std::endl;
 		return;
 	}
 	Form* form = _headmasterMediator->requestForm(NeedMoreClassRoom);
 	if (!form) {
-		std::cout << "Professor cannot request new classroom: form unavailable" << std::endl;
+		std::cout << "[Error] Professor cannot request new classroom: form unavailable" << std::endl;
 		return;
 	}
 

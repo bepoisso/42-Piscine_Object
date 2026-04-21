@@ -20,6 +20,7 @@ public:
 	void setHeadmasterMediator(Headmaster* headmaster);
 	Headmaster* getheadmasterMediator() { return _headmasterMediator; }
 	void assignCourse(Course* p_course);
+	void backToSchool();
 	void doClass();
 	void closeCourse();
 

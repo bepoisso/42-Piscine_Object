@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Foward.hpp"
+#include "Classroom.hpp"
 
 class Course
 {
@@ -16,10 +17,11 @@ private:
 	int _numberOfClassToGraduate;
 	int _maximumNumberOfStudent;
 
-	public:
+public:
 	Course(std::string p_name);
 	void assign(Professor* p_professor);
 	void subscribe(Student* p_student);
+	void unsubscribe(Student* p_student);
 
 	std::string getName() { return _name; }
 	Professor* getResponsable() { return _responsable; }
@@ -30,6 +32,6 @@ private:
 	void setMaximumNumberOfStudent(int value) { _maximumNumberOfStudent = value; }
 	std::vector<Student*> getStudents() { return _students; }
 	void addStudent(Student* p_stud) { _students.push_back(p_stud); }
-	void setClassroom(Classroom* p_classroom) { _classroom = p_classroom; }
+	void setClassroom(Classroom* p_classroom);
 	Classroom* getClassroom() { return _classroom; }
 };

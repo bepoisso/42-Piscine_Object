@@ -16,7 +16,7 @@ bool CourseFinishedForm::isComplete() const {
 		return false;
 	if (!_student || !_course)
 		return false;
-	return _finalGrade > _course->getNumberOfClassToGraduate();
+	return _finalGrade >= _course->getNumberOfClassToGraduate();
 }
 
 void CourseFinishedForm::execute() {
@@ -31,5 +31,6 @@ void CourseFinishedForm::execute() {
 	_isCompleted = true;
 	std::cout << "Course validation done: " << _student->getName() << " finished " << _course->getName()
 		<< " with grade " << _finalGrade << std::endl;
+	_course->unsubscribe(_student);
 	_student->graduate(_course);
 }
