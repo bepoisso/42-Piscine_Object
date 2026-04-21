@@ -17,7 +17,7 @@ Form::Form(FormType p_formType) :  _formType(p_formType) , _isSigned(false), _is
 		break;
 	
 	default:
-		_formName = "[ERROR] FORM NAME";
+		_formName = "\033[31m[ERROR] FORM NAME \033[0m";
 		break;
 	}
 }

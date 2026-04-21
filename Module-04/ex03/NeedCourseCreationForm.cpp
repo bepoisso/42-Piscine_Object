@@ -31,7 +31,7 @@ void NeedCourseCreationForm::execute() {
 	Course* newCourse = new Course(_name);
 	newCourse->assign(_professor);
 	_professor->setCourse(newCourse);
-	newCourse->setMaximumNumberOfStudent((rand() % 15 + 5));
+	newCourse->setMaximumNumberOfStudent((rand() % 10 + 5));
 	newCourse->setNumberOfClassToGraduate((rand() % 41 + 50));
 	Headmaster* mediator = _professor->getheadmasterMediator();
 	if (!mediator) {

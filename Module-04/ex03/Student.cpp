@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cstdlib>
 
-Student::Student(std::string p_name) : Person(p_name), _headmasterMediator(NULL) {
+Student::Student(std::string p_name) : Person(p_name), _subscribedCourse(), _scoreCourse(), _graduateCourse(), _headmasterMediator(NULL) {
 }
 
 void Student::setHeadmasterMediator(Headmaster* headmaster) {
@@ -18,16 +18,35 @@ void Student::setHeadmasterMediator(Headmaster* headmaster) {
 }
 
 void Student::attendClass() {
-	Course* currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
-	if (currentCourse == NULL) {
-		std::cout << "[Student] " << getName() << " request SubscriptionToCourseForm" << std::endl;
-		SubscriptionToCourseForm* newCourseForm = dynamic_cast<SubscriptionToCourseForm*>(_headmasterMediator->requestForm(SubscriptionToCourse));
-		newCourseForm->fillSubscription(this);
-		_headmasterMediator->submitForm(newCourseForm);
+	std::vector<Course*> couresList = _headmasterMediator->getCourseList();
+	SubscriptionToCourseForm* newCourseForm;
+
+	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
+		if (!isGraduateCourse(*it) && !isSubscribedCourse(*it)) {
+			std::cout << "[Student] " << getName() << " request SubscriptionToCourseForm course: " << (*it)->getName() << std::endl;
+			newCourseForm = dynamic_cast<SubscriptionToCourseForm*>(_headmasterMediator->requestForm(SubscriptionToCourse));
+			newCourseForm->fillSubscription(this, (*it));
+			_headmasterMediator->submitForm(newCourseForm);
+		}
 	}
-	currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
-	if (currentCourse == NULL) {
-		std::cout << "[Student] " << getName() << " as finish all course!" << std::endl;
+
+	bool finish = true;
+	Course* currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
+	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
+		if (!isGraduateCourse((*it))) {
+			finish = false;
+		}
+	}
+	if (finish) {
+		std::cout << "\033[33m[CONGRATULATION] " << getName() << " finish all courses\033[0m" << std::endl;
+		return;
+	}
+	if (!currentCourse) {
+		std::cout << "[Student] " << getName() << " is not registerd to a course" << std::endl;
+		return;
+	}
+	if (!currentCourse->getClassroom()) {
+		std::cout << "\033[31m[ERROR] Course has no classroom course: " << currentCourse->getName() << "\033[0m" << std::endl;
 		return;
 	}
 	currentCourse->getClassroom()->enter(this);
@@ -71,3 +90,12 @@ bool Student::isGraduateCourse(Course* p_course) {
 	}
 	return false;
 }
+
+bool Student::isSubscribedCourse(Course* p_course) {
+	for(std::vector<Course*>::iterator it = _subscribedCourse.begin(); it != _subscribedCourse.end(); ++it) {
+		if ((*it) == p_course)
+			return true;
+	}
+	return false;
+}
+

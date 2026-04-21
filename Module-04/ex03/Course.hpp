@@ -32,7 +32,6 @@ public:
 	void setNumberOfClassToGraduate(int value) { _numberOfClassToGraduate = value; }
 	void setMaximumNumberOfStudent(int value) { _maximumNumberOfStudent = value; }
 	std::vector<Student*> getStudents() { return _students; }
-	void addStudent(Student* p_stud) { _students.push_back(p_stud); }
 	void setClassroom(Classroom* p_classroom);
 	Classroom* getClassroom() { return _classroom; }
 };

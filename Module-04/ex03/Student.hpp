@@ -26,5 +26,6 @@ public:
 	void addSubscribedCourse(Course* p_course) { _subscribedCourse.push_back(p_course); }
 	void addGraduateCourse(Course* p_course) { _graduateCourse.push_back(p_course); }
 	bool isGraduateCourse(Course* p_course);
+	bool isSubscribedCourse(Course* p_course);
 
 };

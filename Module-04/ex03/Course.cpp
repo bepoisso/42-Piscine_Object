@@ -3,7 +3,7 @@
 #include <iostream>
 
 Course::Course(std::string p_name)
-	: _name(p_name), _responsable(NULL), _numberOfClassToGraduate(10), _maximumNumberOfStudent(30) {
+	: _name(p_name), _responsable(NULL), _students(), _classroom(NULL), _numberOfClassToGraduate(10), _maximumNumberOfStudent(30) {
 }
 
 void Course::assign(Professor* p_professor) {

@@ -19,6 +19,6 @@ private:
 public:
 	SubscriptionToCourseForm();
 
-	void	fillSubscription(Student* newStudent);
+	void	fillSubscription(Student* newStudent, Course* p_course);
 	void	execute();
 };

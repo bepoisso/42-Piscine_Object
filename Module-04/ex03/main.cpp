@@ -4,6 +4,8 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <thread>
+#include <chrono>
 
 
 #include "Classroom.hpp"
@@ -44,7 +46,7 @@ int main()
 	std::string pname = "Prof ";
 	std::map<int, Professor> professors;
 
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 10; ++i) {
 		Professor p(pname + intToString(i));
 		p.setHeadmasterMediator(&headmaster);
 		professors.insert(std::make_pair(i, p));
@@ -56,7 +58,7 @@ int main()
 	std::string sname = "Stud ";
 	std::map<int, Student> students;
 
-	for (int i = 0; i < 30; ++i) {
+	for (int i = 0; i < 100; ++i) {
 		Student s(sname + intToString(i));
 		s.setHeadmasterMediator(&headmaster);
 		students.insert(std::make_pair(i, s));
@@ -69,22 +71,9 @@ int main()
 	std::cout << "           Start school simulation" << std::endl;
 	std::cout << "============================================" << std::endl;
 
-	std::cout << "--- Launch work for professors | (Pre Back to school) ---" << std::endl;
-
-	for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
-		std::cout << std::endl << "-Professor " << it->second.getName() << " Task-" << std::endl;
-		it->second.backToSchool();
-	}
-
 	int day = 1;
-	while (day <= 5) {
+	while (day <= 365) {
 		std::cout << "\n--- Launch work for professors & students | day:" << day << " ---" << std::endl;
-
-		std::cout << "--Students Task--" << std::endl;
-		for (std::map<int, Student>::iterator it = students.begin(); it != students.end(); ++it) {
-			std::cout << std::endl << "-Student " << it->second.getName() << " Task-" << std::endl;
-			it->second.attendClass();
-		}
 
 		std::cout << "--Professors Task--" << std::endl;
 		for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
@@ -92,6 +81,12 @@ int main()
 			it->second.doClass();
 		}
 
+		std::cout << "--Students Task--" << std::endl;
+		for (std::map<int, Student>::iterator it = students.begin(); it != students.end(); ++it) {
+			std::cout << std::endl << "-Student " << it->second.getName() << " Task-" << std::endl;
+			it->second.attendClass();
+		}
+		// std::this_thread::sleep_for(std::chrono::seconds(1));
 		day++;
 	}
 
@@ -101,5 +96,3 @@ int main()
 
 	return 0;
 }
-
-//TODO: verifier le nombre de place dans un cours et si non renvoyer dans un autre cours
