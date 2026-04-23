@@ -8,7 +8,7 @@ SubscriptionToCourseForm::SubscriptionToCourseForm() : Form(SubscriptionToCourse
 void SubscriptionToCourseForm::fillSubscription(Student* newStudent, Course* p_course) {
 	_student = newStudent;
 	_course = p_course;
-	if (_student && _course)
+	if (_student && _course && _course->getNumberOfStudent() < _course->getMaximumNumberOfStudent())
 		setIsDataFilled(true);
 	else
 		setIsDataFilled(false);

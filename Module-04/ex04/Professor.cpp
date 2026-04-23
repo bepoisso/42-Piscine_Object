@@ -14,13 +14,15 @@ void Professor::setHeadmasterMediator(Headmaster* headmaster) {
 		_headmasterMediator->subscribeBell(this);
 }
 
-void Professor::assignCourse(Course* p_course) {
-	_currentCourse = p_course;
-}
-
-void Professor::doClass() {
+bool Professor::initCourse() {
 	if (!_currentCourse)
 		needNewCourse();
+	
+	if (!_currentCourse) {
+		std::cout << printHeader() << getName() << ": all done bye!" << std::endl;
+		return false;
+	}
+	
 	Classroom* classroom = _currentCourse->getClassroom();
 	if (!classroom) {
 		classroom = _headmasterMediator->giveClassroomToProfessor();	
@@ -33,12 +35,20 @@ void Professor::doClass() {
 	}
 	if (!classroom && !_currentCourse->getClassroom()) {
 		std::cout << "\033[31m[ERROR] ITERNAL ERROR FAIL TO CREATE ROOM\033[0m" << std::endl;
-		return;
+		return false;
 	}
-	
+	return true;
+}
+
+void Professor::assignCourse(Course* p_course) {
+	_currentCourse = p_course;
+}
+
+void Professor::doClass() {
+	closeCourse();
+	if (!initCourse())
+		return;
 	_currentCourse->getClassroom()->enter(this);
-	std::cout << "[Professor] " << getName() << " enter in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
-	std::cout << "[Professor] " << getName() << " do class of " << _currentCourse->getName() << " in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
 	int i = 0;
 	for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
@@ -46,6 +56,7 @@ void Professor::doClass() {
 			i++;
 	}
 	if (i != 0) {
+		std::cout << "[Professor] " << getName() << " do class of " << _currentCourse->getName() << " in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
 		for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
 			if (_currentCourse->getClassroom()->isPresent(*it))
 				(*it)->receiveLesson(_currentCourse);
@@ -53,10 +64,11 @@ void Professor::doClass() {
 				std::cout << "Student " << (*it)->getName() << " was not present!" << std::endl;
 		}
 	}
-	closeCourse();
+	else
+		std::cout << "[Professor] " << getName() << " don't do class. Reason : nobody in class" << std::endl;
 }
 
-void Professor::closeCourse() {
+void Professor::finishCourse() {
 	if (!_currentCourse)
 		return;
 	std::cout << "[Professor] " << getName() << " as finish course " << _currentCourse->getName() << std::endl;
@@ -64,15 +76,29 @@ void Professor::closeCourse() {
 
 	for (size_t i = 0; i < studentsList.size(); ++i) {
 		if (studentsList[i]->getCurrentScore(_currentCourse) >= _currentCourse->getNumberOfClassToGraduate()) {
-			std::cout << "[DEBUG] professor " << getName() << " want to graduate " << studentsList[i]->getName() << " Note : " <<  studentsList[i]->getCurrentScore(_currentCourse) << "/" << _currentCourse->getNumberOfClassToGraduate() << std::endl;
+			std::cout << "[Professor] " << getName() << " want to graduate " << studentsList[i]->getName() << " Note : " <<  studentsList[i]->getCurrentScore(_currentCourse) << "/" << _currentCourse->getNumberOfClassToGraduate() << std::endl;
 			needGraduateStudent(studentsList[i]);
 		}
-		if (getCurrentRoom()->isPresent(studentsList[i]))
-			studentsList[i]->exitClass();
 	}
-	std::cout << "[Professor] " << getName() << " exit classroom " << getCurrentRoom()->getID() << std::endl;
-	getCurrentRoom()->exit(this);
+}
 
+void Professor::closeCourse() {
+	if (!_currentCourse)
+		return;
+	std::vector<Student*> studentsList = _currentCourse->getStudents();
+	int i = 0;
+	
+	for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
+		i++;
+	}
+	if (i == 0) {
+		std::cout << "[Professor] " << getName() << " close course " << _currentCourse->getName() << std::endl;
+		if (getCurrentRoom() == _currentCourse->getClassroom())
+			getCurrentRoom()->exit(this);
+		_currentCourse->getClassroom()->assignCourse(NULL);
+		_currentCourse->setClassroom(NULL);
+		_currentCourse = NULL;
+	}
 }
 
 void Professor::needGraduateStudent(Student* student) {
@@ -99,7 +125,6 @@ void Professor::needGraduateStudent(Student* student) {
 
 void Professor::needNewCourse() {
 	std::cout << "[Professor] " << getName() << " request NeedCourseCreationForm" << std::endl;
-	std::string courseName = "";
 	if (!_headmasterMediator) {
 		std::cout << "\033[31m[ERROR] Professor cannot request new course: no mediator\033[0m" << std::endl;
 		return;
@@ -110,35 +135,41 @@ void Professor::needNewCourse() {
 		return;
 	}
 	NeedCourseCreationForm* courseForm = dynamic_cast<NeedCourseCreationForm*>(form);
+	
+	static const char* courseList[] = {
+		"Algorithms",
+		"Database Design",
+		"Operating Systems",
+		"Web Development",
+		"Computer Networks",
+		"Data Structures",
+		"Object-Oriented Programming",
+		"Software Engineering",
+		"Distributed Systems",
+		"Compilers",
+		"Machine Learning",
+		"Artificial Intelligence",
+		"Cybersecurity",
+		"Cloud Computing",
+		"DevOps",
+		"Computer Architecture",
+		"Parallel Programming",
+		"Theory of Computation",
+		"Human-Computer Interaction",
+		"Mobile Development",
+	};
 
-	int i = 10;
-	while (i > 0 && (courseName == "" || _headmasterMediator->checkisCourseExist(courseName))) {
-		switch (std::rand() % 20 + 1) {
-			case 1:  courseName = "Algorithms"; break;
-			case 2:  courseName = "Database Design"; break;
-			case 3:  courseName = "Operating Systems"; break;
-			case 4:  courseName = "Web Development"; break;
-			case 5:  courseName = "Computer Networks"; break;
-			case 6:  courseName = "Data Structures"; break;
-			case 7:  courseName = "Object-Oriented Programming"; break;
-			case 8:  courseName = "Software Engineering"; break;
-			case 9:  courseName = "Distributed Systems"; break;
-			case 10: courseName = "Compilers"; break;
-			case 11: courseName = "Machine Learning"; break;
-			case 12: courseName = "Artificial Intelligence"; break;
-			case 13: courseName = "Cybersecurity"; break;
-			case 14: courseName = "Cloud Computing"; break;
-			case 15: courseName = "DevOps"; break;
-			case 16: courseName = "Computer Architecture"; break;
-			case 17: courseName = "Parallel Programming"; break;
-			case 18: courseName = "Theory of Computation"; break;
-			case 19: courseName = "Human-Computer Interaction"; break;
-			default: courseName = "Mobile Development"; break;
+	const int count = sizeof(courseList) / sizeof(courseList[0]);
+	std::string courseName = "";
+
+	for (int i = 0; i < count; ++i) {
+		if (!_headmasterMediator->checkIfCourseExist(courseList[i])) {
+			courseName = courseList[i];
+			break;
 		}
-		i--;
 	}
-	int temp = (rand() % 10 + 2);
 
+	int temp = (rand() % 10 + 2);
 	courseForm->fillCoursePlan(courseName, this, temp);
 	_headmasterMediator->submitForm(courseForm);
 }
@@ -164,7 +195,12 @@ void Professor::onBell(Event event) {
 	if (event != RingBell)
 		return;
 	_isOnBreak = !_isOnBreak;
-	if (_isOnBreak)
+	if (_isOnBreak) {
+		if (_currentCourse)
+			finishCourse();
 		if (getCurrentRoom())
 			getCurrentRoom()->exit(this);
+	}
+	else
+		doClass();
 }

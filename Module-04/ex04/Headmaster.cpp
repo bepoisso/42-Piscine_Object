@@ -123,12 +123,37 @@ Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
 	return NULL;
 }
 
-bool		Headmaster::checkisCourseExist(std::string p_name) {
+bool		Headmaster::checkIfCourseExist(std::string p_name) {
+	if (p_name == "")
+		return true;
 	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it) {
 		if (p_name == (*it)->getName())
 			return true;
 	}
 	return false;
+}
+
+void	Headmaster::subscribeBell(IObserver* obs) {
+	if (!obs)
+		return;
+	
+	for (std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
+		if (*it == obs)
+				return;
+		}
+	_bellObservers.push_back(obs);
+}
+
+void	Headmaster::unsubscribeBell(IObserver	* obs) {
+	if (!obs)
+		return;
+
+	for (std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
+		if (*it == obs) {
+			_bellObservers.erase(it);
+			return;
+		}
+	}
 }
 
 void Headmaster::ringBell() {
@@ -138,3 +163,4 @@ void Headmaster::ringBell() {
 			(*it)->onBell(RingBell);
 	}
 }
+

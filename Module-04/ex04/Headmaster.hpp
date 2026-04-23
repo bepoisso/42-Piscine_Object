@@ -26,6 +26,7 @@ public:
 	Headmaster(std::string p_name, Secretary *newSecretary);
 	~Headmaster();
 
+	std::string 				printHeader() { return "[Headmaster] "; }
 	Form*						requestForm(FormType p_formType);
 	void						receiveForm(Form* p_form);
 	void						submitForm(Form* p_form);
@@ -35,7 +36,7 @@ public:
 	void						receiveCourse(Course* p_course);
 	void						addClassroomList(Classroom* p_classroom) { _classroomList.push_back(p_classroom); }
 	long long					getNextIndexClassroom();
-	bool						checkisCourseExist(std::string p_name);
+	bool						checkIfCourseExist(std::string p_name);
 	Classroom*					giveClassroomToProfessor();
 	Course*						giveNewCourseForStudent(Student* p_student);
 	const std::vector<Course*>	getCourseList() { return _courseList; }

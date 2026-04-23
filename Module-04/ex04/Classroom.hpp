@@ -7,7 +7,7 @@ class Classroom : public Room
 {
 private:
 	static long long _nextId;
-	Course* _currentCourse;                // non-owning: Course is managed elsewhere
+	Course* _currentCourse;				// non-owning: Course is managed elsewhere
 
 public:
 	Classroom();

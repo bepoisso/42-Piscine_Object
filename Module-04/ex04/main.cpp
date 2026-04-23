@@ -28,7 +28,7 @@ static std::string intToString(int value) {
 int main()
 {
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
-
+	
 	std::cout << "============================================" << std::endl;
 	std::cout << "   Module 04 - Ex03 : School Management" << std::endl;
 	std::cout << "============================================" << std::endl;
@@ -41,52 +41,66 @@ int main()
 	std::cout << "Headmaster: " << headmaster.getName() << std::endl;
 
 	// ===== STAFF SETUP =====
-	std::cout << "\n--- Creating professors ---" << std::endl;
-
-	std::string pname = "Prof ";
-	std::map<int, Professor> professors;
-
-	for (int i = 0; i < 3; ++i) {
-		Professor p(pname + intToString(i));
-		p.setHeadmasterMediator(&headmaster);
-		professors.insert(std::make_pair(i, p));
-		std::cout << p.getName() << std::endl;
-	}
-	
 	std::cout << "\n--- Creating students ---" << std::endl;
 
-	std::string sname = "Stud ";
 	std::map<int, Student> students;
 
 	for (int i = 0; i < 10; ++i) {
-		Student s(sname + intToString(i));
+		students.insert(std::make_pair(i, Student("Stud " + intToString(i))));
+		Student& s = students.find(i)->second;
 		s.setHeadmasterMediator(&headmaster);
-		students.insert(std::make_pair(i, s));
 		std::cout << s.getName() << std::endl;
 	}
 
+	std::cout << "\n--- Creating professors ---" << std::endl;
+
+	std::map<int, Professor> professors;
+
+	for (int i = 0; i < 3; ++i) {
+		professors.insert(std::make_pair(i, Professor("Prof " + intToString(i))));
+		Professor& p = professors.find(i)->second;
+		p.setHeadmasterMediator(&headmaster);
+		std::cout << p.getName() << std::endl;
+	}	
 	std::cout << std::endl << std::endl;
 	
 	std::cout << "============================================" << std::endl;
 	std::cout << "           Start school simulation" << std::endl;
 	std::cout << "============================================" << std::endl;
 
-	int day = 1;
-	while (day <= 20) {
-		std::cout << "\n--- Launch work for professors & students | day:" << day << " ---" << std::endl;
-
-		std::cout << "--Professors Task--" << std::endl;
-		for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
+		std::cout << "\n--- Launch work for professors before Back To School ---" << std::endl;
+	for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
 			std::cout << std::endl << "-Professor " << it->second.getName() << " Task-" << std::endl;
-			it->second.doClass();
+			it->second.initCourse();
 		}
+
+	int day = 1;
+	while (day <= 100) {
+		std::cout << "\n--- Launch work for professors & students | day:" << day << " ---" << std::endl;
 
 		std::cout << "--Students Task--" << std::endl;
 		for (std::map<int, Student>::iterator it = students.begin(); it != students.end(); ++it) {
-			std::cout << std::endl << "-Student " << it->second.getName() << " Task-" << std::endl;
 			it->second.attendClass();
+			std::cout << std::endl;
 		}
-		// std::this_thread::sleep_for(std::chrono::seconds(1));
+
+		std::cout << "--Professors Task--" << std::endl;
+		for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
+			it->second.doClass();
+			std::cout << std::endl;
+		}
+
+		std::cout << "\n---Pause start---" << std::endl;
+		headmaster.ringBell();
+		// std::this_thread::sleep_for(std::chrono::milliseconds(20));
+		std::cout << "\n---Pause end---" << std::endl;
+		headmaster.ringBell();
+		std::cout << "\n---End of day---" << std::endl;
+		for (std::map<int, Professor>::iterator it = professors.begin(); it != professors.end(); ++it) {
+			it->second.finishCourse();
+			std::cout << std::endl;
+		}
+
 		day++;
 	}
 
@@ -96,3 +110,12 @@ int main()
 
 	return 0;
 }
+
+// les prof vont dans leurs salle de cours
+// Les eleve vont dans leurs salles de cours
+// Les eleve travaille (score++)
+// Le prof ferme le cours
+// Les eleve quite la salle
+// les prof se perpare pur refaire cours
+// les eleve rejoigne leurs salle de cours et apprene
+

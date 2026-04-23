@@ -52,7 +52,6 @@ void Student::attendClass() {
 		return;
 	}
 	currentCourse->getClassroom()->enter(this);
-	std::cout << "[Student] " << getName() << " enter in class " << currentCourse->getClassroom()->getID() << " for " << currentCourse->getName() << "'s course by " << currentCourse->getResponsable()->getName() << std::endl;
 }
 
 void Student::exitClass() {
@@ -60,7 +59,6 @@ void Student::exitClass() {
 	if (!currentRoom)
 		return;
 	currentRoom->exit(this);
-	std::cout << "[Student] " << getName() << " exit the classroom no " << currentRoom->getID() << std::endl;
 }
 
 void Student::graduate(Course* p_course) {
@@ -102,9 +100,20 @@ bool Student::isSubscribedCourse(Course* p_course) {
 }
 
 void Student::onBell(Event event) {
+	std::vector<Course*> couresList = _headmasterMediator->getCourseList();
+	bool finish = true;
+	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
+		if (!isGraduateCourse((*it))) {
+			finish = false;
+		}
+	}
+	if (finish)
+		return;
 	if (event != RingBell)
 		return;
 	_isOnBreak = !_isOnBreak;
 	if (_isOnBreak)
 		exitClass();
+	else
+		attendClass();
 }

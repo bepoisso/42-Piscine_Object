@@ -19,6 +19,7 @@ public:
 	Student(std::string p_name);
 	void setHeadmasterMediator(Headmaster* headmaster);
 	Headmaster* getheadmasterMediator() { return _headmasterMediator; }
+	std::string printHeader() { return "[Student] "; }
 	int getCurrentScore(Course* p_course) { return _scoreCourse[p_course]; }
 	void attendClass();
 	void exitClass();

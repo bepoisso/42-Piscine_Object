@@ -16,7 +16,7 @@ SRCS = main.cpp \
 	Person.cpp \
 	Professor.cpp \
 	Room.cpp \
-	Student.cpp
+	Student.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

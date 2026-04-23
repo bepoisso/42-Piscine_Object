@@ -19,10 +19,13 @@ private:
 public:
 	Professor(std::string p_name);
 	void setHeadmasterMediator(Headmaster* headmaster);
+	bool initCourse();
 	Headmaster* getheadmasterMediator() { return _headmasterMediator; }
 	void assignCourse(Course* p_course);
 	void doClass();
+	void finishCourse();
 	void closeCourse();
+	std::string printHeader() { return "[Professor] "; }
 
 	void needGraduateStudent(Student* student);
 	void needNewCourse();

@@ -22,6 +22,7 @@ void Room::enter(Person* person) {
 		person->getCurrentRoom()->exit(person);
 	_occupants.push_back(person);
 	person->setCurrentRoom(this);
+	std::cout << person->printHeader() << person->getName() << " enter in room no " << _ID << std::endl;
 }
 
 void Room::exit(Person* person) {
@@ -33,8 +34,10 @@ void Room::exit(Person* person) {
 			break;
 		}
 	}
-	if (person->getCurrentRoom() == this)
+	if (person->getCurrentRoom() == this) {
 		person->setCurrentRoom(NULL);
+		std::cout << person->printHeader() << person->getName() << " exit room no " << _ID << std::endl;
+	}
 }
 
 void Room::printOccupant() {

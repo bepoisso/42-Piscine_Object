@@ -12,5 +12,6 @@ private:
 
 public:
 	Secretary(std::string p_name);
+	std::string printHeader() { return "[Secretary] "; }
 	Form* createForm(FormType p_formType);
 };
