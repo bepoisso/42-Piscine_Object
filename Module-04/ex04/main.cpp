@@ -110,12 +110,3 @@ int main()
 
 	return 0;
 }
-
-// les prof vont dans leurs salle de cours
-// Les eleve vont dans leurs salles de cours
-// Les eleve travaille (score++)
-// Le prof ferme le cours
-// Les eleve quite la salle
-// les prof se perpare pur refaire cours
-// les eleve rejoigne leurs salle de cours et apprene
-
