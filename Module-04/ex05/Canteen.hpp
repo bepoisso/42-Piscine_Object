@@ -8,5 +8,6 @@ class Canteen : public Room
 private:
 
 public:
+	Canteen() : Room(-2, 0) {}
 
 };

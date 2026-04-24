@@ -25,19 +25,21 @@ void NeedCourseCreationForm::execute() {
 		std::cout << "NeedCourseCreationForm execution refused: missing course plan data" << std::endl;
 		return;
 	}
+	
+	Headmaster* mediator = _professor->getheadmasterMediator();
+	if (!mediator) {
+		std::cout << "NeedCourseCreationForm execution warning: professor has no headmaster mediator" << std::endl;
+		return;
+	}
+	Course* newCourse = mediator->getCourse(_name);
+	if (!newCourse) {
+		std::cout << "NeedCourseCreationForm execution warning: can create course" << std::endl;
+		return;
+	}
 	std::cout << "Course created: " << _name << " assigned to " << _professor->getName()
-		<< " (" << _weeklyHours << "h/week)" << std::endl;
-
-	Course* newCourse = new Course(_name);
+	<< " (" << _weeklyHours << "h/week)" << std::endl;
 	newCourse->assign(_professor);
 	_professor->setCourse(newCourse);
 	newCourse->setMaximumNumberOfStudent((rand() % 10 + 5));
 	newCourse->setNumberOfClassToGraduate((rand() % 41 + 50));
-	Headmaster* mediator = _professor->getheadmasterMediator();
-	if (!mediator) {
-		std::cout << "NeedCourseCreationForm execution warning: professor has no headmaster mediator" << std::endl;
-		delete newCourse;
-		return;
-	}
-	mediator->receiveCourse(newCourse);
 }

@@ -22,13 +22,16 @@ void NeedMoreClassRoomForm::execute() {
 		return;
 	}
 	_isApproved = true;
-	Classroom* newClassroom = new Classroom();
-	
-	Headmaster* mediator = _professor->getheadmasterMediator();
-	mediator->addClassroomList(newClassroom);
 
+	Headmaster* mediator = _professor->getheadmasterMediator();
+	if (!mediator) {
+		std::cout << "[ERROR] NeedMoreClassRoomForm missing professor mediator " << std::endl;
+		return;
+	}
+
+	Classroom* newClassroom = mediator->getClassroom();
 	newClassroom->assignCourse(_professor->getCourse());
 	_professor->getCourse()->setClassroom(newClassroom);
-	std::cout << "Classroom extension approved: " << _additionalRoomsCount
-		<< " room(s) requested by " << _professor->getName() << " (reason: " << _reason << ")" << std::endl;
+	std::cout << "Classroom extension approved: room requested by "
+	<< _professor->getName() << " (reason: " << _reason << ")" << std::endl;
 }

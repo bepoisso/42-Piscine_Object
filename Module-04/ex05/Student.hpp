@@ -22,7 +22,6 @@ public:
 	std::string printHeader() { return "[Student] "; }
 	int getCurrentScore(Course* p_course) { return _scoreCourse[p_course]; }
 	void attendClass();
-	void exitClass();
 	void graduate(Course* p_course);
 	void receiveLesson(Course* p_course);
 	void addSubscribedCourse(Course* p_course) { _subscribedCourse.push_back(p_course); }

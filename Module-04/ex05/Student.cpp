@@ -31,18 +31,7 @@ void Student::attendClass() {
 			_headmasterMediator->submitForm(newCourseForm);
 		}
 	}
-
-	bool finish = true;
 	Course* currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
-	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
-		if (!isGraduateCourse((*it))) {
-			finish = false;
-		}
-	}
-	if (finish) {
-		std::cout << "\033[33m[CONGRATULATION] " << getName() << " finish all courses\033[0m" << std::endl;
-		return;
-	}
 	if (!currentCourse) {
 		std::cout << "[Student] " << getName() << " is not registerd to a course" << std::endl;
 		return;
@@ -52,13 +41,7 @@ void Student::attendClass() {
 		return;
 	}
 	currentCourse->getClassroom()->enter(this);
-}
-
-void Student::exitClass() {
-	Room* currentRoom = getCurrentRoom();
-	if (!currentRoom)
-		return;
-	currentRoom->exit(this);
+	_isOnBreak = false;
 }
 
 void Student::graduate(Course* p_course) {
@@ -100,20 +83,25 @@ bool Student::isSubscribedCourse(Course* p_course) {
 }
 
 void Student::onBell(Event event) {
-	std::vector<Course*> couresList = _headmasterMediator->getCourseList();
-	bool finish = true;
-	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
-		if (!isGraduateCourse((*it))) {
-			finish = false;
+	if (event == RingBell) {
+		_isOnBreak = !_isOnBreak;
+		if (_isOnBreak) {
+			safeExit();
+			_headmasterMediator->getCourtyard()->enter(this);
+		} else {
+			safeExit();
+			attendClass();
 		}
 	}
-	if (finish)
-		return;
-	if (event != RingBell)
-		return;
-	_isOnBreak = !_isOnBreak;
-	if (_isOnBreak)
-		exitClass();
-	else
-		attendClass();
+	else if (event == LunchTime) {
+		_isOnBreak = true;
+		safeExit();
+		_headmasterMediator->getCanteen()->enter(this);
+		std::cout << printHeader() << getName() << " eating a lot in the cafeteria" << std::endl; 
+	} else if (event == CoursesFinish) {
+		_isOnBreak = true;
+		safeExit();
+	} else {
+		std::cout << "[ERROR] " << getName() << " received a bad event" << std::endl;
+	}
 }

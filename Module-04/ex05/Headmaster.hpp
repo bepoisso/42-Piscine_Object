@@ -11,14 +11,14 @@
 #include "Classroom.hpp"
 #include "observer.hpp"
 #include "School.hpp"
+#include "Canteen.hpp"
+#include "Courtyard.hpp"
 
 class Headmaster : public Staff
 {
 private:
 	Secretary* 			 _secretary;
 	std::vector<Form*> _formToValidate; // owning: forms created by Secretary are destroyed by Headmaster
-	std::vector<Course*> _courseList; // owning: course created by Professor are destroyed by Headmaster
-	std::vector<Classroom*> _classroomList; // owning: clasroom created by form are destroyed by Headmaster
 	std::vector<IObserver*> _bellObservers;
 	School*					_school;
 
@@ -36,15 +36,23 @@ public:
 	void						signForm(Form* p_form);
 	void						executeForm(Form* p_form);
 
-	void						receiveCourse(Course* p_course);
-	void						addClassroomList(Classroom* p_classroom) { _classroomList.push_back(p_classroom); }
-	long long					getNextIndexClassroom();
-	bool						checkIfCourseExist(std::string p_name);
 	Classroom*					giveClassroomToProfessor();
+	Classroom*					getClassroom() { return _school->getClassroom(); }
+	Canteen*					getCanteen() { return _school->getCanteen(); }
+	Courtyard*					getCourtyard() { return _school->getCourtyard(); }
+	StaffRestRoom*				getStaffRestRoom() { return _school->getStaffRestRoom(); }
+
+	bool						checkIfCourseExist(std::string p_name);
 	Course*						giveNewCourseForStudent(Student* p_student);
-	const std::vector<Course*>	getCourseList() { return _courseList; }
+	const std::vector<Course*>	getCourseList() { return _school->getCoursesList(); }
+	Course*						getCourse(std::string p_name) { return _school->getCourse(p_name); }
+
+	void						professorDoWork();
+	void						studentDoWork();
 
 	void						subscribeBell(IObserver* obs);
 	void						unsubscribeBell(IObserver	* obs);
 	void						ringBell();
+	void						lunchTime();
+	void						coursesFinish();
 };

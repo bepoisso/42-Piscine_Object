@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Foward.hpp"
+#include "Room.hpp"
 
 class Person
 {
@@ -16,6 +17,8 @@ public:
 	virtual std::string printHeader() = 0;
 	Room* getCurrentRoom() { return _currentRoom; }
 	void setCurrentRoom(Room* newRoom) { _currentRoom = newRoom; }
+	void safeExit();
 	std::string getName() { return _name; }
+	virtual const unsigned int getPrivilege() { return 0; }
 
 };

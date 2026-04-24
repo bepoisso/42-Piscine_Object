@@ -32,16 +32,16 @@ private:
 	Headmaster 	_headmaster;
 	Secretary 	_secretary;
 
-	std::vector<Student> 	_studentsList;
-	std::vector<Professor>	_professorsList;
+	std::vector<Student*> 	_studentsList;
+	std::vector<Professor*>	_professorsList;
 
 	std::vector<Course*>	_coursesList;
 	std::vector<Classroom*> _classroomList;
 
-	Canteen _canteen;
-	SecretarialOffice _secretariaOffice;
 	HeadmasterOffice _headmasterOffice;
+	SecretarialOffice _secretariaOffice;
 	StaffRestRoom _staffRoom;
+	Canteen _canteen;
 	Courtyard _courtyard;
 
 	int _day;
@@ -54,24 +54,27 @@ public:
 	void recruteStudent();
 	void recruteProfessor();
 	void launchClasses();
-	void requestRingBell();
+	void requestRingBell() { _headmaster.ringBell(); }
+	void requestLunchTime() { _headmaster.lunchTime(); }
+	void requestCourseFinish() { _headmaster.coursesFinish(); }
 	Course* getCourse(std::string p_name);
-	std::vector<Student*> getStudents();
-	std::vector<Professor*> getProfessors();
+	Classroom* getClassroom();
+	std::vector<Student*> getStudents() { return _studentsList; }
+	std::vector<Professor*> getProfessors() { return _professorsList; }
 	Headmaster getHeadmaster() { return _headmaster; }
 	Secretary getSecretary() { return _secretary; }
 	void graduationCeremony();
 
-	void startLunch();
-
 	void printDay();
-	const SecretarialOffice getSecretariaOffice();
-	const HeadmasterOffice getHeadmasterOffice();
-	const StaffRestRoom getStaffRestRoom();
-	const Courtyard getCourtyard();
+	std::string printHeader() { return "[SCHOOL] "; }
+	StaffRestRoom* getStaffRestRoom() { return &_staffRoom; }
+	Courtyard* getCourtyard() { return &_courtyard;}
+	Canteen* getCanteen() { return &_canteen; }
 	void initProfessors();
 	void initStudents();
-	void addCourse(Course* p_course) { _coursesList.push_back(p_course); }
-	void addClassroom(Classroom* p_classroom) { _classroomList.push_back(p_classroom); }
+	void initSecretary();
+	void initHeadmaster();
 	bool nameExist(std::string p_name);
+	const std::vector<Course*> getCoursesList() { return _coursesList; }
+	const std::vector<Classroom*> getClassroomsList() { return _classroomList; }
 };

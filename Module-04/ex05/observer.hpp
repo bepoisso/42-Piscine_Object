@@ -5,7 +5,7 @@
 
 class IObserver {
 public:
-	bool _isOnBreak = false;
+	bool _isOnBreak = true;
 	virtual ~IObserver() {}
 	virtual void onBell(Event event) = 0;
 };

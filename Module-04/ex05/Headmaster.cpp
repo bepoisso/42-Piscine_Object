@@ -8,25 +8,19 @@ Headmaster::~Headmaster() {
 	for (std::vector<Form*>::iterator it = _formToValidate.begin(); it != _formToValidate.end(); ++it)
 		delete *it;
 	_formToValidate.clear();
-	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it)
-		delete *it;
-	_courseList.clear();
-	for (std::vector<Classroom*>::iterator it = _classroomList.begin(); it != _classroomList.end(); ++it)
-		delete *it;
-	_classroomList.clear();
 }
 
-Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name), _secretary(newSecretary) {
+Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name, 3), _secretary(newSecretary) {
 }
 
 Form* Headmaster::requestForm(FormType p_formType) {
 	if (!_secretary) {
-		std::cout << "[Headmaster] cannot request form: no secretary assigned" << std::endl;
+		std::cout << printHeader() << getName() << " cannot request form: no secretary assigned" << std::endl;
 		return NULL;
 	}
 	Form* form = _secretary->createForm(p_formType);
 	if (!form) {
-		std::cout << "[Headmaster] failed to request form" << std::endl;
+		std::cout << printHeader() << getName() << " failed to request form" << std::endl;
 		return NULL;
 	}
 	receiveForm(form);
@@ -44,11 +38,9 @@ void Headmaster::receiveForm(Form* p_form) {
 void Headmaster::submitForm(Form* p_form) {
 	if (!p_form)
 		return;
-	if (!hasReceivedForm(p_form))
-		receiveForm(p_form);
+	receiveForm(p_form);
 	signForm(p_form);
-	if (p_form->getIsSigned())
-		executeForm(p_form);
+	executeForm(p_form);
 	
 }
 
@@ -72,51 +64,45 @@ void Headmaster::releaseForm(Form* p_form) {
 
 void	Headmaster::signForm(Form* p_form) {
 	if (!hasReceivedForm(p_form)) {
-		std::cout << "[Headmaster] refused to sign: form was not received" << std::endl;
+		std::cout << printHeader() << getName() << " refused to sign: form was not received" << std::endl;
 		return;
 	}
 	if (!p_form->isComplete()) {
-		std::cout << "[Headmaster] refused to sign: mandatory form data is missing" << std::endl;
+		std::cout << printHeader() << getName() << " refused to sign: mandatory form data is missing" << std::endl;
 		return;
 	}
-	std::cout << "[Headmaster] signed form " << p_form->getFormName() << std::endl;
+	std::cout << printHeader() << getName() << " signed form " << p_form->getFormName() << std::endl;
 	p_form->setIsSigned(true);
+	_secretary->archiveForm(p_form);
+	releaseForm(p_form);
+	
 }
 
 void	Headmaster::executeForm(Form* p_form) {
 	if (!hasReceivedForm(p_form)) {
-		std::cout << "[Headmaster] refused to execute: form was not received" << std::endl;
+		std::cout << printHeader() << getName() << " refused to execute: form was not received" << std::endl;
 		return;
 	}
-	std::cout << "[Headmaster] execute form " << p_form->getFormName() << std::endl;
-	p_form->execute();
-	releaseForm(p_form);
-}
-
-void	Headmaster::receiveCourse(Course* p_course) {
-	if (!p_course) {
-		std::cout << "[Headmaster] cannot save this course. Course empty" << std::endl;
-		return ;
+	if (!p_form->getIsSigned()) {
+		std::cout << printHeader() << getName() << " refused to execute: form not signed" << std::endl;
+		return;
 	}
-	_courseList.push_back(p_course);
-}
-
-long long	Headmaster::getNextIndexClassroom() {
-	if (_classroomList.empty())
-		return 0;
-	return _classroomList.back()->getID() + 1;
+	std::cout << printHeader() << getName() << " execute form " << p_form->getFormName() << std::endl;
+	p_form->execute();
 }
 
 Classroom*	Headmaster::giveClassroomToProfessor() {
-	for (std::vector<Classroom*>::iterator it = _classroomList.begin(); it != _classroomList.end(); ++it) {
-		if ((*it)->getCurrentCourse() == NULL)
+	std::vector<Classroom*> classroomsList = _school->getClassroomsList();
+	for (std::vector<Classroom*>::iterator it = classroomsList.begin(); it != classroomsList.end(); ++it) {
+		if ((*it)->getCurrentCourse() == NULL && (*it)->isEmpty())
 			return *it;
 	}
 	return NULL;
 }
 
 Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
-	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it) {
+	std::vector<Course*> coursesList = _school->getCoursesList();
+	for (std::vector<Course*>::iterator it = coursesList.begin(); it != coursesList.end(); ++it) {
 		if (p_student->isGraduateCourse(*it) == false && (*it)->getMaximumNumberOfStudent() > (*it)->getNumberOfStudent())
 			return *it;
 	}
@@ -126,12 +112,30 @@ Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
 bool		Headmaster::checkIfCourseExist(std::string p_name) {
 	if (p_name == "")
 		return true;
-	for (std::vector<Course*>::iterator it = _courseList.begin(); it != _courseList.end(); ++it) {
+	std::vector<Course*> coursesList = _school->getCoursesList();
+	for (std::vector<Course*>::iterator it = coursesList.begin(); it != coursesList.end(); ++it) {
 		if (p_name == (*it)->getName())
 			return true;
 	}
 	return false;
 }
+
+void	Headmaster::professorDoWork() {
+	std::vector<Professor*> list;
+	for(std::vector<Professor*>::iterator it = list.begin(); it != list.end(); ++it) {
+		(*it)->doClass();
+		std::cout << std::endl;
+	}
+}
+
+void	Headmaster::studentDoWork() {
+	std::vector<Student*> list;
+	for(std::vector<Student*>::iterator it = list.begin(); it != list.end(); ++it) {
+		(*it)->attendClass();
+		std::cout << std::endl;
+	}
+}
+
 
 void	Headmaster::subscribeBell(IObserver* obs) {
 	if (!obs)
@@ -157,10 +161,26 @@ void	Headmaster::unsubscribeBell(IObserver	* obs) {
 }
 
 void Headmaster::ringBell() {
-	std::cout << "[Headmaster] *RING RING RING*" << std::endl;
+	std::cout << printHeader() << getName() << " *RING RING RING*" << std::endl;
 	for(std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
 		if (*it)
 			(*it)->onBell(RingBell);
+	}
+}
+
+void Headmaster::lunchTime() {
+	std::cout << printHeader() << getName() << " *RING RING RING* *MIAM MIAM MIAM*" << std::endl;
+	for(std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
+		if (*it)
+			(*it)->onBell(LunchTime);
+	}
+}
+
+void Headmaster::coursesFinish() {
+	std::cout << printHeader() << getName() << " *RING RING RING* *MIAM MIAM MIAM*" << std::endl;
+	for(std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
+		if (*it)
+			(*it)->onBell(CoursesFinish);
 	}
 }
 

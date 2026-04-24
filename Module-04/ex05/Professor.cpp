@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 Professor::Professor(std::string p_name)
-	: Staff(p_name), _currentCourse(NULL), _headmasterMediator(NULL) {
+	: Staff(p_name, 1), _currentCourse(NULL), _headmasterMediator(NULL) {
 }
 
 void Professor::setHeadmasterMediator(Headmaster* headmaster) {
@@ -49,6 +49,7 @@ void Professor::doClass() {
 	if (!initCourse())
 		return;
 	_currentCourse->getClassroom()->enter(this);
+	_isOnBreak = false;
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
 	int i = 0;
 	for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
@@ -192,15 +193,25 @@ void Professor::needMoreClassRoom() {
 }
 
 void Professor::onBell(Event event) {
-	if (event != RingBell)
-		return;
-	_isOnBreak = !_isOnBreak;
-	if (_isOnBreak) {
-		if (_currentCourse)
-			finishCourse();
-		if (getCurrentRoom())
-			getCurrentRoom()->exit(this);
+	if (event == RingBell) {
+		_isOnBreak = !_isOnBreak;
+		if (_isOnBreak) {
+			safeExit();
+			_headmasterMediator->getStaffRestRoom()->enter(this);
+		} else {
+			safeExit();
+			doClass();
+		}
 	}
-	else
-		doClass();
+	else if (event == LunchTime) {
+		_isOnBreak = true;
+		safeExit();
+		_headmasterMediator->getCanteen()->enter(this);
+		std::cout << printHeader() << getName() << " eating a lot in the cafeteria" << std::endl; 
+	} else if (event == CoursesFinish) {
+		_isOnBreak = true;
+		safeExit();
+	} else {
+		std::cout << "[ERROR] " << getName() << " received a bad event" << std::endl;
+	}
 }

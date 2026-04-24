@@ -9,5 +9,6 @@ class StaffRestRoom : public Room
 private:
 
 public:
+	StaffRestRoom() : Room(-3, 1) {}
 
 };

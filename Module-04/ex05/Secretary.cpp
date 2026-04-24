@@ -5,24 +5,30 @@
 #include "NeedCourseCreationForm.hpp"
 #include "SubscriptionToCourseForm.hpp"
 
-Secretary::Secretary(std::string p_name) : Staff(p_name) {
+Secretary::Secretary(std::string p_name) : Staff(p_name, 2) {
 }
 
 Form* Secretary::createForm(FormType p_formType) {
 	switch (p_formType)
 	{
 		case CourseFinished:
-			return new CourseFinishedForm();
+			return &CourseFinishedForm();
 		case NeedMoreClassRoom:
-			return new NeedMoreClassRoomForm();
+			return &NeedMoreClassRoomForm();
 		case NeedCourseCreation:
-			return new NeedCourseCreationForm();
+			return &NeedCourseCreationForm();
 		case SubscriptionToCourse:
-			return new SubscriptionToCourseForm();
+			return &SubscriptionToCourseForm();
 	}
 	return NULL;
 }
 
 void Secretary::setHeadmasterMediator(Headmaster* p_headmaster) {
 	_headmasterMediator = p_headmaster;
+}
+
+void Secretary::archiveForm(Form* p_form) {
+	SecretarialOffice* office = static_cast<SecretarialOffice*>(getCurrentRoom());
+
+	office->archiveForm(p_form);
 }

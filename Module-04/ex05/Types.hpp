@@ -17,5 +17,7 @@ enum FormType
 
 enum Event
 {
-	RingBell
+	RingBell,
+	LunchTime,
+	CoursesFinish,
 };
