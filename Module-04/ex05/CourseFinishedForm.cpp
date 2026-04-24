@@ -8,7 +8,10 @@ void CourseFinishedForm::fillCourseResult(Student* newStudent, Course* newCourse
 	_student = newStudent;
 	_course = newCourse;
 	_finalGrade = p_finalGrade;
-	setIsDataFilled(true);
+	if (_finalGrade < _course->getNumberOfClassToGraduate())
+		setIsDataFilled(false);
+	else
+		setIsDataFilled(true);
 }
 
 bool CourseFinishedForm::isComplete() const {
@@ -20,6 +23,22 @@ bool CourseFinishedForm::isComplete() const {
 }
 
 void CourseFinishedForm::execute() {
+	if (!_student) {
+		std::cout << "CourseFinishedForm execution refused: student is missing" << std::endl;
+		return;
+	}
+	if (!_course) {
+		std::cout << "CourseFinishedForm execution refused: course is missing" << std::endl;
+		return;
+	}
+	if (!_finalGrade) {
+		std::cout << "CourseFinishedForm execution refused: final grade is missing" << std::endl;
+		return;
+	}
+	if (_finalGrade < _course->getNumberOfClassToGraduate()) {
+		std::cout << "CourseFinishedForm execution refused: grade is too low" << std::endl;
+		return;
+	}
 	if (!getIsSigned()) {
 		std::cout << "CourseFinishedForm execution refused: form is not signed" << std::endl;
 		return;
@@ -30,7 +49,7 @@ void CourseFinishedForm::execute() {
 	}
 	_isCompleted = true;
 	std::cout << "Course validation done: " << _student->getName() << " finished " << _course->getName()
-		<< " with grade " << _finalGrade << std::endl;
+		<< " with grade " << _finalGrade  << "/" << _course->getNumberOfClassToGraduate() << std::endl;
 	_course->unsubscribe(_student);
 	_student->graduate(_course);
 }

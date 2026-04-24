@@ -22,10 +22,10 @@ void Student::setHeadmasterMediator(Headmaster* headmaster) {
 void Student::attendClass() {
 	std::vector<Course*> couresList = _headmasterMediator->getCourseList();
 	SubscriptionToCourseForm* newCourseForm;
-
+	_isOnBreak = false;
+	std::cout << printHeader()<< getName() << " request subscription to all cours" << std::endl;
 	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
 		if (!isGraduateCourse(*it) && !isSubscribedCourse(*it)) {
-			std::cout << "[Student] " << getName() << " request SubscriptionToCourseForm course: " << (*it)->getName() << std::endl;
 			newCourseForm = dynamic_cast<SubscriptionToCourseForm*>(_headmasterMediator->requestForm(SubscriptionToCourse));
 			newCourseForm->fillSubscription(this, (*it));
 			_headmasterMediator->submitForm(newCourseForm);
@@ -33,7 +33,8 @@ void Student::attendClass() {
 	}
 	Course* currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
 	if (!currentCourse) {
-		std::cout << "[Student] " << getName() << " is not registerd to a course" << std::endl;
+		std::cout << printHeader() << getName() << " is not registerd to a course" << std::endl;
+		_headmasterMediator->getCourtyard()->enter(this);
 		return;
 	}
 	if (!currentCourse->getClassroom()) {
@@ -41,7 +42,6 @@ void Student::attendClass() {
 		return;
 	}
 	currentCourse->getClassroom()->enter(this);
-	_isOnBreak = false;
 }
 
 void Student::graduate(Course* p_course) {
@@ -53,7 +53,7 @@ void Student::graduate(Course* p_course) {
 			_subscribedCourse.erase(it);
 			_scoreCourse.erase(p_course);
 			addGraduateCourse(p_course);
-			std::cout << "[Student] " << getName() << " graduated from " << p_course->getName() << std::endl;
+			std::cout << printHeader() << getName() << " graduated from " << p_course->getName() << std::endl;
 			return;
 		}
 	}
@@ -62,7 +62,7 @@ void Student::graduate(Course* p_course) {
 void Student::receiveLesson(Course* p_course) {
 	int temp = rand() % 50 + 1;
 	_scoreCourse[p_course] += temp;
-	std::cout << "[Student] " << getName() << " Recive lesson for " << p_course->getName() << "'s course, with score " <<
+	std::cout << printHeader() << getName() << " Recive lesson for " << p_course->getName() << "'s course, with score " <<
 		_scoreCourse[p_course] << "/" << p_course->getNumberOfClassToGraduate() << std::endl; 
 }
 
@@ -86,8 +86,10 @@ void Student::onBell(Event event) {
 	if (event == RingBell) {
 		_isOnBreak = !_isOnBreak;
 		if (_isOnBreak) {
-			safeExit();
-			_headmasterMediator->getCourtyard()->enter(this);
+			if (getCurrentRoom() != _headmasterMediator->getCourtyard()) {
+				safeExit();
+				_headmasterMediator->getCourtyard()->enter(this);
+			}
 		} else {
 			safeExit();
 			attendClass();

@@ -10,16 +10,16 @@
 class Student : public Person, public IObserver
 {
 private:
-	std::vector<Course*> _subscribedCourse;
-	std::map<Course*, int> _scoreCourse;
-	std::vector<Course*> _graduateCourse;
+	std::vector<Course*> _subscribedCourse;			// non-owning: owning by School
+	std::map<Course*, int> _scoreCourse;			// non-owning: owning by School
+	std::vector<Course*> _graduateCourse;			// non-owning: owning by School
 	Headmaster* _headmasterMediator;
 
 public:
 	Student(std::string p_name);
 	void setHeadmasterMediator(Headmaster* headmaster);
 	Headmaster* getheadmasterMediator() { return _headmasterMediator; }
-	std::string printHeader() { return "[Student] "; }
+	std::string printHeader() { return "\033[96m[Student]    \033[0m"; }
 	int getCurrentScore(Course* p_course) { return _scoreCourse[p_course]; }
 	void attendClass();
 	void graduate(Course* p_course);

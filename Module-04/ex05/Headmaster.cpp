@@ -1,16 +1,17 @@
 #include "Headmaster.hpp"
 #include "Form.hpp"
 #include "Secretary.hpp"
+#include "School.hpp"
 
 #include <iostream>
+
+Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name, 3), _secretary(newSecretary) {
+}
 
 Headmaster::~Headmaster() {
 	for (std::vector<Form*>::iterator it = _formToValidate.begin(); it != _formToValidate.end(); ++it)
 		delete *it;
 	_formToValidate.clear();
-}
-
-Headmaster::Headmaster(std::string p_name, Secretary* newSecretary) : Staff(p_name, 3), _secretary(newSecretary) {
 }
 
 Form* Headmaster::requestForm(FormType p_formType) {
@@ -55,7 +56,6 @@ bool Headmaster::hasReceivedForm(Form* p_form) const {
 void Headmaster::releaseForm(Form* p_form) {
 	for (std::vector<Form*>::iterator it = _formToValidate.begin(); it != _formToValidate.end(); ++it) {
 		if (*it == p_form) {
-			delete *it;
 			_formToValidate.erase(it);
 			return;
 		}
@@ -67,15 +67,9 @@ void	Headmaster::signForm(Form* p_form) {
 		std::cout << printHeader() << getName() << " refused to sign: form was not received" << std::endl;
 		return;
 	}
-	if (!p_form->isComplete()) {
-		std::cout << printHeader() << getName() << " refused to sign: mandatory form data is missing" << std::endl;
+	if (!p_form->isComplete())
 		return;
-	}
-	std::cout << printHeader() << getName() << " signed form " << p_form->getFormName() << std::endl;
 	p_form->setIsSigned(true);
-	_secretary->archiveForm(p_form);
-	releaseForm(p_form);
-	
 }
 
 void	Headmaster::executeForm(Form* p_form) {
@@ -83,12 +77,11 @@ void	Headmaster::executeForm(Form* p_form) {
 		std::cout << printHeader() << getName() << " refused to execute: form was not received" << std::endl;
 		return;
 	}
-	if (!p_form->getIsSigned()) {
-		std::cout << printHeader() << getName() << " refused to execute: form not signed" << std::endl;
-		return;
-	}
-	std::cout << printHeader() << getName() << " execute form " << p_form->getFormName() << std::endl;
 	p_form->execute();
+
+	SecretarialOffice* secretarialOffice = static_cast<SecretarialOffice*>(_secretary->getCurrentRoom());
+	secretarialOffice->archiveForms(p_form);
+	releaseForm(p_form);
 }
 
 Classroom*	Headmaster::giveClassroomToProfessor() {
@@ -100,6 +93,23 @@ Classroom*	Headmaster::giveClassroomToProfessor() {
 	return NULL;
 }
 
+Classroom*		Headmaster::getClassroom() { 
+	return _school->getClassroom();
+}
+
+Canteen*		Headmaster::getCanteen() { 
+	return _school->getCanteen();
+}
+
+Courtyard*		Headmaster::getCourtyard() { 
+	return _school->getCourtyard();
+}
+
+StaffRestRoom*	Headmaster::getStaffRestRoom() { 
+	return _school->getStaffRestRoom();
+}
+
+
 Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
 	std::vector<Course*> coursesList = _school->getCoursesList();
 	for (std::vector<Course*>::iterator it = coursesList.begin(); it != coursesList.end(); ++it) {
@@ -108,6 +118,15 @@ Course*		Headmaster::giveNewCourseForStudent(Student* p_student) {
 	}
 	return NULL;
 }
+
+const std::vector<Course*>	Headmaster::getCourseList() {
+	return _school->getCoursesList();
+}
+
+Course*						Headmaster::getCourse(std::string p_name) {
+	return _school->getCourse(p_name);
+}
+
 
 bool		Headmaster::checkIfCourseExist(std::string p_name) {
 	if (p_name == "")
@@ -121,7 +140,7 @@ bool		Headmaster::checkIfCourseExist(std::string p_name) {
 }
 
 void	Headmaster::professorDoWork() {
-	std::vector<Professor*> list;
+	std::vector<Professor*> list = _school->getProfessors();
 	for(std::vector<Professor*>::iterator it = list.begin(); it != list.end(); ++it) {
 		(*it)->doClass();
 		std::cout << std::endl;
@@ -129,7 +148,7 @@ void	Headmaster::professorDoWork() {
 }
 
 void	Headmaster::studentDoWork() {
-	std::vector<Student*> list;
+	std::vector<Student*> list = _school->getStudents();
 	for(std::vector<Student*>::iterator it = list.begin(); it != list.end(); ++it) {
 		(*it)->attendClass();
 		std::cout << std::endl;
@@ -161,7 +180,7 @@ void	Headmaster::unsubscribeBell(IObserver	* obs) {
 }
 
 void Headmaster::ringBell() {
-	std::cout << printHeader() << getName() << " *RING RING RING*" << std::endl;
+	std::cout << std::endl << printHeader() << getName() << " *RING RING RING*" << std::endl;
 	for(std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
 		if (*it)
 			(*it)->onBell(RingBell);
@@ -169,7 +188,7 @@ void Headmaster::ringBell() {
 }
 
 void Headmaster::lunchTime() {
-	std::cout << printHeader() << getName() << " *RING RING RING* *MIAM MIAM MIAM*" << std::endl;
+	std::cout << std::endl << printHeader() << getName() << " *RING RING RING* *MIAM MIAM MIAM*" << std::endl;
 	for(std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
 		if (*it)
 			(*it)->onBell(LunchTime);
@@ -177,7 +196,7 @@ void Headmaster::lunchTime() {
 }
 
 void Headmaster::coursesFinish() {
-	std::cout << printHeader() << getName() << " *RING RING RING* *MIAM MIAM MIAM*" << std::endl;
+	std::cout << std::endl << printHeader() << getName() << " *RING RING RING* *Zzz Zzz Zzz" << std::endl;
 	for(std::vector<IObserver*>::iterator it = _bellObservers.begin(); it != _bellObservers.end(); ++it) {
 		if (*it)
 			(*it)->onBell(CoursesFinish);

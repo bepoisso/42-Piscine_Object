@@ -29,22 +29,24 @@
 
 class School {
 private:
-	Headmaster 	_headmaster;
-	Secretary 	_secretary;
+	Secretary	_secretary;
+	Headmaster	_headmaster;
 
-	std::vector<Student*> 	_studentsList;
-	std::vector<Professor*>	_professorsList;
-
-	std::vector<Course*>	_coursesList;
-	std::vector<Classroom*> _classroomList;
-
-	HeadmasterOffice _headmasterOffice;
-	SecretarialOffice _secretariaOffice;
-	StaffRestRoom _staffRoom;
-	Canteen _canteen;
-	Courtyard _courtyard;
-
+	Canteen 			_canteen;
+	SecretarialOffice	_secretariaOffice;
+	HeadmasterOffice	_headmasterOffice;
+	StaffRestRoom		_staffRoom;
+	Courtyard			_courtyard;
+	
 	int _day;
+
+	std::vector<Student*>	_studentsList;			// owning: School owns these Student instances
+	std::vector<Professor*>	_professorsList;		// owning: School owns these Professor instances
+
+	std::vector<Course*>	_coursesList;			// owning: School owns these Course instances
+	std::vector<Classroom*>	_classroomList;			// owning: School owns these Classroom instances
+
+
 
 public:
 	School();
@@ -53,6 +55,7 @@ public:
 	void runDayRoutine(); 
 	void recruteStudent();
 	void recruteProfessor();
+
 	void launchClasses();
 	void requestRingBell() { _headmaster.ringBell(); }
 	void requestLunchTime() { _headmaster.lunchTime(); }
@@ -75,6 +78,7 @@ public:
 	void initSecretary();
 	void initHeadmaster();
 	bool nameExist(std::string p_name);
+	bool isAllWorkDone();
 	const std::vector<Course*> getCoursesList() { return _coursesList; }
 	const std::vector<Classroom*> getClassroomsList() { return _classroomList; }
 };

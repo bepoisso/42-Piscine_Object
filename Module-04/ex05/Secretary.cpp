@@ -12,23 +12,17 @@ Form* Secretary::createForm(FormType p_formType) {
 	switch (p_formType)
 	{
 		case CourseFinished:
-			return &CourseFinishedForm();
+			return new CourseFinishedForm();
 		case NeedMoreClassRoom:
-			return &NeedMoreClassRoomForm();
+			return new NeedMoreClassRoomForm();
 		case NeedCourseCreation:
-			return &NeedCourseCreationForm();
+			return new NeedCourseCreationForm();
 		case SubscriptionToCourse:
-			return &SubscriptionToCourseForm();
+			return new SubscriptionToCourseForm();
 	}
 	return NULL;
 }
 
 void Secretary::setHeadmasterMediator(Headmaster* p_headmaster) {
 	_headmasterMediator = p_headmaster;
-}
-
-void Secretary::archiveForm(Form* p_form) {
-	SecretarialOffice* office = static_cast<SecretarialOffice*>(getCurrentRoom());
-
-	office->archiveForm(p_form);
 }

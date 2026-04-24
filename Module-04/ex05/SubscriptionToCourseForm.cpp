@@ -15,6 +15,10 @@ void SubscriptionToCourseForm::fillSubscription(Student* newStudent, Course* p_c
 }
 
 void SubscriptionToCourseForm::execute() {
+	if (_course->getNumberOfStudent() >= _course->getMaximumNumberOfStudent()) {
+		std::cout << "SubscriptionToCourseForm execution refused: course is full" << std::endl;
+		return;
+	}
 	if (!getIsSigned()) {
 		std::cout << "SubscriptionToCourseForm execution refused: form is not signed" << std::endl;
 		return;

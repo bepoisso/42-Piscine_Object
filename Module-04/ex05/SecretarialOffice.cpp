@@ -2,6 +2,7 @@
 #include "Form.hpp"
 
 SecretarialOffice::SecretarialOffice() : Room(-4, 2) {
+	std::cout << "[Room] Secretary's office was created with a level " << getPrivilege() << " access badge " << std::endl;
 }
 
 SecretarialOffice::~SecretarialOffice() {
@@ -10,7 +11,7 @@ SecretarialOffice::~SecretarialOffice() {
 	_archivedForms.clear();
 }
 
-void SecretarialOffice::archiveForm(Form* p_form) {
+void SecretarialOffice::archiveForms(Form* p_form) {
 	if (!p_form)
 		return;
 	_archivedForms.push_back(p_form);

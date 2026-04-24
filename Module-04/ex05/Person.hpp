@@ -9,7 +9,7 @@ class Person
 {
 private:
 	std::string _name;
-	Room* _currentRoom;                    // non-owning: Room is managed elsewhere
+	Room* _currentRoom;				// non-owning: owning by School
 public:
 	Person(std::string p_name);
 	virtual ~Person();
@@ -19,6 +19,6 @@ public:
 	void setCurrentRoom(Room* newRoom) { _currentRoom = newRoom; }
 	void safeExit();
 	std::string getName() { return _name; }
-	virtual const unsigned int getPrivilege() { return 0; }
+	virtual unsigned int getPrivilege() const { return (0u); }
 
 };

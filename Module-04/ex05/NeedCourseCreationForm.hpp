@@ -13,7 +13,7 @@ class NeedCourseCreationForm : public Form
 {
 private:
 	std::string	 _name;
-	Professor*	 _professor;
+	Professor*	 _professor;			// non-owning: owning by School
 	int			 _weeklyHours;
 
 public:

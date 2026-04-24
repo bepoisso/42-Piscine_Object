@@ -4,6 +4,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.cpp \
+	School.cpp\
 	Form.cpp \
 	Headmaster.cpp \
 	CourseFinishedForm.cpp \
@@ -17,6 +18,7 @@ SRCS = main.cpp \
 	Professor.cpp \
 	Room.cpp \
 	Student.cpp \
+	SecretarialOffice.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

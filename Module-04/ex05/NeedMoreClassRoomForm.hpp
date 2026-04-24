@@ -10,7 +10,7 @@
 class NeedMoreClassRoomForm : public Form
 {
 private:
-	Professor* _professor;
+	Professor* _professor;			// non-owning: owning by School
 	std::string _reason;
 	int			 _additionalRoomsCount;
 	bool		 _isApproved;

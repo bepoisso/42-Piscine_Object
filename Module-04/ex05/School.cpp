@@ -1,55 +1,62 @@
 #include "School.hpp"
 
-School::School() : _secretary("Rubeus Hagrid"), _headmaster("Albus Dumbledore", &_secretary), _canteen(), _secretariaOffice(), _headmasterOffice(), _staffRoom(), _courtyard(), _day(0) {
+School::School() : _secretary("Rubeus Hagrid"), _headmaster("Albus Dumbledore", &_secretary), _canteen(), _secretariaOffice(), _headmasterOffice(), _staffRoom(), _courtyard(), _day(1) {
+	std::cout << "\n--- Creating Headmaster & Secretary ---" << std::endl;
 	initHeadmaster();
 	initSecretary();
+
+	std::cout << "\n--- Creating Classrooms ---" << std::endl;
+	_classroomList.push_back(new Classroom());
+	_classroomList.push_back(new Classroom());
+	_classroomList.push_back(new Classroom());
+	_classroomList.push_back(new Classroom());
+	_classroomList.push_back(new Classroom());
 	
 	std::cout << "\n--- Creating professors ---" << std::endl;
-	_professorsList.push_back(&Professor("Minerva McGonagall"));
-	_professorsList.push_back(&Professor("Severus Snape"));
-	_professorsList.push_back(&Professor("Horace Slughorn"));
-	_professorsList.push_back(&Professor("Filius Flitwick"));
-	_professorsList.push_back(&Professor("Pomona Sprout"));
-	_professorsList.push_back(&Professor("Gilderoy Lockhart"));
+	_professorsList.push_back(new Professor("Minerva McGonagall"));
+	_professorsList.push_back(new Professor("Severus Snape"));
+	_professorsList.push_back(new Professor("Horace Slughorn"));
+	_professorsList.push_back(new Professor("Filius Flitwick"));
+	_professorsList.push_back(new Professor("Pomona Sprout"));
+	_professorsList.push_back(new Professor("Gilderoy Lockhart"));
 	initProfessors();
 	
 	std::cout << "\n--- Creating students ---" << std::endl;
-	_studentsList.push_back(&Student("Harry Potter"));
-	_studentsList.push_back(&Student("Hermion Granger"));
-	_studentsList.push_back(&Student("Ron Wisley"));
-	_studentsList.push_back(&Student("Neville Longbottom"));
-	_studentsList.push_back(&Student("Luna Lovegood"));
-	_studentsList.push_back(&Student("Draco Malfoy"));
-	_studentsList.push_back(&Student("Ginny Weasley"));
-	_studentsList.push_back(&Student("Cedric Diggory"));
-	_studentsList.push_back(&Student("Cho Chang"));
-	_studentsList.push_back(&Student("Lavender Brown"));
-	_studentsList.push_back(&Student("Parvati Patil"));
-	_studentsList.push_back(&Student("Fred Weasley"));
-	_studentsList.push_back(&Student("George Weasley"));
-	_studentsList.push_back(&Student("Seamus Finnigan"));
-	_studentsList.push_back(&Student("Dean Thomas"));
-	_studentsList.push_back(&Student("Padma Patil"));
-	_studentsList.push_back(&Student("Michael Corner"));
-	_studentsList.push_back(&Student("Terry Boot"));
-	_studentsList.push_back(&Student("Hannah Abbott"));
-	_studentsList.push_back(&Student("Justin Finch-Fletchley"));
+	_studentsList.push_back(new Student("Harry Potter"));
+	_studentsList.push_back(new Student("Hermion Granger"));
+	_studentsList.push_back(new Student("Ron Wisley"));
+	_studentsList.push_back(new Student("Neville Longbottom"));
+	_studentsList.push_back(new Student("Luna Lovegood"));
+	_studentsList.push_back(new Student("Draco Malfoy"));
+	_studentsList.push_back(new Student("Ginny Weasley"));
+	_studentsList.push_back(new Student("Cedric Diggory"));
+	_studentsList.push_back(new Student("Cho Chang"));
+	_studentsList.push_back(new Student("Lavender Brown"));
+	_studentsList.push_back(new Student("Parvati Patil"));
+	_studentsList.push_back(new Student("Fred Weasley"));
+	_studentsList.push_back(new Student("George Weasley"));
+	_studentsList.push_back(new Student("Seamus Finnigan"));
+	_studentsList.push_back(new Student("Dean Thomas"));
+	_studentsList.push_back(new Student("Padma Patil"));
+	_studentsList.push_back(new Student("Michael Corner"));
+	_studentsList.push_back(new Student("Terry Boot"));
+	_studentsList.push_back(new Student("Hannah Abbott"));
+	_studentsList.push_back(new Student("Justin Finch-Fletchley"));
 	initStudents();
-
-	std::cout << "\n--- Creating Classrooms ---" << std::endl;
-	_classroomList.push_back(&Classroom());
-	_classroomList.push_back(&Classroom());
-	_classroomList.push_back(&Classroom());
-	_classroomList.push_back(&Classroom());
-	_classroomList.push_back(&Classroom());
 }
 
 School::~School() {
 	for (std::vector<Course*>::iterator it = _coursesList.begin(); it != _coursesList.end(); ++it)
 		delete *it;
-	_coursesList.clear();
 	for (std::vector<Classroom*>::iterator it = _classroomList.begin(); it != _classroomList.end(); ++it)
 		delete *it;
+	for (std::vector<Professor*>::iterator it = _professorsList.begin(); it != _professorsList.end(); ++it)
+		delete *it;
+	for (std::vector<Student*>::iterator it = _studentsList.begin(); it != _studentsList.end(); ++it)
+		delete *it;
+	_professorsList.clear();
+	_studentsList.clear();
+	_coursesList.clear();
 	_classroomList.clear();
 	
 }
@@ -65,6 +72,7 @@ School::~School() {
 */
 
 void School::runDayRoutine() {
+	printDay();
 	launchClasses();
 	requestRingBell();
 	requestRingBell();
@@ -74,8 +82,8 @@ void School::runDayRoutine() {
 	requestRingBell();
 	requestCourseFinish();
 
-	if (_day % 10 == 1)
-		graduationCeremony();
+	// if (_day % 10 == 1 && _day > 1)
+	// 	graduationCeremony();
 	_day++;
 }
 
@@ -99,7 +107,7 @@ void School::recruteStudent() {
 		std::cout << "[SCHOOL] No more students subscribed to Hogward!" << std::endl;
 		return;
 	}
-	_studentsList.push_back(&Student(result));
+	_studentsList.push_back(new Student(result));
 	_studentsList.back()->setHeadmasterMediator(&_headmaster);
 	std::cout << _studentsList.back()->printHeader() << _studentsList.back()->getName() << " just arrived to Hogward!" << std::endl;
 }
@@ -120,34 +128,35 @@ void School::recruteProfessor() {
 		std::cout << "[SCHOOL] No more professors subscribed to Hogward!" << std::endl;
 		return;
 	}
-	_professorsList.push_back(&Professor(result));
+	_professorsList.push_back(new Professor(result));
 	_professorsList.back()->setHeadmasterMediator(&_headmaster);
 	std::cout << _professorsList.back()->printHeader() << _professorsList.back()->getName() << " just arrived to Hogward!" << std::endl;
 }
 
 void School::launchClasses() {
+	std::cout << "---  Headmaster ask professors & students to work ---" << std::endl;
 	_headmaster.studentDoWork();
 	_headmaster.professorDoWork();
 }
 
 Course* School::getCourse(std::string p_name) {
-	Course target(p_name);
+	Course* target = new Course(p_name);
 	for (std::vector<Course*>::iterator it = _coursesList.begin(); it != _coursesList.end(); ++it) {
 		if ((*it)->getName() == p_name)
 			return *it;
 	}
 	
-	_coursesList.push_back(&target);
+	_coursesList.push_back(target);
 	return _coursesList.back();
 }
 
 Classroom* School::getClassroom() {
-	_classroomList.push_back(&Classroom());
+	_classroomList.push_back(new Classroom());
 	return _classroomList.back();
 }
 
 void School::graduationCeremony() {
-	std::cout << "==== GRADUATION CEREMONY ===" << std::endl;
+	std::cout << "--- GRADUATION CEREMONY ---" << std::endl;
 	for (std::vector<Student*>::iterator it = _studentsList.begin(); it != _studentsList.end(); ++it) {
 		bool flag = true;
 		for (std::vector<Course*>::iterator jt = _coursesList.begin(); jt != _coursesList.end(); ++it) {
@@ -155,14 +164,14 @@ void School::graduationCeremony() {
 				flag = false;
 		}
 		if (flag) {
-			std::cout << "[CEREMONY] Congratulation " << (*it)->getName() << " you are now graduate form Hogward!" << std::endl;
-			it = _studentsList.erase(it);
+			std::cout << "[CEREMONY] Congratulation " << (*it)->getName() << " you are now graduate from Hogward!" << std::endl;
+			_studentsList.erase(it);
 		}
 	}
 }
 
 void School::printDay() {
-	std::cout << "====================" << std::endl;
+	std::cout << "\n\n====================" << std::endl;
 	std::cout << "        DAY: " << _day << std::endl;
 	std::cout << "====================" << std::endl;
 }
@@ -171,6 +180,7 @@ void School::initProfessors() {
 	for (std::vector<Professor*>::iterator it = _professorsList.begin(); it != _professorsList.end(); ++it) {
 		(*it)->setHeadmasterMediator(&_headmaster);
 		std::cout << (*it)->printHeader() << (*it)->getName() << " just arrived to the Hogward!" << std::endl;
+		(*it)->initCourse();
 	}
 }
 
@@ -188,6 +198,7 @@ void School::initSecretary() {
 }
 
 void School::initHeadmaster() {
+	_headmaster.setSchool(this);
 	std::cout << _headmaster.printHeader() << _headmaster.getName() << " just arrived to Hogward!" << std::endl;
 	_headmasterOffice.enter(&_headmaster);
 }
@@ -201,5 +212,12 @@ bool School::nameExist(std::string p_name) {
 		if ((*it)->getName() == p_name)
 			return true;
 	}
+	return false;
+}
+
+bool School::isAllWorkDone() {
+	std::vector<Student*>::iterator it = _studentsList.begin();
+	if (it == _studentsList.end())
+		return true;
 	return false;
 }

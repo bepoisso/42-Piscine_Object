@@ -11,8 +11,8 @@
 class CourseFinishedForm : public Form
 {
 private:
-	Student*		_student;
-	Course*			_course;
+	Student*		_student;		// non-owning: owning by School
+	Course*			_course;		// non-owning: owning by School
 	int				_finalGrade;
 	bool			_isCompleted;
 

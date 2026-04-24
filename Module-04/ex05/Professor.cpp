@@ -57,29 +57,25 @@ void Professor::doClass() {
 			i++;
 	}
 	if (i != 0) {
-		std::cout << "[Professor] " << getName() << " do class of " << _currentCourse->getName() << " in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
+		std::cout << printHeader()  << getName() << " do class of " << _currentCourse->getName() << " in classroom no " << _currentCourse->getClassroom()->getID() << std::endl;
 		for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
 			if (_currentCourse->getClassroom()->isPresent(*it))
 				(*it)->receiveLesson(_currentCourse);
-			else
-				std::cout << "Student " << (*it)->getName() << " was not present!" << std::endl;
 		}
 	}
 	else
-		std::cout << "[Professor] " << getName() << " don't do class. Reason : nobody in class" << std::endl;
+		std::cout << printHeader()  << getName() << " don't do class. Reason : nobody in class" << std::endl;
 }
 
 void Professor::finishCourse() {
 	if (!_currentCourse)
 		return;
-	std::cout << "[Professor] " << getName() << " as finish course " << _currentCourse->getName() << std::endl;
+	std::cout << printHeader()  << getName() << " as finish course " << _currentCourse->getName() << std::endl;
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
 
 	for (size_t i = 0; i < studentsList.size(); ++i) {
-		if (studentsList[i]->getCurrentScore(_currentCourse) >= _currentCourse->getNumberOfClassToGraduate()) {
-			std::cout << "[Professor] " << getName() << " want to graduate " << studentsList[i]->getName() << " Note : " <<  studentsList[i]->getCurrentScore(_currentCourse) << "/" << _currentCourse->getNumberOfClassToGraduate() << std::endl;
+		if (studentsList[i]->getCurrentScore(_currentCourse) >= _currentCourse->getNumberOfClassToGraduate())
 			needGraduateStudent(studentsList[i]);
-		}
 	}
 }
 
@@ -93,7 +89,7 @@ void Professor::closeCourse() {
 		i++;
 	}
 	if (i == 0) {
-		std::cout << "[Professor] " << getName() << " close course " << _currentCourse->getName() << std::endl;
+		std::cout << printHeader()  << getName() << " close course " << _currentCourse->getName() << std::endl;
 		if (getCurrentRoom() == _currentCourse->getClassroom())
 			getCurrentRoom()->exit(this);
 		_currentCourse->getClassroom()->assignCourse(NULL);
@@ -103,7 +99,7 @@ void Professor::closeCourse() {
 }
 
 void Professor::needGraduateStudent(Student* student) {
-	std::cout << "[Professor] " << getName() << " request CourseFinishedForm (GraduateForm)" << std::endl;
+	std::cout << printHeader()  << getName() << " request CourseFinishedForm (GraduateForm)" << std::endl;
 	if (!_headmasterMediator || !student) {
 		std::cout << "\033[31m[ERROR] Professor cannot request graduation: invalid mediator or student\033[0m" << std::endl;
 		return;
@@ -125,7 +121,7 @@ void Professor::needGraduateStudent(Student* student) {
 }
 
 void Professor::needNewCourse() {
-	std::cout << "[Professor] " << getName() << " request NeedCourseCreationForm" << std::endl;
+	std::cout << printHeader()  << getName() << " request NeedCourseCreationForm" << std::endl;
 	if (!_headmasterMediator) {
 		std::cout << "\033[31m[ERROR] Professor cannot request new course: no mediator\033[0m" << std::endl;
 		return;
@@ -170,13 +166,13 @@ void Professor::needNewCourse() {
 		}
 	}
 
-	int temp = (rand() % 10 + 2);
-	courseForm->fillCoursePlan(courseName, this, temp);
+	int hours = (rand() % 10 + 2);
+	courseForm->fillCoursePlan(courseName, this, hours);
 	_headmasterMediator->submitForm(courseForm);
 }
 
 void Professor::needMoreClassRoom() {
-	std::cout << "[Professor] " << getName() << " request needMoreClassRoom" << std::endl;
+	std::cout << printHeader() << getName() << " request needMoreClassRoom" << std::endl;
 	if (!_headmasterMediator) {
 		std::cout << "\033[31m[ERROR] Professor cannot request new classroom: no mediator\033[0m" << std::endl;
 		return;
@@ -210,6 +206,7 @@ void Professor::onBell(Event event) {
 		std::cout << printHeader() << getName() << " eating a lot in the cafeteria" << std::endl; 
 	} else if (event == CoursesFinish) {
 		_isOnBreak = true;
+		finishCourse();
 		safeExit();
 	} else {
 		std::cout << "[ERROR] " << getName() << " received a bad event" << std::endl;

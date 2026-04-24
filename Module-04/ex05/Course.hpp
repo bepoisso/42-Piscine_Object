@@ -10,8 +10,8 @@ class Course
 {
 private:
 	std::string _name;
-	Professor* _responsable;               // non-owning: Professor is managed elsewhere
-	std::vector<Student*> _students;       // non-owning: Students are managed elsewhere
+	Professor* _responsable;				// non-owning: owning by School
+	std::vector<Student*> _students;		// non-owning: owning by School
 	Classroom* _classroom;
 
 	int _numberOfClassToGraduate;

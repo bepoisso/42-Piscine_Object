@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 
-NeedCourseCreationForm::NeedCourseCreationForm() : Form(NeedCourseCreation), _name(""), _weeklyHours(0) {
+NeedCourseCreationForm::NeedCourseCreationForm() : Form(NeedCourseCreation), _name(""), _professor(NULL), _weeklyHours(0) {
 }
 
 void NeedCourseCreationForm::fillCoursePlan(std::string newName, Professor* newProfessor, int p_weeklyHours) {
@@ -17,6 +17,14 @@ void NeedCourseCreationForm::fillCoursePlan(std::string newName, Professor* newP
 }
 
 void NeedCourseCreationForm::execute() {
+	if (_name == "") {
+		std::cout << "NeedCourseCreationForm execution refused: name is missing" << std::endl;
+		return;
+	}
+	if (!_professor) {
+		std::cout << "NeedCourseCreationForm execution refused: no professor for this course" << std::endl;
+		return;
+	}
 	if (!getIsSigned()) {
 		std::cout << "NeedCourseCreationForm execution refused: form is not signed" << std::endl;
 		return;
@@ -40,6 +48,6 @@ void NeedCourseCreationForm::execute() {
 	<< " (" << _weeklyHours << "h/week)" << std::endl;
 	newCourse->assign(_professor);
 	_professor->setCourse(newCourse);
-	newCourse->setMaximumNumberOfStudent((rand() % 10 + 5));
-	newCourse->setNumberOfClassToGraduate((rand() % 41 + 50));
+	newCourse->setMaximumNumberOfStudent((rand() % 15 + 5));
+	newCourse->setNumberOfClassToGraduate((rand() % 45 + 50));
 }

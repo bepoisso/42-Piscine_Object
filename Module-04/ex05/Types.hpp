@@ -6,6 +6,7 @@
 class Student;
 class Course;
 class Professor;
+class School;
 
 enum FormType
 {

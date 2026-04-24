@@ -9,12 +9,15 @@
 #include "NeedMoreClassRoomForm.hpp"
 #include "Staff.hpp"
 #include "observer.hpp"
+#include "StaffRestRoom.hpp"
+#include "Canteen.hpp"
+#include "Courtyard.hpp"
 
 class Professor : public Staff, public IObserver
 {
 private:
-	Course* _currentCourse;
-	Headmaster* _headmasterMediator;
+	Course*			_currentCourse;				// non-owning: owning by School
+	Headmaster*		_headmasterMediator;		// non-owning: owning by School
 
 public:
 	Professor(std::string p_name);
@@ -25,7 +28,7 @@ public:
 	void doClass();
 	void finishCourse();
 	void closeCourse();
-	std::string printHeader() { return "[Professor] "; }
+	std::string printHeader() { return "\033[34m[Professor]  \033[0m"; }
 
 	void needGraduateStudent(Student* student);
 	void needNewCourse();

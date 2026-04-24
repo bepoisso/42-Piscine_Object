@@ -26,7 +26,12 @@ void Room::enter(Person* person) {
 		person->getCurrentRoom()->exit(person);
 	_occupants.push_back(person);
 	person->setCurrentRoom(this);
-	std::cout << person->printHeader() << person->getName() << " enter in room no " << _ID << std::endl;
+	std::cout << person->printHeader() << person->getName() << " enter in ";
+	enterMessage();
+}
+
+void Room::enterMessage() {
+	std::cout << " a unknow room ??" << std::endl;
 }
 
 void Room::exit(Person* person) {
@@ -34,7 +39,8 @@ void Room::exit(Person* person) {
 		return;
 	if (person->getCurrentRoom() == this) {
 		person->setCurrentRoom(NULL);
-		std::cout << person->printHeader() << person->getName() << " exit room no " << _ID << std::endl;
+		std::cout << person->printHeader() << person->getName() << " exit ";
+		enterMessage();
 	}
 	for (std::vector<Person*>::iterator it = _occupants.begin(); it != _occupants.end(); ++it) {
 		if (*it == person) {
