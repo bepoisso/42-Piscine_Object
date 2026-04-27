@@ -12,15 +12,6 @@ School::School() : _secretary("Rubeus Hagrid"), _headmaster("Albus Dumbledore", 
 	_classroomList.push_back(new Classroom());
 	_classroomList.push_back(new Classroom());
 	
-	std::cout << "\n--- Creating professors ---" << std::endl;
-	_professorsList.push_back(new Professor("Minerva McGonagall"));
-	_professorsList.push_back(new Professor("Severus Snape"));
-	_professorsList.push_back(new Professor("Horace Slughorn"));
-	_professorsList.push_back(new Professor("Filius Flitwick"));
-	_professorsList.push_back(new Professor("Pomona Sprout"));
-	_professorsList.push_back(new Professor("Gilderoy Lockhart"));
-	initProfessors();
-	
 	std::cout << "\n--- Creating students ---" << std::endl;
 	_studentsList.push_back(new Student("Harry Potter"));
 	_studentsList.push_back(new Student("Hermion Granger"));
@@ -43,6 +34,15 @@ School::School() : _secretary("Rubeus Hagrid"), _headmaster("Albus Dumbledore", 
 	_studentsList.push_back(new Student("Hannah Abbott"));
 	_studentsList.push_back(new Student("Justin Finch-Fletchley"));
 	initStudents();
+
+	std::cout << "\n--- Creating professors ---" << std::endl;
+	_professorsList.push_back(new Professor("Minerva McGonagall"));
+	_professorsList.push_back(new Professor("Severus Snape"));
+	_professorsList.push_back(new Professor("Horace Slughorn"));
+	_professorsList.push_back(new Professor("Filius Flitwick"));
+	_professorsList.push_back(new Professor("Pomona Sprout"));
+	_professorsList.push_back(new Professor("Gilderoy Lockhart"));
+	initProfessors();
 }
 
 School::~School() {
@@ -61,16 +61,6 @@ School::~School() {
 	
 }
 
-/*
-	1. launch classes
-	2. allow student and professor to go on recreation
-	3. launch classes
-	4. launch lunch
-	5. launch classes
-	6. allow student and professor to go on recreation
-	7. launch classes
-*/
-
 void School::runDayRoutine() {
 	printDay();
 	launchClasses();
@@ -82,26 +72,28 @@ void School::runDayRoutine() {
 	requestRingBell();
 	requestCourseFinish();
 
-	// if (_day % 10 == 1 && _day > 1)
-	// 	graduationCeremony();
+	if (_day % 10 == 1 && _day > 1)
+		graduationCeremony();
 	_day++;
 }
 
 void School::recruteStudent() {
-	std::string name[] = {
+	static const std::string name[] = {
 	"Alice Abercrombie", "Finwood Zabini", "Blaise Zabini", "Cormac McLaggen",
 	"Ernie Macmillan", "Fay Dunbar", "Gregory Goyle", "Hufflepuff Smith",
 	"Iris Wildsmith", "Justin Finch-Fletchley", "Kevin Entwhistle", "Leanne",
 	"Marcus Flint", "Natasha Bulstrode", "Orion Nott", "Pansy Parkinson",
 	"Quirrell Quirke", "Roger Davies", "Sander Bolt", "Terence Boot",
 	"Uriah Stump", "Vincent Crabbe", "Walter Vaunt", "Xenophilius Lovegood",
-	"Yasmine Yaxley", "Zacharias Smith", "" };
+	"Yasmine Yaxley", "Zacharias Smith" };
+	const int count = sizeof(name) / sizeof(name[0]);
 	
-	int i = 0;
 	std::string result = "";
-	while (name[i] != "") {
-		if (!nameExist(name[i]))
+	for (int i = 0; i < count; ++i) {
+		if (!nameExist(name[i])) {
 			result = name[i];
+			break;
+		}
 	}
 	if (result == "") {
 		std::cout << "[SCHOOL] No more students subscribed to Hogward!" << std::endl;
@@ -110,19 +102,24 @@ void School::recruteStudent() {
 	_studentsList.push_back(new Student(result));
 	_studentsList.back()->setHeadmasterMediator(&_headmaster);
 	std::cout << _studentsList.back()->printHeader() << _studentsList.back()->getName() << " just arrived to Hogward!" << std::endl;
+	_headmaster.emptyBell();
+	initStudents();
+	initProfessors();
 }
 
 void School::recruteProfessor() {
-	std::string name[] = {
+	static const std::string name[] = {
 	"Alastor Moody", "Remus Lupin", "Sybill Trelawney",
 	"Dolores Umbridge", "Charity Burbage", "Quirinus Quirrell",
-	"Cuthbert Binns", "Sulivan Kettleburn", "Garrick Ollivander"};
+	"Cuthbert Binns", "Sulivan Kettleburn", "Garrick Ollivander" };
+	const int count = sizeof(name) / sizeof(name[0]);
 
-	int i = 0;
 	std::string result = "";
-	while (name[i] != "") {
-		if (!nameExist(name[i]))
+	for (int i = 0; i < count; ++i) {
+		if (!nameExist(name[i])) {
 			result = name[i];
+			break;
+		}
 	}
 	if (result == "") {
 		std::cout << "[SCHOOL] No more professors subscribed to Hogward!" << std::endl;
@@ -130,7 +127,11 @@ void School::recruteProfessor() {
 	}
 	_professorsList.push_back(new Professor(result));
 	_professorsList.back()->setHeadmasterMediator(&_headmaster);
+	_professorsList.back()->initCourse();
 	std::cout << _professorsList.back()->printHeader() << _professorsList.back()->getName() << " just arrived to Hogward!" << std::endl;
+	_headmaster.emptyBell();
+	initStudents();
+	initProfessors();
 }
 
 void School::launchClasses() {
@@ -156,16 +157,24 @@ Classroom* School::getClassroom() {
 }
 
 void School::graduationCeremony() {
-	std::cout << "--- GRADUATION CEREMONY ---" << std::endl;
-	for (std::vector<Student*>::iterator it = _studentsList.begin(); it != _studentsList.end(); ++it) {
+	int totalPlannedCourses = 20;
+	if (static_cast<int>(_coursesList.size()) < totalPlannedCourses)
+		return;
+
+	std::cout << "\n--- GRADUATION CEREMONY ---" << std::endl;
+	for (std::vector<Student*>::iterator studIt = _studentsList.begin(); studIt != _studentsList.end(); ) {
 		bool flag = true;
-		for (std::vector<Course*>::iterator jt = _coursesList.begin(); jt != _coursesList.end(); ++it) {
-			if (!(*it)->isGraduateCourse(*jt))
+		for (std::vector<Course*>::iterator courseIt = _coursesList.begin(); courseIt != _coursesList.end(); ++courseIt) {
+			if (!(*studIt)->isGraduateCourse(*courseIt))
 				flag = false;
 		}
 		if (flag) {
-			std::cout << "[CEREMONY] Congratulation " << (*it)->getName() << " you are now graduate from Hogward!" << std::endl;
-			_studentsList.erase(it);
+			std::cout << "\033[33m[CEREMONY] Congratulation " << (*studIt)->getName() << " you are now graduate from Hogward!\033[0m" << std::endl;
+			_headmaster.unsubscribeBell(*studIt);
+			delete *studIt;
+			studIt = _studentsList.erase(studIt);
+		} else {
+			++studIt;
 		}
 	}
 }
@@ -178,16 +187,18 @@ void School::printDay() {
 
 void School::initProfessors() {
 	for (std::vector<Professor*>::iterator it = _professorsList.begin(); it != _professorsList.end(); ++it) {
+		if ((*it)->getheadmasterMediator() == NULL)
+			std::cout << (*it)->printHeader() << (*it)->getName() << " just arrived to the Hogward!" << std::endl;
 		(*it)->setHeadmasterMediator(&_headmaster);
-		std::cout << (*it)->printHeader() << (*it)->getName() << " just arrived to the Hogward!" << std::endl;
 		(*it)->initCourse();
 	}
 }
 
 void School::initStudents() {
 	for (std::vector<Student*>::iterator it = _studentsList.begin(); it != _studentsList.end(); ++it) {
+		if ((*it)->getheadmasterMediator() == NULL)
+			std::cout << (*it)->printHeader() << (*it)->getName() << " just arrived to Hogward!" << std::endl;
 		(*it)->setHeadmasterMediator(&_headmaster);
-		std::cout << (*it)->printHeader() << (*it)->getName() << " just arrived to Hogward!" << std::endl;
 	}
 }
 

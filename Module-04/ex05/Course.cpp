@@ -45,4 +45,9 @@ int Course::getNumberOfStudent() {
 	return result;
 }
 
+bool Course::isStudentSubscribed() {
+	if (_students.begin() == _students.end())
+		return false;
+	return true;
+}
 

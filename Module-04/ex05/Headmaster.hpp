@@ -47,12 +47,14 @@ public:
 	Course*						giveNewCourseForStudent(Student* p_student);
 	const std::vector<Course*>	getCourseList();
 	Course*						getCourse(std::string p_name);
+	Course*						giveCourseToprofessor();
 
 	void						professorDoWork();
 	void						studentDoWork();
 
 	void						subscribeBell(IObserver* obs);
 	void						unsubscribeBell(IObserver	* obs);
+	void						emptyBell() { _bellObservers.clear(); }
 	void						ringBell();
 	void						lunchTime();
 	void						coursesFinish();

@@ -12,7 +12,7 @@ private:
 	std::string _name;
 	Professor* _responsable;				// non-owning: owning by School
 	std::vector<Student*> _students;		// non-owning: owning by School
-	Classroom* _classroom;
+	Classroom* _classroom;					// non-owning: owning by School
 
 	int _numberOfClassToGraduate;
 	int _maximumNumberOfStudent;
@@ -34,4 +34,5 @@ public:
 	std::vector<Student*> getStudents() { return _students; }
 	void setClassroom(Classroom* p_classroom);
 	Classroom* getClassroom() { return _classroom; }
+	bool isStudentSubscribed();
 };

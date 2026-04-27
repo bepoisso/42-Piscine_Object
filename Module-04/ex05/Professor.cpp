@@ -15,6 +15,14 @@ void Professor::setHeadmasterMediator(Headmaster* headmaster) {
 }
 
 bool Professor::initCourse() {
+	if (!_currentCourse) {
+		_currentCourse = _headmasterMediator->giveCourseToprofessor();
+		if (_currentCourse) {
+			std::cout << printHeader() << getName() << " reopen closed course " << _currentCourse->getName() << std::endl;
+			_currentCourse->setResponsable(this);
+		}
+	}
+
 	if (!_currentCourse)
 		needNewCourse();
 	
@@ -83,17 +91,14 @@ void Professor::closeCourse() {
 	if (!_currentCourse)
 		return;
 	std::vector<Student*> studentsList = _currentCourse->getStudents();
-	int i = 0;
 	
-	for (std::vector<Student*>::iterator it = studentsList.begin(); it != studentsList.end(); ++it) {
-		i++;
-	}
-	if (i == 0) {
+	if (studentsList.begin() == studentsList.end()) {
 		std::cout << printHeader()  << getName() << " close course " << _currentCourse->getName() << std::endl;
 		if (getCurrentRoom() == _currentCourse->getClassroom())
 			getCurrentRoom()->exit(this);
 		_currentCourse->getClassroom()->assignCourse(NULL);
 		_currentCourse->setClassroom(NULL);
+		_currentCourse->setResponsable(NULL);
 		_currentCourse = NULL;
 	}
 }

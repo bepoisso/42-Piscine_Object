@@ -10,11 +10,12 @@
 
 #include "School.hpp"
 
-#define MAX_DAY 110
+#define MAX_DAY 111
 
 int main()
 {
-	std::srand(std::time(NULL));
+	// std::srand(std::time(NULL));
+	bool oneTimeRecruite = false;
 
 	std::cout << std::endl;
 	std::cout << "********************************************" << std::endl;
@@ -34,8 +35,26 @@ int main()
 	std::cout << "============================================" << std::endl << std::endl;
 
 	for (int i = 0; i < MAX_DAY; ++i) {
-		if (school.isAllWorkDone() == true)
-			break;
+		if (school.isAllWorkDone() == true) {
+			if (oneTimeRecruite)
+				break;
+			oneTimeRecruite = true;
+			school.recruteProfessor();
+			school.recruteProfessor();
+			school.recruteProfessor();
+			school.recruteProfessor();
+			school.recruteProfessor();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+			school.recruteStudent();
+		}
 		school.runDayRoutine();
 	}
 

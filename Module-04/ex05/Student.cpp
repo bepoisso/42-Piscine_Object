@@ -23,13 +23,22 @@ void Student::attendClass() {
 	std::vector<Course*> couresList = _headmasterMediator->getCourseList();
 	SubscriptionToCourseForm* newCourseForm;
 	_isOnBreak = false;
+	bool flag = true;
 	std::cout << printHeader()<< getName() << " request subscription to all cours" << std::endl;
 	for (std::vector<Course*>::iterator it = couresList.begin(); it != couresList.end(); ++it) {
-		if (!isGraduateCourse(*it) && !isSubscribedCourse(*it)) {
-			newCourseForm = dynamic_cast<SubscriptionToCourseForm*>(_headmasterMediator->requestForm(SubscriptionToCourse));
-			newCourseForm->fillSubscription(this, (*it));
-			_headmasterMediator->submitForm(newCourseForm);
+		if (!isGraduateCourse(*it)) { 
+			flag = false;
+			if (!isSubscribedCourse(*it)) {
+				newCourseForm = dynamic_cast<SubscriptionToCourseForm*>(_headmasterMediator->requestForm(SubscriptionToCourse));
+				newCourseForm->fillSubscription(this, (*it));
+				_headmasterMediator->submitForm(newCourseForm);
+			}
 		}
+	}
+	if (flag == true) {
+		std::cout << printHeader() << getName() << " is graduate from all courses !!!" << std::endl;
+		_headmasterMediator->getCourtyard()->enter(this);
+		return;
 	}
 	Course* currentCourse = _subscribedCourse.empty() ? NULL : *_subscribedCourse.begin();
 	if (!currentCourse) {

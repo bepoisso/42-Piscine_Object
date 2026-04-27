@@ -93,6 +93,15 @@ Classroom*	Headmaster::giveClassroomToProfessor() {
 	return NULL;
 }
 
+Course* Headmaster::giveCourseToprofessor() { 
+	std::vector<Course*> courseList = _school->getCoursesList();
+	for (std::vector<Course*>::iterator it = courseList.begin(); it != courseList.end(); ++it) {
+		if ((*it)->isStudentSubscribed() && (*it)->getResponsable() == NULL)
+			return *it;
+	}
+	return NULL;
+}
+
 Classroom*		Headmaster::getClassroom() { 
 	return _school->getClassroom();
 }
