@@ -30,7 +30,7 @@ int main()
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
 	
 	std::cout << "============================================" << std::endl;
-	std::cout << "   Module 04 - Ex03 : School Management" << std::endl;
+	std::cout << "   Module 04 - Ex04 : Observer" << std::endl;
 	std::cout << "============================================" << std::endl;
 
 	std::cout << "\n--- Initializing school staff and mediator ---" << std::endl;
