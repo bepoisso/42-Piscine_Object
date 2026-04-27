@@ -10,11 +10,11 @@
 
 #include "School.hpp"
 
-#define MAX_DAY 111
+#define MAX_DAY 365
 
 int main()
 {
-	// std::srand(std::time(NULL));
+	std::srand(std::time(NULL));
 	bool oneTimeRecruite = false;
 
 	std::cout << std::endl;
