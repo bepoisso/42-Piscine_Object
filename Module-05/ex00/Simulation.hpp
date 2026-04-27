@@ -22,11 +22,11 @@
 
 class Simulation {
 private:
-	Parsing _parser;
+	Parsing* _parser;
 
 public:
-	Simulation(/* args */);
+	Simulation();
 	~Simulation();
 
-	// void paths(); //TODO: renvois ves _parser pour verifier les chemain d'acces et init les valleurs
+	void parseFiles(char* p_railPath, char* p_trainPath);
 };

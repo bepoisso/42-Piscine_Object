@@ -17,3 +17,6 @@
 
 class Simulation;
 class Parsing;
+class Train;
+class Node;
+class Rail;
