@@ -42,7 +42,7 @@ void Parsing::_trainChecker() {
 
 bool Parsing::_isemptyFile(std::ifstream* p_file) {
 	std::string line;
-	std::getline(p_file, line);
+	std::getline(*p_file, line);
 	if (line.empty())
 		return true;
 	return false;
