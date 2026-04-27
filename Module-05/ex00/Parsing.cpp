@@ -34,6 +34,7 @@ void Parsing::_railChecker() {
 	if (line.find("Rail ") != 0 && line.find("Node ") != 0)
 			throw std::runtime_error("[ERROR] parsing: bad identification name in file: " + _railNetworkPath);
 	}
+	//! WIP: continuer le parsing checker
 }
 
 void Parsing::_trainChecker() {
