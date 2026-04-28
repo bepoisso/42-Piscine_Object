@@ -1,4 +1,4 @@
-NAME = exec
+NAME = exec #TODO: modifier le nom de l'executable
 OBJS_DIR = objs
 OUTPUT_DIR = outputs
 
