@@ -1,10 +1,17 @@
 #pragma once
 
-class Node
-{
+#include <string>
+
+#include "Foward.hpp"
+
+
+class Node{
 private:
-	/* data */
+	const std::string _name;
+
 public:
-	Node(/* args */);
+	Node(std::string p_name);
 	~Node();
+
+	const std::string getName() const { return _name; }
 };

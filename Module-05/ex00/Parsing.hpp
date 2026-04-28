@@ -86,9 +86,10 @@ public:
 
 	?Node
 		- Pas un nom Alphabetique
-		!Pas de nom
+		- Pas de nom
 		- pas le bon nombre de parametre	(1)
 		- Double node
+		!Autoriser seullement les nom commencent par City et Rail pour identification
 	
 	?Rail
 		- Pas le bon nombre de parametres	(4)

@@ -19,10 +19,12 @@
 #include "Forward.hpp"
 
 #include "Parsing.hpp"
+#include "Factory.hpp"
 
 class Simulation {
 private:
-	Parsing* _parser;
+	Parsing*	_parser;
+	Factory*	_factory;
 
 public:
 	Simulation();

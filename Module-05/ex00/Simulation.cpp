@@ -6,11 +6,15 @@ Simulation::Simulation() : _parser(NULL) {
 
 Simulation::~Simulation() {
 	delete _parser;
+	delete _factory;
 }
 
 void Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
-	try
-	{
+	try {
+		std::cout << "===========================" << std::endl;
+		std::cout << "      Parsing process      " << std::endl;
+		std::cout << "===========================" << std::endl << std::endl;
+		
 		_parser = new Parsing(p_railPath, p_trainPath);
 		_parser->checkInputError();
 		_parser->D_printList(_parser->getNodes());
@@ -20,4 +24,15 @@ void Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
 		std::cerr << "\e[0;31m" << e.what() << "\e[0m" << "\n🤓☝️  Tips: --help to see how to create inputs files." << std::endl;
 		return;
 	}
+	try {
+		std::cout << "===========================" << std::endl;
+		std::cout << "      Factory process      " << std::endl;
+		std::cout << "===========================" << std::endl << std::endl;
+
+		_factory = new Factory();
+	} catch(const std::exception& e) {
+		std::cerr << "\e[0;31m[ERROR] factory: " << e.what() << "\e[0m" << std::endl;
+		return;
+	}
+	
 }

@@ -1,6 +1,6 @@
 /**
- * @file Forward
- * @brief Forward class - Quick description
+ * @file Forward.hpp
+ * @brief Forward class - Fix circular dependencies
  * 
  * @details
 * This file contains forward declarations for classes used throughout the module.
@@ -9,8 +9,12 @@
 * build times.
  * 
  * @note
- * principles 
-//TODO: noter le principe
+ * Forward Declaration Principles:
+ * - Reduces compilation dependencies between translation units
+ * - Improves build times by avoiding unnecessary includes
+ * - Allows circular dependencies to be resolved
+ * - Enables loose coupling between classes
+ * - Useful for pointer and reference declarations only
  */
 
 #pragma once
@@ -20,3 +24,4 @@ class Parsing;
 class Train;
 class Node;
 class Rail;
+class Factory;
