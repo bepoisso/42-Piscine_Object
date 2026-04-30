@@ -26,9 +26,15 @@ private:
 	Parsing*	_parser;
 	Factory*	_factory;
 
+	std::vector<Node*>		_nodesList;			// Owning: Simulation Owning Nodes
+	std::vector<Rail*>		_railsList;			// Owning: Simulation Owning Rails
+	std::vector<Train*>		_trainsList;		// Owning: Simulation Owning Trains
+
+
 public:
 	Simulation();
 	~Simulation();
 
 	void parseFiles(char* p_railPath, char* p_trainPath);
+	void factoryObject();
 };

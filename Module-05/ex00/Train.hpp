@@ -1,8 +1,11 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 #include "Forward.hpp"
+
+#include "Node.hpp"
 
 class Train {
 private:
@@ -23,14 +26,14 @@ public:
 		Node* p_departure, Node* p_arrival, std::string p_depTime, std::string p_stopTime);
 	~Train();
 
-	const int 			getID() 					const { return _ID; }
-	const std::string 	getName() 					const { return _name; }
-	const int 			getWeight() 				const { return _weight; }
-	const float			getFrictionCoefficient()	const { return _frictionCoefficient; }
-	const float			getAccelerationMax() 		const { return _accelerationMax; }
-	const float			getBrakeMax() 				const { return _brakeMax; }
-	const Node*			getDepartureStation() 		const { return _departureStation; }
-	const Node*			getArrivalStation() 		const { return _arrivalStation; }
-	const std::string	getDepartureTime() 			const { return _departureTime; }
-	const std::string	getStopTime() 				const { return _stopTime; }
+	int 			getID() 					const { return _ID; }
+	std::string 	getName() 					const { return _name; }
+	int 			getWeight() 				const { return _weight; }
+	float			getFrictionCoefficient()	const { return _frictionCoefficient; }
+	float			getAccelerationMax() 		const { return _accelerationMax; }
+	float			getBrakeMax() 				const { return _brakeMax; }
+	const Node*		getDepartureStation() 		const { return _departureStation; }
+	const Node*		getArrivalStation() 		const { return _arrivalStation; }
+	std::string		getDepartureTime() 			const { return _departureTime; }
+	std::string		getStopTime() 				const { return _stopTime; }
 };

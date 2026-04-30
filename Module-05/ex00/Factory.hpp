@@ -14,12 +14,13 @@
  * - Provide a simple interface to request a concrete object.
  * - Isolate creation details to preserve encapsulation.
  */
-#pragma once;
+#pragma once
 
 #include <vector>
 #include <iostream>
 #include <string>
 
+#include "Utils.hpp"
 #include "Forward.hpp"
 
 #include "Node.hpp"
@@ -32,7 +33,6 @@ private:
 	std::vector<Rail*>		_rails;
 	std::vector<Train*>		_trains;
 
-	std::vector<std::string> _split(std::string p_line, const std::string& delimiter);
 	Node* _getNodeByName(std::string p_name) ;
 public:
 	Factory();
@@ -45,4 +45,7 @@ public:
 	const std::vector<Node*>	getNodes() const { return _nodes; }
 	const std::vector<Rail*>	getRails() const { return _rails; }
 	const std::vector<Train*>	getTrains() const { return _trains; }
+
+	//TODO: (debug) Suprimer pour la mise en prod
+	void D_printNodesConnections();
 };

@@ -29,6 +29,8 @@
 #include <iostream>
 #include <vector>
 
+#include "Utils.hpp"
+
 #include "Simulation.hpp"
 
 
@@ -63,7 +65,6 @@ public:
 	~Parsing();
 
 	void checkInputError();
-	std::vector<std::string> 	split(std::string p_line, const std::string& delimiter);
 	std::vector<std::string> 	getNodes() const { return _nodes; }
 	std::vector<std::string> 	getRails() const { return _rails; }
 	std::vector<std::string> 	getTrains() const { return _trains; }

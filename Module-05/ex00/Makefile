@@ -6,8 +6,13 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror
 
 SRCS =	main.cpp \
+		Utils.cpp\
 		Simulation.cpp\
 		Parsing.cpp\
+		Factory.cpp\
+		Node.cpp\
+		Rail.cpp\
+		Train.cpp\
 
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))

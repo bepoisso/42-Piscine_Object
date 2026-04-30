@@ -7,10 +7,6 @@
 
 int main(int ac, char **av) {
 
-	std::cout << "======================================" << std::endl;
-	std::cout << "      MODULE 05 - TRAIN YOURSELF      " << std::endl;
-	std::cout << "======================================" << std::endl << std::endl;
-
 	if (ac == 2 && std::strcmp(av[1], "--help") == 0) {
 		std::cout << "Choose your documentation :" << std::endl;
 		std::cout << "[1] How to create Rail network file?" << std::endl;
@@ -39,9 +35,14 @@ int main(int ac, char **av) {
 		return 1;
 	}
 
+	std::cout << "======================================" << std::endl;
+	std::cout << "      MODULE 05 - TRAIN YOURSELF      " << std::endl;
+	std::cout << "======================================" << std::endl << std::endl;
+
 	Simulation simulation;
 	
 	simulation.parseFiles(av[1], av[2]);
+	simulation.factoryObject();
 
 	return 0;
 }
