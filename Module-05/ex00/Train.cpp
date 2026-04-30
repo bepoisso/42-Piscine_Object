@@ -4,7 +4,7 @@ static int _nextID = 0;
 
 Train::Train(std::string p_name, int p_weight, double p_friction, double p_acceleration, double p_brake, Node* p_departure,
 	Node* p_arrival, std::string p_depTime, std::string p_stopTime)
-: Movement(p_weight, p_friction, p_acceleration, p_brake), _ID(_nextID++), _name(p_name), _departureStation(p_departure),
+: AMovement(p_weight, p_friction, p_acceleration, p_brake), _ID(_nextID++), _name(p_name), _departureStation(p_departure),
 	_arrivalStation(p_arrival), _departureTime(p_depTime), _stopTime(p_stopTime)
 {
 	_currentNode = p_departure;

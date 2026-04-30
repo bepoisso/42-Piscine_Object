@@ -59,3 +59,7 @@ bool Simulation::factoryObject() {
 		return false;
 	}
 }
+
+bool Simulation::runSimulation() {
+	// TODO
+}

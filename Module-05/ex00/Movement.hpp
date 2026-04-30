@@ -5,7 +5,7 @@
 
 #include "Forward.hpp"
 
-class Movement
+class AMovement
 {
 private:
 	// INITIAL SETTING
@@ -34,8 +34,8 @@ private:
 	void _updateVelocity();
 
 public:
-	Movement(int p_weight, double p_friction, double p_accelerate, double p_brake);
-	virtual ~Movement() {}
+	AMovement(int p_weight, double p_friction, double p_accelerate, double p_brake);
+	virtual ~AMovement() {}
 
 	void 				move(TrainState event);
 	virtual std::string	getName() const = 0;

@@ -8,10 +8,10 @@
 
 class Node;
 
-class Rail {
+class Rail : public APosition {
 private:
-	const Node*		_prevNode;
-	const Node*		_nextNode;
+	const Node*				_prevNode;
+	const Node*				_nextNode;
 	const double			_lenght;
 	const double			_speedMax;
 

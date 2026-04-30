@@ -28,10 +28,11 @@ private:
 	Factory*	_factory;
 	Graph*		_graph;
 
-	std::vector<Node*>						_nodesList;			// Owning: Simulation Own Nodes
-	std::vector<Rail*>						_railsList;			// Owning: Simulation Own Rails
-	std::vector<Train*>						_trainsList;		// Owning: Simulation Own Trains
-	std::map<Node*, std::vector<Rail*>>		_railsNetwork;		// Owning: Simulation Own Nodes & Rails
+	std::vector<Node*>							_nodesList;			// Owning: Simulation Own Nodes
+	std::vector<Rail*>							_railsList;			// Owning: Simulation Own Rails
+	std::vector<Train*>							_trainsList;		// Owning: Simulation Own Trains
+	std::map<Node*, std::vector<Rail*>>			_railsNetwork;		// Owning: Simulation Own Nodes & Rails; but do not delete
+	std::map<Train*, std::vector<APosition*>>	_optimalPath;		// Owning: Simulation Own Train & Rails; but do not delete
 
 
 public:
@@ -40,4 +41,5 @@ public:
 
 	bool parseFiles(char* p_railPath, char* p_trainPath);
 	bool factoryObject();
+	bool runSimulation();
 };

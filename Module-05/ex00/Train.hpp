@@ -9,7 +9,7 @@
 #include "Rail.hpp"
 #include "Movement.hpp"
 
-class Train: public Movement {
+class Train: public AMovement {
 private:
 	const int			_ID;
 	const std::string	_name;

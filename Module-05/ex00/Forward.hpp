@@ -30,3 +30,4 @@ class Node;
 class Factory;
 class Movement;
 class Graph;
+class APosition;
