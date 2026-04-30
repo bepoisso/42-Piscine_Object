@@ -18,7 +18,7 @@ void Factory::createNodes(const std::vector<std::string> p_nodes) {
 		else if (line.find("Rail") == 0)
 			_nodes.push_back(new Node(line, false));
 		else
-			throw std::runtime_error("Node " + line + " is not a City or a Rail Node");
+			throw std::runtime_error("Node " + line + " is not a City or a RailNode");
 	}
 }
 
@@ -28,14 +28,12 @@ void Factory::createRails(const std::vector<std::string> p_rails) {
 		std::vector<std::string> token = split(line, " ");
 		if (token[0].empty() || token[1].empty() || token[2].empty() || token[3].empty())
 			throw std::runtime_error("fail to create rails");
-		Node* prev = _getNodeByName(token[0]);
-		Node* next = _getNodeByName(token[1]);
-		float lenght = std::stof(token[2]);
-		float speed = std::stof(token[3]);
+		Node* prev = getNodeByName(_nodes, token[0]);
+		Node* next = getNodeByName(_nodes, token[1]);
+		double lenght = std::stod(token[2]);
+		double speed = std::stod(token[3]);
 		// TODO : mettre un check des valeurs
 		_rails.push_back(new Rail(prev, next, lenght, speed));
-		prev->addRail(_rails.back());
-		next->addRail(_rails.back());
 	}
 }
 
@@ -47,31 +45,14 @@ void Factory::createTrains(const std::vector<std::string> p_trains) {
 			throw std::runtime_error("fail to create trains");
 		std::string name = token[0];
 		int weight = std::stoi(token[1]);
-		float friction = std::stof(token[2]);
-		float acceleration = std::stof(token[3]);
-		float brake = std::stof(token[4]);
-		Node* dep = _getNodeByName(token[5]);
-		Node* arr = _getNodeByName(token[6]);
+		double friction = std::stod(token[2]);
+		double acceleration = std::stod(token[3]);
+		double brake = std::stod(token[4]);
+		Node* dep = getNodeByName(_nodes, token[5]);
+		Node* arr = getNodeByName(_nodes, token[6]);
 		std::string depTime = token[7];
 		std::string stopTime = token[8];
 		// TODO: mettre un check des valeurs
 		_trains.push_back(new Train(name, weight, friction, acceleration, brake, dep, arr, depTime, stopTime));
 	}
-}
-
-Node* Factory::_getNodeByName(std::string p_name) {
-	for (std::vector<Node*>::iterator it = _nodes.begin(); it != _nodes.end(); ++it) {
-		if (p_name == (*it)->getName())
-			return *it;
-	}
-	return NULL;
-}
-
-// DEBUG
-
-void Factory::D_printNodesConnections() {
-	std::cout << "\033[32m___DEBUG RAIL CONNECTION___" << std::endl;
-	for (std::vector<Node*>::iterator it = _nodes.begin(); it != _nodes.end(); ++it)
-		(*it)->D_printConnection();
-	std::cout << "___DEBUG RAIL CONNECTION END___\033[0m" << std::endl;
 }

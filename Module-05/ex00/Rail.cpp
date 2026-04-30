@@ -1,6 +1,6 @@
 #include "Rail.hpp"
 
-Rail::Rail(Node* p_departure, Node* p_arrival, float p_lenght, float p_speed) : _prevNode(p_departure), _nextNode(p_arrival), _lenght(p_lenght), _speedMax(p_speed) {
+Rail::Rail(Node* p_departure, Node* p_arrival, double p_lenght, double p_speed) : _prevNode(p_departure), _nextNode(p_arrival), _lenght(p_lenght), _speedMax(p_speed) {
 	std::cout << "[Rail] " << p_departure->getName() << " <--> " << p_arrival->getName() << ", size:" << p_lenght << " km, speed:" << p_speed << " km/h, created"  << std::endl;
 }
 

@@ -20,15 +20,18 @@
 
 #include "Parsing.hpp"
 #include "Factory.hpp"
+#include "Graph.hpp"
 
 class Simulation {
 private:
 	Parsing*	_parser;
 	Factory*	_factory;
+	Graph*		_graph;
 
-	std::vector<Node*>		_nodesList;			// Owning: Simulation Owning Nodes
-	std::vector<Rail*>		_railsList;			// Owning: Simulation Owning Rails
-	std::vector<Train*>		_trainsList;		// Owning: Simulation Owning Trains
+	std::vector<Node*>						_nodesList;			// Owning: Simulation Own Nodes
+	std::vector<Rail*>						_railsList;			// Owning: Simulation Own Rails
+	std::vector<Train*>						_trainsList;		// Owning: Simulation Own Trains
+	std::map<Node*, std::vector<Rail*>>		_railsNetwork;		// Owning: Simulation Own Nodes & Rails
 
 
 public:

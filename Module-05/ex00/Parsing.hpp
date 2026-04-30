@@ -99,8 +99,8 @@ public:
 		- La node departure existe pas
 		- La node arrival existe pas
 		?Verifier que le trajet n'existe pas deja ?
-		- Pas le bon formas pour la lenght			(float)
-		- Pas le bon formas pour la Speed Limitation	(float)
+		- Pas le bon formas pour la lenght			(double)
+		- Pas le bon formas pour la Speed Limitation	(double)
 		*Valeur absudre pour la lenght				(0.0 - 99999.0)
 		*Valeur absurde pour la Speed Limitation		(0.0 - 99999.0)
 
@@ -112,9 +112,9 @@ public:
 		- Pas le bon nombre de parametres				(9)
 		- Le nom n'est pas alphabetique
 		- Pas le bon format pour le weight			(int)
-		- Pas le bon format pour la friction			(float)
-		- Pas le bon format pour l'acceleration		(float)
-		- Pas le bon format pour la brake force		(float)
+		- Pas le bon format pour la friction			(double)
+		- Pas le bon format pour l'acceleration		(double)
+		- Pas le bon format pour la brake force		(double)
 		- La node departure n'existe pas
 		- La node Arrival n'existe pas
 		- Pas le bon format pour le departure time	(Heurs donc (0-23h0-59))

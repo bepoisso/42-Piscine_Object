@@ -33,7 +33,6 @@ private:
 	std::vector<Rail*>		_rails;
 	std::vector<Train*>		_trains;
 
-	Node* _getNodeByName(std::string p_name) ;
 public:
 	Factory();
 	~Factory();
@@ -45,7 +44,4 @@ public:
 	const std::vector<Node*>	getNodes() const { return _nodes; }
 	const std::vector<Rail*>	getRails() const { return _rails; }
 	const std::vector<Train*>	getTrains() const { return _trains; }
-
-	//TODO: (debug) Suprimer pour la mise en prod
-	void D_printNodesConnections();
 };

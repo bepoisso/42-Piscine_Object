@@ -7,6 +7,7 @@ Simulation::Simulation() : _parser(nullptr), _factory(nullptr) {
 Simulation::~Simulation() {
 	delete _parser;
 	delete _factory;
+	delete _graph;
 	for (std::vector<Node*>::iterator it = _nodesList.begin(); it != _nodesList.end(); ++it)
 		delete *it;
 	_nodesList.clear();
@@ -49,7 +50,9 @@ bool Simulation::factoryObject() {
 		_railsList = _factory->getRails();
 		_factory->createTrains(_parser->getTrains());
 		_trainsList = _factory->getTrains();
-		_factory->D_printNodesConnections();
+		_graph = new Graph(_nodesList, _railsList);
+		_graph->createNetwork(_parser->getRails());
+		_railsNetwork = _graph->getRailsNetwork();
 		return true;
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m[ERROR] factory: " << e.what() << "\e[0m" << std::endl;

@@ -44,7 +44,7 @@ void Parsing::checkInputError() {
 
 void Parsing::_nodeChecker(std::string p_line) {
 	p_line = p_line.substr(5);
-	if (!p_line[0] || (p_line.find("City") != 0 && p_line.find("Rail") != 0))
+	if (!p_line[0] || (p_line.find("City") != 0 && p_line.find("RailNode") != 0))
 			throw std::runtime_error("[ERROR] parsing: bad node format; in file: " + _railNetworkPath + "\nline: Node " + p_line);
 	for (size_t i = 0; p_line[i]; ++i) {
 		if (!std::isalpha(p_line[i]))

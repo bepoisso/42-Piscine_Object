@@ -19,9 +19,14 @@
 
 #pragma once
 
+#include "Type.hpp"
+#include "Utils.hpp"
+
 class Simulation;
 class Parsing;
 class Train;
-class Node;
 class Rail;
+class Node;
 class Factory;
+class Movement;
+class Graph;
