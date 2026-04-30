@@ -18,7 +18,7 @@ Simulation::~Simulation() {
 	_trainsList.clear();
 }
 
-void Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
+bool Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
 	try {
 		std::cout << "===========================" << std::endl;
 		std::cout << "      Parsing process      " << std::endl;
@@ -29,13 +29,14 @@ void Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
 		_parser->D_printList(_parser->getNodes());
 		_parser->D_printList(_parser->getRails());
 		_parser->D_printList(_parser->getTrains());
+		return true;
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m" << e.what() << "\e[0m" << "\n🤓☝️  Tips: --help to see how to create inputs files." << std::endl;
-		return;
+		return false;
 	}
 }
 
-void Simulation::factoryObject() {
+bool Simulation::factoryObject() {
 	try {
 		std::cout << "===========================" << std::endl;
 		std::cout << "      Factory process      " << std::endl;
@@ -43,11 +44,15 @@ void Simulation::factoryObject() {
 
 		_factory = new Factory();
 		_factory->createNodes(_parser->getNodes());
+		_nodesList = _factory->getNodes();
 		_factory->createRails(_parser->getRails());
-		_factory->creatTrains(_parser->getTrains());
+		_railsList = _factory->getRails();
+		_factory->createTrains(_parser->getTrains());
+		_trainsList = _factory->getTrains();
 		_factory->D_printNodesConnections();
+		return true;
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m[ERROR] factory: " << e.what() << "\e[0m" << std::endl;
-		return;
+		return false;
 	}
 }

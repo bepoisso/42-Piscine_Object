@@ -19,6 +19,9 @@ private:
 	const Node*			_departureStation;				// non-owning: owning by Simulation
 	const Node*			_arrivalStation;				// non-owning: owning by Simulation
 
+	//? Es ce que on fait une Aclass Position pour les Node et les Rail ? Ce qui permetrais d'avoir
+	//? Position	_currentPosition
+
 	std::string			_departureTime;
 	std::string			_stopTime;
 public:

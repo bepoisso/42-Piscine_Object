@@ -35,6 +35,6 @@ public:
 	Simulation();
 	~Simulation();
 
-	void parseFiles(char* p_railPath, char* p_trainPath);
-	void factoryObject();
+	bool parseFiles(char* p_railPath, char* p_trainPath);
+	bool factoryObject();
 };

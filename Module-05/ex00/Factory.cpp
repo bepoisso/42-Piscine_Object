@@ -13,7 +13,12 @@ void Factory::createNodes(const std::vector<std::string> p_nodes) {
 		line = *it;
 		if (line.empty())
 			throw std::runtime_error("fail to create node");
-		_nodes.push_back(new Node(line));
+		if (line.find("City") == 0)
+			_nodes.push_back(new Node(line, true));
+		else if (line.find("Rail") == 0)
+			_nodes.push_back(new Node(line, false));
+		else
+			throw std::runtime_error("Node " + line + " is not a City or a Rail Node");
 	}
 }
 
@@ -34,7 +39,7 @@ void Factory::createRails(const std::vector<std::string> p_rails) {
 	}
 }
 
-void Factory::creatTrains(const std::vector<std::string> p_trains) {
+void Factory::createTrains(const std::vector<std::string> p_trains) {
 	for (std::vector<std::string>::const_iterator it = p_trains.begin(); it != p_trains.end(); ++it) {
 		std::string line = *it;
 		std::vector<std::string> token = split(line, " ");

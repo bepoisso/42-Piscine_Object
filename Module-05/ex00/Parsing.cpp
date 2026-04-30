@@ -44,15 +44,15 @@ void Parsing::checkInputError() {
 
 void Parsing::_nodeChecker(std::string p_line) {
 	p_line = p_line.substr(5);
-	if (!p_line[0])
-			throw std::runtime_error("[ERROR] parsing: bad node format; In file: " + _railNetworkPath);
+	if (!p_line[0] || (p_line.find("City") != 0 && p_line.find("Rail") != 0))
+			throw std::runtime_error("[ERROR] parsing: bad node format; in file: " + _railNetworkPath + "\nline: Node " + p_line);
 	for (size_t i = 0; p_line[i]; ++i) {
 		if (!std::isalpha(p_line[i]))
-			throw std::runtime_error("[ERROR] parsing: bad node format; In file: " + _railNetworkPath);
+			throw std::runtime_error("[ERROR] parsing: bad node format; in file: " + _railNetworkPath + "\nline: Node " + p_line);
 	}
 	for (std::vector<std::string>::iterator it = _nodes.begin(); it != _nodes.end(); ++it)
 		if (p_line == *it)
-			throw std::runtime_error("[ERROR] parsing: double node \"" + p_line + "\" detected; In file: " + _railNetworkPath);
+			throw std::runtime_error("[ERROR] parsing: double node \"" + p_line + "\" detected; in file: " + _railNetworkPath + "\nline: Node " + p_line);
 	_nodes.push_back(p_line);
 }
 
@@ -63,15 +63,24 @@ void Parsing::_checkDoubleRail(std::string trajectID) {
 		token = split((*it), " ");
 		currentName = token[0] + " " + token[1];
 		if (trajectID == currentName)
-			throw std::runtime_error("[ERROR] parsing: rail: \"" + trajectID + "\" already exist; In file :" + _railNetworkPath);
+			throw std::runtime_error("[ERROR] parsing: rail: \"" + trajectID + "\" already exist; in file :" + _railNetworkPath);
 	}
+}
+
+bool Parsing::_isEmptyNode(std::string p_node) {
+	for (std::vector<std::string>::iterator it = _rails.begin(); it != _rails.end(); ++it) {
+		std::vector<std::string> token = split(*it, " ");
+		if (p_node == token[0] || p_node == token[1])
+			return false;
+	}
+	return true;
 }
 
 void Parsing::_railChecker(std::string p_line) {
 	p_line = p_line.substr(5);
 	std::vector<std::string> token = split(p_line, " ");
 	if (token.size() != 4)
-		throw std::runtime_error("[ERROR] parsing: bad number of arguments; In file: " + _railNetworkPath);
+		throw std::runtime_error("[ERROR] parsing: bad number of arguments; in file: " + _railNetworkPath);
 
 	bool firstNodeFound = false;
 	bool secondNodeFound = false;
@@ -85,17 +94,17 @@ void Parsing::_railChecker(std::string p_line) {
 			secondNodeFound = true;
 	}
 	if (doubleFound)
-		throw std::runtime_error("[ERROR] parsing: double: " + token[0] + " cannot have the same departure and arrival node; In file :" + _railNetworkPath);
+		throw std::runtime_error("[ERROR] parsing: double: " + token[0] + " cannot have the same departure and arrival node; in file :" + _railNetworkPath);
 	else if (!firstNodeFound)
-		throw std::runtime_error("[ERROR] parsing: " + token[0] + " is not a node; In file :" + _railNetworkPath);
+		throw std::runtime_error("[ERROR] parsing: " + token[0] + " is not a node; in file :" + _railNetworkPath);
 	else if (!secondNodeFound)
-		throw std::runtime_error("[ERROR] parsing: " + token[1] + " is not a node; In file :" + _railNetworkPath);
+		throw std::runtime_error("[ERROR] parsing: " + token[1] + " is not a node; in file :" + _railNetworkPath);
 
 	//TODO: Verifier si les valeurs de lenght et speeLimite sont acceptable
 	if (!_isFloat(token[2]))
-		throw std::runtime_error("[ERROR] parsing: lenght:" + token[2] + " is not a valid arguments; In file :" + _railNetworkPath);
+		throw std::runtime_error("[ERROR] parsing: lenght:" + token[2] + " is not a valid arguments; in file :" + _railNetworkPath);
 	if (!_isFloat(token[3]))
-		throw std::runtime_error("[ERROR] parsing: speed limit:" + token[3] + " is not a valid arguments; In file :" + _railNetworkPath);
+		throw std::runtime_error("[ERROR] parsing: speed limit:" + token[3] + " is not a valid arguments; in file :" + _railNetworkPath);
 	_checkDoubleRail(token[0] + " " + token[1]);
 	_rails.push_back(p_line);
 }
@@ -106,11 +115,15 @@ void Parsing::_railNetworkChecker() {
 		throw std::runtime_error("[ERROR] parsing: empty file: " + _railNetworkPath);
 	while (std::getline(*_railnetworkFile, line)) {
 		if (line.find("Rail ") != 0 && line.find("Node ") != 0)
-			throw std::runtime_error("[ERROR] parsing: bad identification name; In file: " + _railNetworkPath);
+			throw std::runtime_error("[ERROR] parsing: bad identification name; in file: " + _railNetworkPath);
 		else if (line.find("Node ") == 0)
 			_nodeChecker(line);
 		else if (line.find("Rail ") == 0)
 			_railChecker(line);
+	}
+	for (std::vector<std::string>::iterator it = _nodes.begin(); it != _nodes.end(); ++it) {
+		if (_isEmptyNode(*it))
+			throw std::runtime_error("[ERROR] parsing: " + *it + " is not link to rails network; in file :" + _railNetworkPath);
 	}
 }
 
@@ -119,38 +132,38 @@ void Parsing::_checkDoubleTrain(std::string p_name) {
 	for (std::vector<std::string>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
 		token = split((*it), " ");
 		if (p_name == token[0])
-			throw std::runtime_error("[ERROR] parsing: double " + p_name +  " detected; In file: " + _trainComposePath);
+			throw std::runtime_error("[ERROR] parsing: double " + p_name +  " detected; in file: " + _trainComposePath);
 	}
 }
 
 void Parsing::_trainChecker(std::string p_line) {
 	std::vector<std::string> token = split(p_line, " ");
 	if (token.size() != 9)
-		throw std::runtime_error("[ERROR] parsing: bad number of arguments; In file: " + _trainComposePath + "\nExpected: train_name weight coefficient_of_friction maximum_acceleration_force maximum_brake_force departure_station arrival_station departure_time stop_duration\nExemple: TrainAB 80 0.05 356.0 30.0 CityA CityB 14h10 00h10");
+		throw std::runtime_error("[ERROR] parsing: bad number of arguments; in file: " + _trainComposePath + "\nExpected: train_name weight coefficient_of_friction maximum_acceleration_force maximum_brake_force departure_station arrival_station departure_time stop_duration\nExemple: TrainAB 80 0.05 356.0 30.0 CityA CityB 14h10 00h10");
 	for (size_t i = 0; i != token[0].size(); ++i)
 		if (!std::isalpha(token[0][i]))
-			throw std::runtime_error("[ERROR] parsing: bad identification name: " + token[0] + "; In file: " + _trainComposePath);
+			throw std::runtime_error("[ERROR] parsing: bad identification name: " + token[0] + "; in file: " + _trainComposePath);
 	_checkDoubleTrain(token[0]);
 	//TODO; verifier que les valeurs de weight, friction, acceleration et de brake sont acceptable
 	if (!_isInt(token[1]))
-	throw std::runtime_error("[ERROR] parsing: weight: " + token[1] + " is not a valid arguments; In file: " + _trainComposePath);
+	throw std::runtime_error("[ERROR] parsing: weight: " + token[1] + " is not a valid arguments; in file: " + _trainComposePath);
 	if (!_isFloat(token[2]))
-		throw std::runtime_error("[ERROR] parsing: friction: " + token[2] + " is not a valid arguments; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: friction: " + token[2] + " is not a valid arguments; in file: " + _trainComposePath);
 	if (!_isFloat(token[3]))
-		throw std::runtime_error("[ERROR] parsing: acceleration: " + token[3] + " is not a valid arguments; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: acceleration: " + token[3] + " is not a valid arguments; in file: " + _trainComposePath);
 	if (!_isFloat(token[4]))
-		throw std::runtime_error("[ERROR] parsing: brake: " + token[4] + " is not a valid arguments; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: brake: " + token[4] + " is not a valid arguments; in file: " + _trainComposePath);
 	if (!_isANode(token[5]))
-		throw std::runtime_error("[ERROR] parsing: " + token[5] + " is not a departure station; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: " + token[5] + " is not a departure station; in file: " + _trainComposePath);
 	if (!_isANode(token[6]))
-		throw std::runtime_error("[ERROR] parsing: " + token[6] + " is not a arrival station; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: " + token[6] + " is not a arrival station; in file: " + _trainComposePath);
 	if (token[5] == token[6])
-		throw std::runtime_error("[ERROR] parsing: double: " + token[6] + " cannot be the departure and the arrival at the same time; In file: " + _trainComposePath);
-	//TODO: verifier que les valeud horraire de departureTime et de StopTime sont acceptable
+		throw std::runtime_error("[ERROR] parsing: double: " + token[6] + " cannot be the departure and the arrival at the same time; in file: " + _trainComposePath);
+	//TODO: verifier que les valeurs horraire de departureTime et de StopTime sont acceptable
 	if (!_isHours(token[7]))
-		throw std::runtime_error("[ERROR] parsing: DeparturTime: " + token[7] + " is not a valid arguments; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: DeparturTime: " + token[7] + " is not a valid arguments; in file: " + _trainComposePath);
 	if (!_isHours(token[8]))
-		throw std::runtime_error("[ERROR] parsing: StopTime: " + token[8] + " is not a valid arguments; In file: " + _trainComposePath);
+		throw std::runtime_error("[ERROR] parsing: StopTime: " + token[8] + " is not a valid arguments; in file: " + _trainComposePath);
 	_trains.push_back(p_line);
 }
 

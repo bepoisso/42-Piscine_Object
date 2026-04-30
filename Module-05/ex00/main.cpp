@@ -41,8 +41,10 @@ int main(int ac, char **av) {
 
 	Simulation simulation;
 	
-	simulation.parseFiles(av[1], av[2]);
-	simulation.factoryObject();
+	if (!simulation.parseFiles(av[1], av[2]))
+		return 1;
+	if (!simulation.factoryObject())
+		return 1;
 
 	return 0;
 }

@@ -50,6 +50,7 @@ private:
 	void _railChecker(std::string p_line);
 	void _nodeChecker(std::string p_line);
 	void _checkDoubleRail(std::string trajectID);
+	bool _isEmptyNode(std::string p_node);
 
 	void _trainComposeChecker();
 	void _trainChecker(std::string p_line);
@@ -90,12 +91,14 @@ public:
 		- Pas de nom
 		- pas le bon nombre de parametre	(1)
 		- Double node
-		!Autoriser seullement les nom commencent par City et Rail pour identification
+		- Autoriser seullement les nom commencent par City et Rail pour identification
+		- Verifier que toutes les nodes soit link au reaseau
 	
 	?Rail
 		- Pas le bon nombre de parametres	(4)
 		- La node departure existe pas
 		- La node arrival existe pas
+		?Verifier que le trajet n'existe pas deja ?
 		- Pas le bon formas pour la lenght			(float)
 		- Pas le bon formas pour la Speed Limitation	(float)
 		*Valeur absudre pour la lenght				(0.0 - 99999.0)

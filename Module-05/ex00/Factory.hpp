@@ -40,7 +40,7 @@ public:
 
 	void createNodes(const std::vector<std::string> p_nodes);
 	void createRails(const std::vector<std::string> p_rails);
-	void creatTrains(const std::vector<std::string> p_trains);
+	void createTrains(const std::vector<std::string> p_trains);
 
 	const std::vector<Node*>	getNodes() const { return _nodes; }
 	const std::vector<Rail*>	getRails() const { return _rails; }
