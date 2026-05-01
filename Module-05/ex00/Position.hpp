@@ -11,7 +11,7 @@ private:
 	const bool _isRail;
 public:
 	APosition(bool p_isStation, bool p_isNode, bool p_isRail);
-	virtual ~APosition() = 0;
+	virtual ~APosition();
 
 	bool getIsStation() const { return _isStation; }
 	bool getIsNode() const { return _isNode; }

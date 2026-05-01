@@ -14,7 +14,8 @@ SRCS =	main.cpp \
 		Rail.cpp\
 		Train.cpp\
 		Movement.cpp\
-		Graph.cpp
+		Graph.cpp\
+		Position.cpp
 
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))

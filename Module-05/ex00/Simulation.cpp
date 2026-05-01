@@ -62,4 +62,5 @@ bool Simulation::factoryObject() {
 
 bool Simulation::runSimulation() {
 	// TODO
+	return true;
 }

@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Forward.hpp"
+#include "Utils.hpp"
 
 class AMovement
 {

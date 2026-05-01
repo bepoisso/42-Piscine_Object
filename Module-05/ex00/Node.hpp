@@ -7,7 +7,6 @@
 #include "Forward.hpp"
 
 #include "Position.hpp"
-
 #include "Rail.hpp"
 
 class Rail;

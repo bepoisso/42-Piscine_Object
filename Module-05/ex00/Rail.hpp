@@ -4,7 +4,9 @@
 
 #include "Forward.hpp"
 
+#include "Position.hpp"
 #include "Node.hpp"
+
 
 class Node;
 
