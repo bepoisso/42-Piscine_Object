@@ -25,11 +25,11 @@ void Factory::createNodes(const std::vector<std::string> p_nodes) {
 void Factory::createRails(const std::vector<std::string> p_rails) {
 	for (std::vector<std::string>::const_iterator it = p_rails.begin(); it != p_rails.end(); ++it) {
 		std::string line = *it;
-		std::vector<std::string> token = split(line, " ");
+		std::vector<std::string> token = f_split(line, " ");
 		if (token[0].empty() || token[1].empty() || token[2].empty() || token[3].empty())
 			throw std::runtime_error("fail to create rails");
-		Node* prev = getNodeByName(_nodes, token[0]);
-		Node* next = getNodeByName(_nodes, token[1]);
+		Node* prev = f_getNodeByName(_nodes, token[0]);
+		Node* next = f_getNodeByName(_nodes, token[1]);
 		double lenght = std::stod(token[2]);
 		double speed = std::stod(token[3]);
 		// TODO : mettre un check des valeurs
@@ -40,7 +40,7 @@ void Factory::createRails(const std::vector<std::string> p_rails) {
 void Factory::createTrains(const std::vector<std::string> p_trains) {
 	for (std::vector<std::string>::const_iterator it = p_trains.begin(); it != p_trains.end(); ++it) {
 		std::string line = *it;
-		std::vector<std::string> token = split(line, " ");
+		std::vector<std::string> token = f_split(line, " ");
 		if (token[0].empty() || token[1].empty() || token[2].empty() || token[3].empty() || token[4].empty() || token[5].empty() || token[6].empty() || token[7].empty() || token[8].empty())
 			throw std::runtime_error("fail to create trains");
 		std::string name = token[0];
@@ -48,8 +48,8 @@ void Factory::createTrains(const std::vector<std::string> p_trains) {
 		double friction = std::stod(token[2]);
 		double acceleration = std::stod(token[3]);
 		double brake = std::stod(token[4]);
-		Node* dep = getNodeByName(_nodes, token[5]);
-		Node* arr = getNodeByName(_nodes, token[6]);
+		Node* dep = f_getNodeByName(_nodes, token[5]);
+		Node* arr = f_getNodeByName(_nodes, token[6]);
 		std::string depTime = token[7];
 		std::string stopTime = token[8];
 		// TODO: mettre un check des valeurs

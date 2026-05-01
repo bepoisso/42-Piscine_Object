@@ -14,6 +14,7 @@ private:
 	const double			_coefficientFriction;
 	const double			_tractionMax;			//		kN -> N
 	const double			_brakeMax;				//		kN -> N
+	long int				_deltaTime;				//		seconde
 
 	// FORCE
 	double					_frictionForce;
@@ -23,16 +24,15 @@ private:
 	double					_velocity;				//		m/s
 	double					_acceleration;
 	double					_distanceRemaining;		//		meter
-	double					_deltaTime;				//		seconde
 
 	TrainState				_currentState;
 
-	void _accelerateMove();
-	void _brakeMove();
-	void _maintainMove();
-	void _stopMove();
+	void accelerateMove();
+	void brakeMove();
+	void maintainMove();
+	void stopMove();
 
-	void _updateVelocity();
+	void updateVelocity();
 
 public:
 	AMovement(int p_weight, double p_friction, double p_accelerate, double p_brake);
@@ -41,10 +41,20 @@ public:
 	void 				move(TrainState event);
 	virtual std::string	getName() const = 0;
 	virtual double		getCurrentSpeedLimit() const = 0;
+	void setDeltaTime(long int p_dt) { _deltaTime = p_dt; }
 
-	double 	getWeight() 				const { return _mass / 1000; }
-	double	getFrictionCoefficient()	const { return _coefficientFriction; }
-	double	getTractionMax() 			const { return _tractionMax / 1000; }
-	double	getBrakeMax() 				const { return _brakeMax / 1000; }
-	double	getGravity()				const { return _gravity; }
+	// INITIAL SETTING
+	double 		getWeight() 				const { return _mass; }
+	double		getFrictionCoefficient()	const { return _coefficientFriction; }
+	double		getTractionMax() 			const { return _tractionMax; }
+	double		getBrakeMax() 				const { return _brakeMax; }
+	// FORCE
+	double		getFrictionForce()			const { return _frictionForce; }
+	double		getGravity()				const { return _gravity; }
+
+	// DYNAMIC
+	double		getCurrentVelocity()		const { return _velocity; }
+	double		getCurrentAcceleration()	const { return _acceleration; }
+	double		getDistanceRemaining()		const { return _distanceRemaining; }
+	TrainState 	getCurrentState()			const { return _currentState; }
 };

@@ -23,10 +23,14 @@
 
 class Simulation;
 class Parsing;
+class Clock;
 class Train;
-class APosition;
 class Rail;
 class Node;
 class Factory;
 class Movement;
 class Graph;
+class Pathfinder;
+class Time;
+class SimulationEngine;
+class Trainmanager;

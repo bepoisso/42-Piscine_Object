@@ -21,25 +21,35 @@
 #include "Parsing.hpp"
 #include "Factory.hpp"
 #include "Graph.hpp"
+#include "Pathfinder.hpp"
+#include "TrainManager.hpp"
+#include "SimulationEngine.hpp"
+#include "Clock.hpp"
 
 class Simulation {
 private:
-	Parsing*	_parser;
-	Factory*	_factory;
-	Graph*		_graph;
+	Parsing*			_parser;
+	Factory*			_factory;
+	Graph*				_graph;
+	Pathfinder*			_pathfinder;
+	TrainManager*		_trainManager;
+	SimulationEngine*	_engine;
 
-	std::vector<Node*>							_nodesList;			// Owning: Simulation Own Nodes
-	std::vector<Rail*>							_railsList;			// Owning: Simulation Own Rails
-	std::vector<Train*>							_trainsList;		// Owning: Simulation Own Trains
-	std::map<Node*, std::vector<Rail*>>			_railsNetwork;		// Owning: Simulation Own Nodes & Rails; but do not delete
-	std::map<Train*, std::vector<APosition*>>	_optimalPath;		// Owning: Simulation Own Train & Rails; but do not delete
+	std::vector<Node*>		_nodesList;			// Owning: Simulation Own Nodes
+	std::vector<Rail*>		_railsList;			// Owning: Simulation Own Rails
+	std::vector<Train*>		_trainsList;		// Owning: Simulation Own Trains
+
+	std::map<Train*, std::vector<Node*>>	_paths;
+
+	long int	_deltaTime;
 
 
 public:
-	Simulation();
+	Simulation(long int p_dt);
 	~Simulation();
 
 	bool parseFiles(char* p_railPath, char* p_trainPath);
 	bool factoryObject();
-	bool runSimulation();
+	bool pathFinder();
+	bool runSimulation(long int p_startTime);
 };

@@ -46,21 +46,21 @@ private:
 	std::vector<std::string> _rails;
 	std::vector<std::string> _trains;
 
-	void _railNetworkChecker();
-	void _railChecker(std::string p_line);
-	void _nodeChecker(std::string p_line);
-	void _checkDoubleRail(std::string trajectID);
-	bool _isEmptyNode(std::string p_node);
+	void railNetworkChecker();
+	void railChecker(std::string p_line);
+	void nodeChecker(std::string p_line);
+	void checkDoubleRail(std::string trajectID);
+	bool isEmptyNode(std::string p_node);
 
-	void _trainComposeChecker();
-	void _trainChecker(std::string p_line);
-	void _checkDoubleTrain(std::string p_name);
+	void trainComposeChecker();
+	void trainChecker(std::string p_line);
+	void checkDoubleTrain(std::string p_name);
 
-	bool _isemptyFile(std::ifstream* p_file);
-	bool _isFloat(std::string p_arg);
-	bool _isInt(std::string p_arg);
-	bool _isHours(std::string p_arg);
-	bool _isANode(std::string p_name);
+	bool isemptyFile(std::ifstream* p_file);
+	bool isFloat(std::string p_arg);
+	bool isInt(std::string p_arg);
+	bool isHours(std::string p_arg);
+	bool isANode(std::string p_name);
 public:
 	Parsing(const std::string p_railNetworkpath, const std::string p_trainComposePath);
 	~Parsing();

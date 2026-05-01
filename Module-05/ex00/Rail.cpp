@@ -1,7 +1,6 @@
 #include "Rail.hpp"
-#include "Position.hpp"
 
-Rail::Rail(Node* p_departure, Node* p_arrival, double p_lenght, double p_speed) : APosition(false, false, true), _prevNode(p_departure), _nextNode(p_arrival), _lenght(p_lenght), _speedMax(p_speed) {
+Rail::Rail(Node* p_departure, Node* p_arrival, double p_lenght, double p_speed) : _prevNode(p_departure), _nextNode(p_arrival), _lenght(p_lenght * 1000), _speedMax(p_speed / 3.6) {
 	std::cout << "[Rail] " << p_departure->getName() << " <--> " << p_arrival->getName() << ", size:" << p_lenght << " km, speed:" << p_speed << " km/h, created"  << std::endl;
 }
 
@@ -10,8 +9,8 @@ Rail::~Rail() {
 
 std::ostream& operator<<(std::ostream& os, const Rail& rail) {
 	os << "[RAIL] prevNode=";
-	if (rail.getprevNode()) {
-		os << rail.getprevNode()->getName();
+	if (rail.getPrevNode()) {
+		os << rail.getPrevNode()->getName();
 	} else {
 		os << "null";
 	}
@@ -21,6 +20,6 @@ std::ostream& operator<<(std::ostream& os, const Rail& rail) {
 	} else {
 		os << "null";
 	}
-	os << ", lenght=" << rail.getLenght() << ", speedMax=" << rail.getSpeedMax();
+	os << ", lenght=" << rail.getLenght() / 1000 << "km, speedMax=" << rail.getSpeedMax() * 3.6 << "km/h";
 	return os;
 }

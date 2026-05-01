@@ -15,8 +15,11 @@ SRCS =	main.cpp \
 		Train.cpp\
 		Movement.cpp\
 		Graph.cpp\
-		Position.cpp
-
+		Pathfinder.cpp\
+		Time.cpp\
+		SimulationEngine.cpp\
+		TrainManager.cpp\
+		Clock.cpp\
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
 

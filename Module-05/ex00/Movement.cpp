@@ -6,42 +6,41 @@ AMovement::AMovement(int p_weight, double p_friction, double p_accelerate, doubl
 	_gravity(G_gravity)
 {
 	_frictionForce = _coefficientFriction * _mass * _gravity;
-	_deltaTime = 0;
 	_velocity = 0;
 	_acceleration = 0;
 	_distanceRemaining = 1.0; //TODO: a set depuis le trajet si non crash!!!
 }
 
-void AMovement::_accelerateMove() {
+void AMovement::accelerateMove() {
 	double netForce = _tractionMax - _frictionForce;
 	if (netForce < 0)
 		_acceleration = 0;
 	else
 		_acceleration = netForce / _mass;
-	_updateVelocity();
+	updateVelocity();
 	_currentState = ACCELERATING;
 }
 
-void AMovement::_brakeMove() {
+void AMovement::brakeMove() {
 	double netForce = -_brakeMax - _frictionForce;
 	_acceleration = netForce / _mass;
-	_updateVelocity();
+	updateVelocity();
 	_currentState = BRAKING;
 }
 
-void AMovement::_maintainMove() {
+void AMovement::maintainMove() {
 	_acceleration = -_frictionForce / _mass;
-	_updateVelocity();
+	updateVelocity();
 	_currentState = MAINTAINING;
 }
 
-void AMovement::_stopMove() {
+void AMovement::stopMove() {
 	_velocity = 0;
 	_acceleration = 0;
 	_currentState = STOPPED;
 }
 
-void AMovement::_updateVelocity() {
+void AMovement::updateVelocity() {
 	double maxSpeed = getCurrentSpeedLimit();
 	if (maxSpeed == -1.0)
 		throw std::runtime_error("Fail to get Current Speed Limit");
@@ -60,13 +59,13 @@ void AMovement::_updateVelocity() {
 
 void AMovement::move(TrainState event) {
 	if (event == ACCELERATING)
-		_accelerateMove();
+		accelerateMove();
 	else if (event == MAINTAINING)
-		_accelerateMove();
+		accelerateMove();
 	else if (event == BRAKING)
-		_accelerateMove();
+		accelerateMove();
 	else if (event == STOPPED)
-		_accelerateMove();
+		accelerateMove();
 	else
 		throw std::runtime_error("[TRAIN] " + getName() + ": bad movement event");
 }

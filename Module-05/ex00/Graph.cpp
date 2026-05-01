@@ -11,10 +11,10 @@ Graph::~Graph() {
 
 void Graph::createNetwork(std::vector<std::string> p_railText) {
 	for (std::vector<std::string>::iterator it = p_railText.begin(); it != p_railText.end(); ++it) {
-		std::vector<std::string> token = split(*it, " ");
-		Rail* actualRail = getRailByTraject(_railsList, token[0], token[1]);
-		Node* dep = getNodeByName(_nodesList, token[0]);
-		Node* arr = getNodeByName(_nodesList, token[1]);
+		std::vector<std::string> token = f_split(*it, " ");
+		Rail* actualRail = f_getRailByTraject(_railsList, token[0], token[1]);
+		Node* dep = f_getNodeByName(_nodesList, token[0]);
+		Node* arr = f_getNodeByName(_nodesList, token[1]);
 		if (!actualRail)
 			throw std::runtime_error("can't get rail by traject");
 		if (!dep || !arr)

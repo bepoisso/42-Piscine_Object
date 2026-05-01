@@ -1,6 +1,7 @@
 #include "Simulation.hpp"
 
-Simulation::Simulation() : _parser(nullptr), _factory(nullptr) {
+Simulation::Simulation(long int p_dt) :
+	_parser(nullptr), _factory(nullptr), _graph(nullptr), _pathfinder(nullptr), _trainManager(nullptr), _engine(nullptr), _deltaTime(p_dt) {
 	
 }
 
@@ -8,6 +9,9 @@ Simulation::~Simulation() {
 	delete _parser;
 	delete _factory;
 	delete _graph;
+	delete _pathfinder;
+	delete _trainManager;
+	delete _engine;
 	for (std::vector<Node*>::iterator it = _nodesList.begin(); it != _nodesList.end(); ++it)
 		delete *it;
 	_nodesList.clear();
@@ -30,11 +34,11 @@ bool Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
 		_parser->D_printList(_parser->getNodes());
 		_parser->D_printList(_parser->getRails());
 		_parser->D_printList(_parser->getTrains());
-		return true;
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m" << e.what() << "\e[0m" << "\n🤓☝️  Tips: --help to see how to create inputs files." << std::endl;
 		return false;
 	}
+	return true;
 }
 
 bool Simulation::factoryObject() {
@@ -52,15 +56,44 @@ bool Simulation::factoryObject() {
 		_trainsList = _factory->getTrains();
 		_graph = new Graph(_nodesList, _railsList);
 		_graph->createNetwork(_parser->getRails());
-		_railsNetwork = _graph->getRailsNetwork();
-		return true;
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m[ERROR] factory: " << e.what() << "\e[0m" << std::endl;
 		return false;
 	}
+	return true;
 }
 
-bool Simulation::runSimulation() {
-	// TODO
+bool Simulation::pathFinder() {
+	try {
+		std::cout << "===========================" << std::endl;
+		std::cout << "    Pathfinder process    " << std::endl;
+		std::cout << "===========================" << std::endl << std::endl;
+
+		_pathfinder = new Pathfinder(_graph);
+		for (std::vector<Train*>::iterator it = _trainsList.begin(); it != _trainsList.end(); ++it) {
+			_paths[*it] = _pathfinder->findOptimalPath((*it)->getDepartureStation(), (*it)->getArrivalStation(), *it);
+			_pathfinder->D_printPath(_paths[*it]);
+		}
+	} catch(const std::exception& e) {
+		std::cerr << "\e[0;31m[ERROR] pathfinder: " << e.what() << "\e[0m" << std::endl;
+		return false;
+	}
+	return true;
+}
+
+bool Simulation::runSimulation(long int p_startTime) {
+	try {
+		std::cout << "===========================" << std::endl;
+		std::cout << "     Simulation process    " << std::endl;
+		std::cout << "===========================" << std::endl << std::endl;
+
+		_trainManager = new TrainManager(_trainsList, p_startTime);
+		_engine = new SimulationEngine(_trainManager, _paths, _deltaTime, p_startTime);
+		_engine->run();
+		
+	} catch(const std::exception& e) {
+		std::cerr << "\e[0;31m[ERROR] simulation: " << e.what() << "\e[0m" << std::endl;
+		return false;
+	}
 	return true;
 }
