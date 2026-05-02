@@ -21,6 +21,8 @@ private:
 	const double			_gravity;
 
 	// DYNAMIC
+	Rail*					_currentRail;
+
 	double					_velocity;				//		m/s
 	double					_acceleration;
 	double					_distanceRemaining;		//		meter
@@ -41,7 +43,7 @@ public:
 	void 				move(TrainState event);
 	virtual std::string	getName() const = 0;
 	virtual double		getCurrentSpeedLimit() const = 0;
-	void setDeltaTime(long int p_dt) { _deltaTime = p_dt; }
+	void 				setDeltaTime(long int p_dt) { _deltaTime = p_dt; }
 
 	// INITIAL SETTING
 	double 		getWeight() 				const { return _mass; }
@@ -57,4 +59,6 @@ public:
 	double		getCurrentAcceleration()	const { return _acceleration; }
 	double		getDistanceRemaining()		const { return _distanceRemaining; }
 	TrainState 	getCurrentState()			const { return _currentState; }
+
+	void		setDistanceRemaining(double p_dist)		{ _distanceRemaining = p_dist; }
 };

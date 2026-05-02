@@ -8,7 +8,7 @@ AMovement::AMovement(int p_weight, double p_friction, double p_accelerate, doubl
 	_frictionForce = _coefficientFriction * _mass * _gravity;
 	_velocity = 0;
 	_acceleration = 0;
-	_distanceRemaining = 1.0; //TODO: a set depuis le trajet si non crash!!!
+	_distanceRemaining = 0;
 }
 
 void AMovement::accelerateMove() {
@@ -61,11 +61,11 @@ void AMovement::move(TrainState event) {
 	if (event == ACCELERATING)
 		accelerateMove();
 	else if (event == MAINTAINING)
-		accelerateMove();
+		maintainMove();
 	else if (event == BRAKING)
-		accelerateMove();
+		brakeMove();
 	else if (event == STOPPED)
-		accelerateMove();
+		stopMove();
 	else
 		throw std::runtime_error("[TRAIN] " + getName() + ": bad movement event");
 }

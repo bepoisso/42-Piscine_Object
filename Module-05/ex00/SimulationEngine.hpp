@@ -15,8 +15,9 @@
 
 class SimulationEngine {
 private:
-	TrainManager*							_trainManager;
-	std::map<Train*, std::vector<Node*>>	_paths;
+	TrainManager*	_trainManager;
+	Graph*			_graph;
+	std::map<Train*, std::vector<Node*>> _paths;
 
 	std::vector<int>	_trainsId;
 	Time		_time;
@@ -27,7 +28,7 @@ private:
 	void update(long int p_dt);
 
 public:
-	SimulationEngine(TrainManager* p_tManage, std::map<Train*, std::vector<Node*>> p_paths, long int p_dt, long int p_startTime);
+	SimulationEngine(TrainManager* p_tManage, Graph* p_graph, std::map<Train*, std::vector<Node*>> p_paths, long int p_dt, long int p_startTime);
 	~SimulationEngine();
 
 	void run();

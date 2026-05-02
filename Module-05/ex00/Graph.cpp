@@ -25,6 +25,18 @@ void Graph::createNetwork(std::vector<std::string> p_railText) {
 	D_printNetwork();
 }
 
+Rail*	Graph::getRail(Node* f, Node* t) {
+	if (!f || !t)
+		throw std::runtime_error("graph: node is nill can't get rail by Nodes");
+	if (f == t)
+		throw std::runtime_error("graph: node can't be the same, can't get rail by Nodes");
+	for (std::vector<Rail*>::iterator it = _railsList.begin(); it != _railsList.end(); ++it)
+		if ((*it)->getNextNode() == f || (*it)->getPrevNode() == f)
+			if ((*it)->getNextNode() == t || (*it)->getPrevNode() == t)
+				return (*it);
+	return NULL;
+}
+
 void Graph::D_printNetwork() {
 	std::cout << "\033[32m___DEBUG PRINT NETWORK___" << std::endl;
 	for (std::map<Node*, std::vector<Rail*>>::iterator it = _railsNetwork.begin(); it != _railsNetwork.end(); ++it) {

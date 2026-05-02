@@ -25,8 +25,9 @@ public:
 
 	void createNetwork(const std::vector<std::string> p_railText);
 	const std::map<Node*, std::vector<Rail*>>& getRailsNetwork() const { return _railsNetwork; }
-	std::vector<Node*> getNodes() const { return _nodesList; }
-	std::vector<Rail*> getRails() const { return _railsList; }
+	std::vector<Node*>	getNodes() const { return _nodesList; }
+	std::vector<Rail*>	getRails() const { return _railsList; }
+	Rail*				getRail(Node* f, Node* t);
 
 	// TODO: (debug) retirer avant mis en prod
 	void D_printNetwork();

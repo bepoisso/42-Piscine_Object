@@ -1,8 +1,8 @@
 #include "SimulationEngine.hpp"
 
 
-SimulationEngine::SimulationEngine(TrainManager* p_tManage, std::map<Train*, std::vector<Node*>> p_paths, long int p_dt, long int p_startTime) :
-	_trainManager(p_tManage), _paths(p_paths), _time(Time(p_startTime)), _deltaTime(p_dt), _finished(false) {
+SimulationEngine::SimulationEngine(TrainManager* p_tManage, Graph* p_graph, std::map<Train*, std::vector<Node*>> p_paths, long int p_dt, long int p_startTime) :
+	_trainManager(p_tManage), _graph(p_graph), _paths(p_paths), _time(Time(p_startTime)), _deltaTime(p_dt), _finished(false) {
 
 }
 
@@ -18,8 +18,8 @@ void SimulationEngine::init() {
 void SimulationEngine::run() {
 	init();
 	while (!_finished) {
-		update(_deltaTime);
 
+		update(_deltaTime);
 		_time = _time + _deltaTime;
 	}
 }

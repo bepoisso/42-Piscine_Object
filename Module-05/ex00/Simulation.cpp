@@ -87,8 +87,8 @@ bool Simulation::runSimulation(long int p_startTime) {
 		std::cout << "     Simulation process    " << std::endl;
 		std::cout << "===========================" << std::endl << std::endl;
 
-		_trainManager = new TrainManager(_trainsList, p_startTime);
-		_engine = new SimulationEngine(_trainManager, _paths, _deltaTime, p_startTime);
+		_trainManager = new TrainManager(_graph, _trainsList, p_startTime);
+		_engine = new SimulationEngine(_trainManager, _graph, _paths, _deltaTime, p_startTime);
 		_engine->run();
 		
 	} catch(const std::exception& e) {
