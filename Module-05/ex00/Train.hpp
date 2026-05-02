@@ -28,9 +28,11 @@ private:
 	Node*				_from;
 	Node*				_to;
 	bool				_hasStart;
+	bool				_finish;
 
 	Time				_departureTime;
 	Time				_stopTime;
+	Time				_waitingTime;
 public:
 	Train(std::string p_name, int p_weight, double p_friction, double p_acceleration, double p_brake,
 		Node* p_departure, Node* p_arrival, std::string p_depTime, std::string p_stopTime);
@@ -46,6 +48,7 @@ public:
 	Rail*			getCurrentRail()			const	{ return _currentRail; }
 	Node*			getNodeFrom()				const	{ return _from; }
 	Node*			getNodeTo()					const	{ return _to; }
+	bool			isFinished()				const	{ return _finish; }
 
 	void			setCurrentRail(Rail* r)				{ _currentRail = r; }
 	void			setNodeFrom(Node* n)				{ _from = n; }

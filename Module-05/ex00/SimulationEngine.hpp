@@ -20,9 +20,9 @@ private:
 	std::map<Train*, std::vector<Node*>> _paths;
 
 	std::vector<int>	_trainsId;
-	Time		_time;
-	long int	_deltaTime;
-	bool _finished;
+	Time				_time;
+	long int			_deltaTime;
+	bool				_finished;
 
 	void init();
 	void update(long int p_dt);

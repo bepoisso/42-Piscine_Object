@@ -33,4 +33,4 @@ class Graph;
 class Pathfinder;
 class Time;
 class SimulationEngine;
-class Trainmanager;
+class TrainManager;

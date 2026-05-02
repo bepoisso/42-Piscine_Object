@@ -25,6 +25,7 @@ public:
 	Train* getTrain(std::string p_name);
 	Graph* getGraph() { return _graph; }
 	void	setPaths(std::map<Train*, std::vector<Node*>> p_paths) { _paths = p_paths; }
+	bool	allIsFinish();
 
 	void update(long int p_dt);
 	void init(long int p_st);

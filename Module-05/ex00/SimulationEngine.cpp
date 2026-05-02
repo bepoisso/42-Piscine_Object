@@ -20,6 +20,7 @@ void SimulationEngine::run() {
 	while (!_finished) {
 
 		update(_deltaTime);
+		_finished = _trainManager->allIsFinish();
 		_time = _time + _deltaTime;
 	}
 }
@@ -27,5 +28,4 @@ void SimulationEngine::run() {
 void SimulationEngine::update(long int p_dt) {
 	_trainManager->update(p_dt);
 	// _event->update(p-dt);
-
 }
