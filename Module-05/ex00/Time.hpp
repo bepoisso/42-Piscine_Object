@@ -21,12 +21,14 @@ public:
 	// Operator
 	Time operator+(long int p_time) const;
 	Time operator-(long int p_time) const;
+	Time operator%(long int p_time) const;
 	long int operator-(const Time& other) const;
 	bool operator<(const Time& other) const;
 	bool operator>(const Time& other) const;
 	bool operator<=(const Time& other) const;
 	bool operator>=(const Time& other) const;
 	bool operator==(const Time& other) const;
+	bool operator!=(const Time& other) const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Time& time);

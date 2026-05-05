@@ -1,7 +1,7 @@
 #include "TrainManager.hpp"
 
 
-TrainManager::TrainManager(Graph* p_graph, std::vector<Train*> p_trains, long int p_startTime) : AClock(p_startTime), _graph(p_graph), _trains(p_trains) {
+TrainManager::TrainManager(Graph* p_graph, std::vector<Train*> p_trains, std::map<Train*, std::vector<Node*>> p_paths, long int p_startTime) : AClock(p_startTime), _graph(p_graph), _trains(p_trains), _paths(p_paths) {
 }
 
 TrainManager::~TrainManager() {
@@ -41,6 +41,7 @@ void TrainManager::init(long int p_st) {
 	for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
 		(*it)->init(p_st);
 		(*it)->setPath(_paths[*it]);
+		(*it)->D_printPath();
 		(*it)->setMediator(this);
 	}
 }

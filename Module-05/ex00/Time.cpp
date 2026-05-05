@@ -24,9 +24,9 @@ long int Time::StoLI(std::string str) {
 }
 
 std::string Time::ILtoS(long int p_time) const {
-	long int time = (p_time / 60) % 24;
-	long int hours = time / 60;
-	long int minutes = time % 60;
+	long int total_minutes = p_time / 60;
+	long int hours = total_minutes / 60;
+	long int minutes = total_minutes % 60;
 	std::string result;
 	result += (hours / 10) + '0';
 	result += (hours % 10) + '0';
@@ -43,6 +43,10 @@ Time Time::operator+(long int p_time) const {
 
 Time Time::operator-(long int p_time) const {
 	return Time(_time - p_time);
+}
+
+Time Time::operator%(long int p_time) const {
+	return Time(_time % p_time);
 }
 
 long int Time::operator-(const Time& other) const {
@@ -67,6 +71,10 @@ bool Time::operator<=(const Time& other) const {
 
 bool Time::operator==(const Time& other) const {
 	return _time == other._time;
+}
+
+bool Time::operator!=(const Time& other) const {
+	return _time != other._time;
 }
 
 std::ostream& operator<<(std::ostream& os, const Time& time) {

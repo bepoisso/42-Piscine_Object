@@ -29,7 +29,6 @@ void AMovement::brakeMove() {
 }
 
 void AMovement::maintainMove() {
-	_acceleration = -_frictionForce / _mass;
 	updateVelocity();
 	_currentState = MAINTAINING;
 }
@@ -44,14 +43,13 @@ void AMovement::updateVelocity() {
 	double maxSpeed = getCurrentSpeedLimit();
 	if (maxSpeed == -1.0)
 		throw std::runtime_error("Fail to get Current Speed Limit");
-	else
-		maxSpeed *= 1000;
+	double oldVelocity = _velocity;
 	_velocity += _acceleration * _deltaTime;
 	if (_velocity > maxSpeed)
 		_velocity = maxSpeed;
 	if (_velocity < 0)
 		_velocity = 0;
-	_distanceRemaining -= _velocity * _deltaTime;
+	_distanceRemaining -= (oldVelocity + _velocity) / 2.0 * _deltaTime;
 	if (_distanceRemaining < 0)
 		_distanceRemaining = 0;
 }

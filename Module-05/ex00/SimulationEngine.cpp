@@ -27,5 +27,5 @@ void SimulationEngine::run() {
 
 void SimulationEngine::update(long int p_dt) {
 	_trainManager->update(p_dt);
-	// _event->update(p-dt);
+	// _event->update(p_dt);
 }

@@ -1,0 +1,21 @@
+Node CityA
+Node CityB
+Node CityC
+Node CityD
+Node RailNodeA
+Node RailNodeB
+Node RailNodeC
+Node RailNodeD
+Node RailNodeE
+Node RailNodeF
+Node RailNodeG
+Rail CityA RailNodeA 15.0 250.0
+Rail RailNodeA RailNodeB 20.0 250.0
+Rail RailNodeB RailNodeC 13.0 175.0
+Rail RailNodeC CityC 50.0 150.0
+Rail CityC RailNodeD 50.0 150.0
+Rail RailNodeD RailNodeE 100.0 300.0
+Rail RailNodeE RailNodeF 70.5 250.0
+Rail RailNodeF CityD 70.5 250.0
+Rail CityD RailNodeG 38.456 145.5
+Rail RailNodeG CityB 17.4 150.0
