@@ -29,4 +29,5 @@ public:
 
 	void update(long int p_dt);
 	void init(long int p_st);
+	void printTrainState(Train* t);
 };

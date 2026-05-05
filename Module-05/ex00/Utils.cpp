@@ -29,3 +29,12 @@ Node* f_getNodeByName(std::vector<Node*> p_nodes, std::string p_name) {
 	}
 	return NULL;
 }
+
+std::string f_formatDistance(double distance) {
+	std::ostringstream out;
+	if (distance < 100.0)
+		out << std::setw(5) << std::setfill('0') << std::fixed << std::setprecision(2) << distance;
+	else
+		out << std::setw(5) << std::fixed << std::setprecision(1) << distance;
+	return out.str();
+};

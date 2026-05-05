@@ -49,6 +49,12 @@ public:
 	Node*			getNodeFrom()				const	{ return _from; }
 	Node*			getNodeTo()					const	{ return _to; }
 	bool			isFinished()				const	{ return _finish; }
+	double			getTotalDistance()			const;
+	double			getTotalRemaining()			const;
+	Node*			getPath(size_t i)			const	{ return _path[i]; }
+	size_t			getPathIndex()				const	{ return _pathIndex; }
+	int				getPos()					const;
+	Rail*			getNextRail()				const;
 
 	void			setCurrentRail(Rail* r)				{ _currentRail = r; }
 	void			setNodeFrom(Node* n)				{ _from = n; }
@@ -58,7 +64,6 @@ public:
 
 	void goToNextRail();
 	void update(long int p_dt);
-	void printState();
 
 	void D_printPath() { std::cout<<"___PRINT_PATH_"<<getID()<<"___\n";for(std::vector<Node*>::iterator i=_path.begin();i!=_path.end();++i) std::cout<<(*i)->getName()<<std::endl;std::cout<<"___PRINT_PATH_END___\n"; }
 };

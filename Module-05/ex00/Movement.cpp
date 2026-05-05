@@ -30,6 +30,7 @@ void AMovement::brakeMove() {
 
 void AMovement::maintainMove() {
 	updateVelocity();
+	_acceleration = 0.0;
 	_currentState = MAINTAINING;
 }
 

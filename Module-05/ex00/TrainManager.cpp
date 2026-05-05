@@ -33,16 +33,18 @@ Train* TrainManager::getTrain(std::string p_name) {
 void TrainManager::update(long int p_dt) {
 	add(p_dt);
 	for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it)
-		if (!(*it)->isFinished())
+		if (!(*it)->isFinished()) {
 			(*it)->update(p_dt);
+			printTrainState((*it));
+		}
 }
 
 void TrainManager::init(long int p_st) {
 	for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
 		(*it)->init(p_st);
+		(*it)->setMediator(this);
 		(*it)->setPath(_paths[*it]);
 		(*it)->D_printPath();
-		(*it)->setMediator(this);
 	}
 }
 
@@ -51,4 +53,48 @@ bool TrainManager::allIsFinish() {
 		if (!(*it)->isFinished())
 			return false;
 	return true;
+}
+
+void TrainManager::printTrainState(Train* t) {
+	if (!t)
+		throw std::runtime_error("trainmanager: train is nill can't print train state");
+	// if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
+	// 	return;
+	if (getCurrentTime() < t->getDepartureTime() || t->isFinished())
+		return;
+
+	double rTot = t->getCurrentRail()->getLenght() / 1000;
+	double dRem = t->getTotalRemaining() / 1000;
+	int position = t->getPos();
+	std::cout << "[" << Time(getCurrentTime() - t->getDepartureTime()) << "] - [";
+	std::cout << std::setw(9) << std::right << t->getPath(t->getPathIndex() - 1)->getName().substr(0, 9)
+		<< "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex())->getName().substr(0, 9);
+	std::cout << "] - ["<< f_formatDistance(dRem) << "km] - [";
+	switch (t->getCurrentState())
+	{
+	case ACCELERATING:
+		std::cout << "Speed up";
+		break;
+	case BRAKING:
+		std::cout << " Braking";
+		break;
+	case MAINTAINING:
+		std::cout << "Maintain";
+		break;
+	case STOPPED:
+		std::cout << " Stopped";
+		break;
+	default:
+	std::cout << "error";
+		break;
+	}
+	std::cout << "] - [" << f_formatDistance(t->getCurrentVelocity() * 3.6) << "km/h] - ";
+	for (int i = 0; i <= rTot; ++i) {
+		if (i == position)
+			std::cout << "[x]";
+		//TODO: rajouter les autres train si ils bloc
+		else
+			std::cout << "[ ]";
+	}
+	std::cout << std::endl;
 }
