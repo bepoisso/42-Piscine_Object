@@ -30,6 +30,8 @@ public:
 	Graph* getGraph() { return _graph; }
 	void	setPaths(std::map<Train*, std::vector<Node*>> p_paths) { _paths = p_paths; }
 	bool	allIsFinish();
+	bool	isSafeToEnterNextRail(Train* t);
+	bool	isCollisionRisk(Train* t);
 
 	void update(long int p_dt);
 	void init(long int p_st);

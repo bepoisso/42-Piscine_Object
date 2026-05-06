@@ -55,6 +55,7 @@ public:
 	size_t			getPathIndex()				const	{ return _pathIndex; }
 	int				getPos()					const;
 	Rail*			getNextRail()				const;
+	Rail*			getPrevRail()				const;
 
 	void			setCurrentRail(Rail* r)				{ _currentRail = r; }
 	void			setNodeFrom(Node* n)				{ _from = n; }

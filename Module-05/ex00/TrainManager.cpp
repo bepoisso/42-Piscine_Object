@@ -128,6 +128,74 @@ Time TrainManager::getEstimateTravelTime(Train* t) {
 	return Time(tTot);
 }
 
+bool TrainManager::isSafeToEnterNextRail(Train* t) {
+	Rail* nextR = t->getNextRail();
+	Node* currN = t->getNodeTo();
+
+	if (!nextR)
+		return true;
+	
+	for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
+		Train* other = *it;
+
+		if (other == t)
+			continue;
+
+		Rail* oCurrR = other->getCurrentRail();
+		Node* oDest = other->getNodeTo();
+
+		if (!oCurrR)
+			continue;
+
+		if (nextR == oCurrR) {
+			if (currN == oDest)
+				return false;
+		}
+	}
+	return true;
+}
+
+bool TrainManager::isCollisionRisk(Train* t) {
+	Rail* currR = t->getCurrentRail();
+
+	if (!currR)
+		return false;
+
+	for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
+		Train* other = *it;
+		if (other == t)
+			continue;
+		if (currR != other->getCurrentRail())
+			continue;
+
+		double posT = currR->getLenght() - t->getDistanceRemaining();
+		double posO = currR->getLenght() - other->getDistanceRemaining();
+		double gapDist = posO - posT;
+
+		if (gapDist <= 1.0 && gapDist >= -1.0)
+			throw std::runtime_error("trainmanager: " + t->getName() + " and " + other->getName() + " just colapse 💥");
+		if (posT > posO)
+			continue;
+
+
+		double vT = t->getCurrentVelocity();
+		double vO = other->getCurrentVelocity();
+		double vRel = vT - vO;
+
+		if (vRel <= 0)
+			continue;
+
+		double aT = t->getBrakeMax() / t->getWeight();
+		double dBrake = (vT * vT) / (2 * aT);
+		double aO = other->getBrakeMax() / other->getWeight();
+		double dBrakeO = (vO * vO) / (2 * aO);
+
+		if (dBrake - dBrakeO >= gapDist)
+			return true;
+	}
+	return false;
+}
+
 void TrainManager::writeTrainState(Train* t) {
 	if (!t)
 		throw std::runtime_error("trainmanager: train is nill can't write train state");
@@ -136,17 +204,23 @@ void TrainManager::writeTrainState(Train* t) {
 	
 	if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
 		return;
-	if (getCurrentTime() < t->getDepartureTime() || t->isFinished())
+	if (getCurrentTime() < t->getDepartureTime() || t->isFinished() || t->getPathIndex() == 0)
 		return;
 
 	std::ofstream& out = *_trainFiles[t];
 
-	double rTot = t->getCurrentRail()->getLenght() / 1000;
-	double dRem = t->getTotalRemaining() / 1000;
 	int position = t->getPos();
 	out << "[" << Time(getCurrentTime() - t->getDepartureTime()) << "] - [";
-	out << std::setw(9) << std::right << t->getPath(t->getPathIndex() - 1)->getName().substr(0, 9)
-		<< "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex())->getName().substr(0, 9);
+	out << std::setw(9) << std::right << t->getPath(t->getPathIndex() - 1)->getName().substr(0, 9);
+	out << "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex())->getName().substr(0, 9);
+
+	double rTot = 0;
+	double dRem = t->getTotalRemaining() / 1000;
+	if (t->getCurrentRail())
+		rTot = t->getCurrentRail()->getLenght() / 1000;
+	else
+		rTot = t->getPrevRail()->getLenght() / 1000;
+
 	out << "] - ["<< f_formatDistance(dRem) << "km] - [";
 	switch (t->getCurrentState())
 	{
@@ -167,6 +241,7 @@ void TrainManager::writeTrainState(Train* t) {
 		break;
 	}
 	out << "] - ";
+	// out << "[" << f_formatDistance(t->getCurrentVelocity() * 3.6) << "km/h] - ";
 	for (int i = 0; i <= rTot; ++i) {
 		if (i == position)
 			out << "[x]";

@@ -3,12 +3,13 @@
 
 AMovement::AMovement(int p_weight, double p_friction, double p_accelerate, double p_brake):
 	_mass(p_weight * 1000), _coefficientFriction(p_friction), _tractionMax(p_accelerate * 1000),_brakeMax(p_brake * 1000),
-	_gravity(G_gravity)
+	_gravity(G_gravity), _distanceRemaining(0)
 {
 	_frictionForce = _coefficientFriction * _mass * _gravity;
 	_velocity = 0;
 	_acceleration = 0;
 	_distanceRemaining = 0;
+	_currentState = STOPPED;
 }
 
 void AMovement::accelerateMove() {
