@@ -1,1 +1,2 @@
 TrainAB 80 0.05 356.0 30.0 CityA CityB 14h10 00h10
+TrainBA 80 0.05 356.0 30.0 CityB CityA 14h10 00h10

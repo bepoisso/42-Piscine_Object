@@ -61,17 +61,44 @@ double	Train::getTotalRemaining()	const {
 	return dTot - dPassed;
 }
 
-int Train::getPos() const {
-	if (_pathIndex == 0)
-		return 0;
+int Train::getPos(Rail* r, Node* target) const {
+	Rail* current;
+	bool railSwitch;
+	bool directionOK;
+	
 	if (!_currentRail) {
-		Rail* r = getPrevRail();
-		if (!r)
-			return 0;
-	return (int)(r->getLenght() / 1000);
-		
+		railSwitch = true;
+		current = getNextRail();
+		if (_path[_pathIndex] == target)
+			directionOK = false;
+		else
+			directionOK = true;
 	}
-	return (int)((_currentRail->getLenght() - getDistanceRemaining()) / 1000);
+	else {
+		railSwitch = false;
+		current = _currentRail;
+		if (_to == target)
+			directionOK = true;
+		else
+			directionOK = false;
+	}
+	
+	if (current != r)
+		return -1;
+	
+	if (!railSwitch) {
+		if (directionOK)
+			return (int)((current->getLenght() - getDistanceRemaining()) / 1000);
+		else
+			return (int)(getDistanceRemaining() / 1000);
+	}
+	else {
+		if (directionOK)
+			return 0;
+		else
+			return (int)(current->getLenght() / 1000);
+	}
+	return -1;
 }
 
 Rail* Train::getNextRail() const {

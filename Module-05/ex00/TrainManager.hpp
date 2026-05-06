@@ -37,5 +37,6 @@ public:
 	void init(long int p_st);
 	void writeOutputHeader(Train* t);
 	void writeTrainState(Train* t);
+	void writeGraphRail(Train* t, Rail* r, Node* target);
 	Time getEstimateTravelTime(Train* t);
 };

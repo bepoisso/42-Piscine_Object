@@ -53,7 +53,7 @@ public:
 	double			getTotalRemaining()			const;
 	Node*			getPath(size_t i)			const	{ return _path[i]; }
 	size_t			getPathIndex()				const	{ return _pathIndex; }
-	int				getPos()					const;
+	int				getPos(Rail* r, Node* target)	const;
 	Rail*			getNextRail()				const;
 	Rail*			getPrevRail()				const;
 
