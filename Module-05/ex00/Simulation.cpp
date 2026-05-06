@@ -31,9 +31,6 @@ bool Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
 		
 		_parser = new Parsing(p_railPath, p_trainPath);
 		_parser->checkInputError();
-		_parser->D_printList(_parser->getNodes());
-		_parser->D_printList(_parser->getRails());
-		_parser->D_printList(_parser->getTrains());
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m" << e.what() << "\e[0m" << "\n🤓☝️  Tips: --help to see how to create inputs files." << std::endl;
 		return false;
@@ -72,7 +69,6 @@ bool Simulation::pathFinder() {
 		_pathfinder = new Pathfinder(_graph);
 		for (std::vector<Train*>::iterator it = _trainsList.begin(); it != _trainsList.end(); ++it) {
 			_paths[*it] = _pathfinder->findOptimalPath((*it)->getDepartureStation(), (*it)->getArrivalStation(), *it);
-			_pathfinder->D_printPath(_paths[*it]);
 		}
 	} catch(const std::exception& e) {
 		std::cerr << "\e[0;31m[ERROR] pathfinder: " << e.what() << "\e[0m" << std::endl;

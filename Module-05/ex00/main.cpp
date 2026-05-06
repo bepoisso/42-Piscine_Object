@@ -46,11 +46,15 @@ int main(int ac, char **av) {
 	
 	if (!simulation.parseFiles(av[1], av[2]))
 		return 1;
+	std::cout << "Done ✅" << std::endl << std::endl;
 	if (!simulation.factoryObject())
 		return 1;
+	std::cout << "Done ✅" << std::endl << std::endl;
 	if (!simulation.pathFinder())
 		return 1;
+	std::cout << "Done ✅" << std::endl << std::endl;
 	if (!simulation.runSimulation(START_TIME))
 		return 1;
+	std::cout << "Done ✅" << std::endl << std::endl;
 	return 0;
 }

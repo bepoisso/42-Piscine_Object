@@ -4,6 +4,9 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <sstream>
+#include <fstream>
+#include <cmath>
 
 #include "Forward.hpp"
 #include "Train.hpp"
@@ -12,9 +15,10 @@
 
 class TrainManager : public AClock {
 private:
-	Graph* _graph;
-	std::vector<Train*> _trains;
-	std::map<Train*, std::vector<Node*>> _paths;
+	Graph*									_graph;
+	std::vector<Train*>						_trains;
+	std::map<Train*, std::vector<Node*>>	_paths;
+	std::map<Train*, std::ofstream*>		_trainFiles;
 
 public:
 	TrainManager(Graph* p_graph, std::vector<Train*> p_trains, std::map<Train*, std::vector<Node*>> p_paths, long int p_startTime);
@@ -29,5 +33,7 @@ public:
 
 	void update(long int p_dt);
 	void init(long int p_st);
-	void printTrainState(Train* t);
+	void writeOutputHeader(Train* t);
+	void writeTrainState(Train* t);
+	Time getEstimateTravelTime(Train* t);
 };

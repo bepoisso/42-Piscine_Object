@@ -22,7 +22,6 @@ void Graph::createNetwork(std::vector<std::string> p_railText) {
 		_railsNetwork[dep].push_back(actualRail);
 		_railsNetwork[arr].push_back(actualRail);
 	}
-	D_printNetwork();
 }
 
 Rail*	Graph::getRail(Node* f, Node* t) {
