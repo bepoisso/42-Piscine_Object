@@ -87,16 +87,19 @@ int Train::getPos(Rail* r, Node* target) const {
 		return -1;
 	
 	if (!railSwitch) {
+		int pos = (int)((current->getLenght() - getDistanceRemaining()) / 1000);
+		int cells = (int)(current->getLenght() / 1000);
+
 		if (directionOK)
-			return (int)((current->getLenght() - getDistanceRemaining()) / 1000);
+			return pos;
 		else
-			return (int)(getDistanceRemaining() / 1000);
+			return cells - 1 - pos;
 	}
 	else {
 		if (directionOK)
 			return 0;
 		else
-			return (int)(current->getLenght() / 1000);
+			return (int)((current->getLenght() / 1000) - 1);
 	}
 	return -1;
 }
@@ -118,7 +121,6 @@ Rail* Train::getPrevRail() const {
 	return _mediator->getGraph()->getRail(_from, _to);
 
 }
-
 
 void Train::goToNextRail() {
 	if (_pathIndex >= _path.size() - 1) {
@@ -175,7 +177,7 @@ void Train::update(long int p_dt) {
 	}
 	else if (distance <= 0) {
 		_currentRail = NULL;
-		if (_to->isStation()) {
+		if (_to->isStation() && _to != _arrivalStation) {
 			if (_waitingTime < _stopTime) {
 				_waitingTime = _waitingTime + p_dt;
 				move(STOPPED);

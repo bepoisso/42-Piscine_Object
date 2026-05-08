@@ -105,7 +105,7 @@ Time TrainManager::getEstimateTravelTime(Train* t) {
 			nextVMax = rNext->getSpeedMax();
 		}
 		double vTarget = std::min(vMax, nextVMax);
-		if ((*(it + 1))->isStation()) {
+		if ((*(it + 1))->isStation() && (*(it + 1)) != t->getArrivalStation()) {
 			vTarget = 0;
 			tTot += t->getStopTime().getTime();
 		}
@@ -202,15 +202,28 @@ void TrainManager::writeTrainState(Train* t) {
 	if (_trainFiles.find(t) == _trainFiles.end() || !_trainFiles.find(t)->second)
 		throw std::runtime_error("trainmanager: train \"" + t->getName() + "\"'s output file is nill, can't write train state");
 	
-	// if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
-	// 	return;
-	if (getCurrentTime() < t->getDepartureTime() || t->isFinished() || t->getPathIndex() == 0)
-		return;
-
 	std::ofstream& out = *_trainFiles[t];
 	Node* target;
 	Rail* r;
 	size_t check = 0;
+
+	// if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
+	// 	return;
+	if (getCurrentTime() < t->getDepartureTime() || t->isFinished() || t->getPathIndex() == 0) {
+		if (t->isFinished()) {
+			double size = t->getPrevRail()->getLenght() / 1000;
+			out << "[" << Time(getCurrentTime() - t->getDepartureTime()) << "] - [";
+			out << std::setw(9) << std::right << t->getPath((t->getPathIndex() - 1) + check)->getName().substr(0, 9);
+			out << "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex() + check)->getName().substr(0, 9);
+			out << "] - [00.00km] - [ Stopped] - ";
+			for (int i = 0; i < size - 1; ++i)
+				out << "[ ]";
+			if (size - (int)size == 0)
+				out << "[ ]";
+			out << "[x]" << std::endl;
+		}
+		return;
+	}
 
 	if (t->getCurrentRail()) {
 		r = t->getCurrentRail();
@@ -223,8 +236,13 @@ void TrainManager::writeTrainState(Train* t) {
 	}
 
 	out << "[" << Time(getCurrentTime() - t->getDepartureTime()) << "] - [";
-	out << std::setw(9) << std::right << t->getPath((t->getPathIndex() - 1) + check)->getName().substr(0, 9);
-	out << "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex() + check)->getName().substr(0, 9);
+	
+	if (!t->getCurrentRail())
+		out << std::setw(9) << std::right << t->getPath(t->getPathIndex())->getName().substr(0, 9);
+	else {
+		out << std::setw(9) << std::right << t->getPath((t->getPathIndex() - 1) + check)->getName().substr(0, 9);
+		out << "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex() + check)->getName().substr(0, 9);
+	}
 
 	double dRem = t->getTotalRemaining() / 1000;
 	out << "] - ["<< f_formatDistance(dRem) << "km] - [";
@@ -247,34 +265,27 @@ void TrainManager::writeTrainState(Train* t) {
 		break;
 	}
 	out << "] - ";
-	out << "[" << f_formatDistance(t->getCurrentVelocity() * 3.6) << "km/h] - ";
+	// out << "[" << f_formatDistance(t->getCurrentVelocity() * 3.6) << "km/h] - ";
 	writeGraphRail(t, r, target);
 }
 
-// TODO: regler les saut de pos dans TrainBA.result
-// TODO: regler le soucis d'affichage quand arreter sur une node
-
 void TrainManager::writeGraphRail(Train* t, Rail* r, Node* target) {
 	std::ofstream& out = *_trainFiles[t];
+	if (!r)
+		return;
 
 	for (int i = 0; i <= (r->getLenght() / 1000); ++i) {
+		char cell = ' ';
 		for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
 			if (*it == t) {
 				if (i == (*it)->getPos(r, target))
-					out << "[x]";
-				else
-					out << "[ ]";
+					cell = 'x';
 				break;
 			}
-			else if ((*it)->getCurrentRail() == r) {
-				if (i == (*it)->getPos(r, target))
-					out << "[O]";
-				else
-					out << "[ ]";
-				break;
-			}
-			out << "[ ]";
+			if ((*it)->getCurrentRail() == r && i == (*it)->getPos(r, target))
+				cell = 'O';
 		}
+		out << '[' << cell << ']';
 	}
 	out << std::endl;
 }
