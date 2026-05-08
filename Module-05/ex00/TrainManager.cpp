@@ -207,8 +207,8 @@ void TrainManager::writeTrainState(Train* t) {
 	Rail* r;
 	size_t check = 0;
 
-	// if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
-	// 	return;
+	if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
+		return;
 	if (getCurrentTime() < t->getDepartureTime() || t->isFinished() || t->getPathIndex() == 0) {
 		if (t->isFinished()) {
 			double size = t->getPrevRail()->getLenght() / 1000;

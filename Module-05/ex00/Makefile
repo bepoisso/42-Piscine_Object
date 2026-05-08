@@ -36,13 +36,15 @@ $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)
 	mkdir -p $(OUTPUT_DIR)
 
-clean:
-	rm -rf $(OBJS_DIR)
+oclean:
 	rm -rf $(OUTPUT_DIR)
+
+clean: oclean
+	rm -rf $(OBJS_DIR)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all oclean clean fclean re
