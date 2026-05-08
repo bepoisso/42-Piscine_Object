@@ -19,21 +19,27 @@ Train::~Train() {
 double	Train::getCurrentSpeedLimit() const {
 	if (_currentRail)
 		return _currentRail->getSpeedMax();
+
 	return 0;
 }
 
 double	Train::getTotalDistance()	const {
 	double result = 0.0;
 	size_t i = 0;
+
 	while (i < _path.size() - 1) {
 		if (!_path[i] || !_path[i + 1])
 			throw std::runtime_error("node[index] or node[index + 1] is nill can't get total distance");
+
 		Rail* r = _mediator->getGraph()->getRail(_path[i], _path[i + 1]);
+
 		if (!r)
 			throw std::runtime_error("rail is nill can't get total distance");
+
 		result += r->getLenght();
 		++i;
 	}
+
 	return result;
 }
 
@@ -41,23 +47,30 @@ double	Train::getTotalRemaining()	const {
 	double dTot = getTotalDistance();
 	double dPassed = 0.0;
 	size_t i = 0;
+
 	if (_pathIndex <= 0)
 		return dTot;
+
 	if (_currentRail) {
 		dPassed += _currentRail->getLenght() - getDistanceRemaining();
 		i = _pathIndex - 1;
 	}
 	else
 		i = _pathIndex;
+
 	while (i > 0) {
 		if (!_path[i] || !_path[i - 1])
 			throw std::runtime_error("node[index] or node[index - 1] is nill can't get total remaining");
+
 		Rail* r = _mediator->getGraph()->getRail(_path[i - 1], _path[i]);
+
 		if (!r)
 			throw std::runtime_error("rail is nill can't get total remaining");
+
 		dPassed += r->getLenght();
 		--i;
 	}
+
 	return dTot - dPassed;
 }
 
@@ -101,14 +114,17 @@ int Train::getPos(Rail* r, Node* target) const {
 		else
 			return (int)((current->getLenght() / 1000) - 1);
 	}
+
 	return -1;
 }
 
 Rail* Train::getNextRail() const {
 	if (_to == _arrivalStation)
 		return NULL;
+
 	if (_to == nullptr)
 		return _mediator->getGraph()->getRail(_path[0], _path[1]);
+
 	return _mediator->getGraph()->getRail(_to, _path[_pathIndex + 1]);
 
 }
@@ -116,8 +132,10 @@ Rail* Train::getNextRail() const {
 Rail* Train::getPrevRail() const {
 	if (_from == _departureStation)
 		return NULL;
+
 	if (_from == nullptr)
 		return _mediator->getGraph()->getRail(_path[0], _path[1]);
+
 	return _mediator->getGraph()->getRail(_from, _to);
 
 }
@@ -169,6 +187,7 @@ void Train::update(long int p_dt) {
 		move(MAINTAINING);
 	else if (distance > 0.0) {
 		Rail* r = getNextRail();
+		
 		if (!safeEnterNextRail || _to->isStation() || getCurrentVelocity() > r->getSpeedMax()) {
 			move(BRAKING);
 		}
@@ -177,6 +196,7 @@ void Train::update(long int p_dt) {
 	}
 	else if (distance <= 0) {
 		_currentRail = NULL;
+
 		if (_to->isStation() && _to != _arrivalStation) {
 			if (_waitingTime < _stopTime + _to->getDelay().getTime()) {
 				_waitingTime = _waitingTime + p_dt;
@@ -184,10 +204,12 @@ void Train::update(long int p_dt) {
 				return;
 			}
 		}
+
 		if (!safeEnterNextRail) {
 			move(STOPPED);
 			return;
 		}
+
 		_waitingTime = Time(0);
 		goToNextRail();
 	}

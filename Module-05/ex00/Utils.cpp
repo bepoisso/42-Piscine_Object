@@ -4,11 +4,13 @@ std::vector<std::string> f_split(std::string p_line, const std::string& delimite
 	std::vector<std::string> tokens;
 	size_t pos = 0;
 	std::string token;
+
 	while ((pos = p_line.find(delimiter)) != std::string::npos) {
 		token = p_line.substr(0, pos);
 		tokens.push_back(token);
 		p_line.erase(0, pos + delimiter.length());
 	}
+
 	tokens.push_back(p_line);
 
 	return tokens;
@@ -19,6 +21,7 @@ Rail* f_getRailByTraject(std::vector<Rail*> p_rails, std::string p_dep, std::str
 		if ((*it)->getPrevNode()->getName() == p_dep && (*it)->getNextNode()->getName() == p_arr)
 			return *it;
 	}
+
 	return NULL;
 }
 
@@ -27,14 +30,17 @@ Node* f_getNodeByName(std::vector<Node*> p_nodes, std::string p_name) {
 		if ((*it)->getName() == p_name)
 			return *it;
 	}
+
 	return NULL;
 }
 
 std::string f_formatDistance(double distance) {
 	std::ostringstream out;
+
 	if (distance < 100.0)
 		out << std::setw(5) << std::setfill('0') << std::fixed << std::setprecision(2) << distance;
 	else
 		out << std::setw(5) << std::fixed << std::setprecision(1) << distance;
+
 	return out.str();
 };

@@ -14,17 +14,23 @@ double Rail::getSpeedMax() const {
 
 std::ostream& operator<<(std::ostream& os, const Rail& rail) {
 	os << "[RAIL] prevNode=";
+
 	if (rail.getPrevNode()) {
 		os << rail.getPrevNode()->getName();
-	} else {
+	}
+	else {
 		os << "null";
 	}
+
 	os << ", nextNode=";
+
 	if (rail.getNextNode()) {
 		os << rail.getNextNode()->getName();
-	} else {
+	}
+	else {
 		os << "null";
 	}
+
 	os << ", lenght=" << rail.getLenght() / 1000 << "km, speedMax=" << rail.getSpeedMax() * 3.6 << "km/h";
 	return os;
 }

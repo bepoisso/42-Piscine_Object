@@ -1,0 +1,64 @@
+=============================================================
+                 TRAINCOMPOSE USER MANUAL
+=============================================================
+
+NAME
+	trainCompose - train configuration input file format
+
+DESCRIPTION
+	The TrainCompose file defines the trains and their properties, as
+	well as their route information.
+
+	Each line must start with:
+		Train ...
+
+-------------------------------------------------------------
+
+TRAIN DEFINITION
+
+	Format:
+		Train <Name> <Weight> <Friction> <MaxAcceleration> <MaxBrake>
+			<DepartureNode> <ArrivalNode> <DepartureTime> <StopDuration>
+
+	Example:
+		Train TrainA 80 0.05 350 30 CityA CityB 14h10 00h10
+
+-------------------------------------------------------------
+
+PARAMETERS
+
+	+------------------+----------+----------------------------+
+	| Parameter        | Type     | Description                |
+	+------------------+----------+----------------------------+
+	| Name             | string   | Train identifier           |
+	| Weight           | int      | Mass (1 → 1000)            |
+	| Friction         | double   | Coefficient (0 → 1)        |
+	| MaxAcceleration  | double   | Engine force (100 → 500)   |
+	| MaxBrake         | double   | Brake force (5 → 100)      |
+	| DepartureNode    | string   | Must exist in railNetwork  |
+	| ArrivalNode      | string   | Must exist in railNetwork  |
+	| DepartureTime    | hh:mm    | Format HHhMM (e.g. 14h30)  |
+	| StopDuration     | hh:mm    | Format HHhMM (e.g. 00h10)  |
+	+------------------+----------+----------------------------+
+
+-------------------------------------------------------------
+
+RULES
+	- File must not be empty
+	- Exactly 9 parameters per train
+	- Name must contain only letters
+	- No duplicate train names
+	- Departure ≠ Arrival node
+	- Nodes must exist in railNetwork
+	- Values must respect ranges
+	- Time format must be valid (HHhMM)
+
+-------------------------------------------------------------
+
+SUMMARY
+	Each train defines:
+		- Physical properties (mass, friction, forces)
+		- Route (start → end)
+		- Timing (departure + stop duration)
+
+=============================================================

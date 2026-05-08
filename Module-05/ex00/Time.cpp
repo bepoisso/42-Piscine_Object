@@ -18,8 +18,10 @@ Time::~Time() {
 long int Time::StoLI(std::string str) {
 	if (str.size() != 5 || str[2] != 'h')
 		throw std::invalid_argument("Invalid time format");
+
 	long int hours = std::stoi(str.substr(0, 2));
 	long int minutes = std::stoi(str.substr(3, 2));
+
 	return ((hours * 60) + minutes) * 60;
 }
 
@@ -28,6 +30,7 @@ std::string Time::ILtoS(long int p_time) const {
 	long int hours = total_minutes / 60;
 	long int minutes = total_minutes % 60;
 	std::string result;
+
 	result += (hours / 10) + '0';
 	result += (hours % 10) + '0';
 	result += 'h';

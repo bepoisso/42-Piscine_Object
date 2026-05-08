@@ -1,0 +1,74 @@
+=============================================================
+                    RAILNETWORK USER MANUAL
+=============================================================
+
+NAME
+	railNetwork - railway graph input file format
+
+DESCRIPTION
+	The RailNetwork file defines a railway graph made of nodes (stations)
+	and rails (connections).
+
+	Each line must start with a keyword:
+		Node ...
+		Rail ...
+
+-------------------------------------------------------------
+
+NODES
+
+	Format:
+		Node <Name>
+
+	Example:
+		Node CityA
+		Node CityB
+
+	Rules:
+		- Name must start with City or RailNode
+		- Only alphabetic characters allowed
+		- No duplicate nodes
+
+-------------------------------------------------------------
+
+RAILS
+
+	Format:
+		Rail <NodeA> <NodeB> <Length> <SpeedLimit>
+
+	Example:
+		Rail CityA CityB 120.5 200
+
+	PARAMETERS
+		+------------------+----------+----------------------------+
+		| Parameter        | Type     | Description                |
+		+------------------+----------+----------------------------+
+		| NodeA            | string   | Departure City             |
+		| NodeB            | string   | Arrival City               |
+		| Length           | double   | Lenght of rail (0 → 1000)  |
+		| SpeedLimit       | double   | Maximum speed (50 → 400)   |
+		+------------------+----------+----------------------------+
+
+	Rules:
+		- Nodes must exist
+		- NodeA ≠ NodeB
+		- No duplicate rails (A-B == B-A forbidden)
+
+-------------------------------------------------------------
+
+INVALID CASES
+	- Empty file
+	- Unknown line type
+	- Invalid format
+	- Duplicate nodes or rails
+	- Unconnected nodes
+	- Out-of-range numeric values
+
+-------------------------------------------------------------
+
+SUMMARY
+	Nodes = stations
+	Rails = weighted connections (distance + speed limit)
+	Structure is a weighted undirected graph
+
+=============================================================

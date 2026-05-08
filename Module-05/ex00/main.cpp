@@ -3,11 +3,12 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 #include "Simulation.hpp"
 
 #define DELTA_TIME 1 		// secondes
-#define START_TIME 43200	// 28800 seconde = 08h00
+#define START_TIME 28800	// 28800 seconde = 08h00
 
 
 int main(int ac, char **av) {
@@ -25,13 +26,37 @@ int main(int ac, char **av) {
 			return 0;
 		}
 		switch (choice) {
-			case 1:
-				std::cout << "Rail network file format:\n  - list of stations, rails, ..." << std::endl;
-				// TODO: Provide le --help pour voir comment cree les inputs
+			case 1: {
+					std::ifstream f("./how_to_create_rail_network.txt");
+
+					if (!f.is_open()) {
+						std::cerr << "\e[0;31m[ERROR] cannot open ./how_to_create_rail_network.txt\n" << "\e[0m" << std::endl;
+						break;
+					}
+
+					std::string line;
+
+					while (std::getline(f, line))
+						std::cout << line << std::endl;
+
+					f.close();
+				}
 				break;
-			case 2:
-				std::cout << "Train composition file format:\n  - wagons, locomotive, order, ..." << std::endl;
-				// TODO: Provide le --help pour voir comment cree les inputs
+			case 2: {
+				std::ifstream f("./how_to_create_trains.txt");
+
+					if (!f.is_open()) {
+						std::cerr << "\e[0;31m[ERROR] cannot open ./how_to_create_rail_network.txt\n" << "\e[0m" << std::endl;
+						break;
+					}
+
+					std::string line;
+
+					while (std::getline(f, line))
+						std::cout << line << std::endl;
+
+					f.close();
+			}
 				break;
 			default:
 				std::cout << "Unknown choice. Use 1 or 2." << std::endl;

@@ -16,9 +16,11 @@ Simulation::~Simulation() {
 	for (std::vector<Node*>::iterator it = _nodesList.begin(); it != _nodesList.end(); ++it)
 		delete *it;
 	_nodesList.clear();
+
 	for (std::vector<Rail*>::iterator it = _railsList.begin(); it != _railsList.end(); ++it)
 		delete *it;
 	_railsList.clear();
+
 	for (std::vector<Train*>::iterator it = _trainsList.begin(); it != _trainsList.end(); ++it)
 		delete *it;
 	_trainsList.clear();
@@ -36,6 +38,7 @@ bool Simulation::parseFiles(char* p_railPath, char* p_trainPath) {
 		std::cerr << "\e[0;31m" << e.what() << "\e[0m" << "\n🤓☝️  Tips: --help to see how to create inputs files." << std::endl;
 		return false;
 	}
+
 	return true;
 }
 
@@ -58,6 +61,7 @@ bool Simulation::factoryObject() {
 		std::cerr << "\e[0;31m[ERROR] factory: " << e.what() << "\e[0m" << std::endl;
 		return false;
 	}
+
 	return true;
 }
 
@@ -75,6 +79,7 @@ bool Simulation::pathFinder() {
 		std::cerr << "\e[0;31m[ERROR] pathfinder: " << e.what() << "\e[0m" << std::endl;
 		return false;
 	}
+
 	return true;
 }
 
@@ -91,5 +96,6 @@ bool Simulation::runSimulation(long int p_startTime) {
 		std::cerr << "\e[0;31m[ERROR] simulation: " << e.what() << "\e[0m" << std::endl;
 		return false;
 	}
+
 	return true;
 }

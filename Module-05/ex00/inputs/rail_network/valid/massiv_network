@@ -1,0 +1,166 @@
+Node CityA
+Node CityB
+Node CityC
+Node CityD
+Node CityE
+Node CityF
+Node CityG
+Node CityH
+Node CityI
+Node CityJ
+Node CityK
+Node CityL
+Node CityM
+Node CityN
+Node CityO
+Node CityP
+Node CityQ
+Node CityR
+Node CityS
+Node CityT
+Node RailNodeA
+Node RailNodeB
+Node RailNodeC
+Node RailNodeD
+Node RailNodeE
+Node RailNodeF
+Node RailNodeG
+Node RailNodeH
+Node RailNodeI
+Node RailNodeJ
+Node RailNodeK
+Node RailNodeL
+Node RailNodeM
+Node RailNodeN
+Node RailNodeO
+Node RailNodeP
+Node RailNodeQ
+Node RailNodeR
+Node RailNodeS
+Node RailNodeT
+Node RailNodeU
+Node RailNodeV
+Node RailNodeW
+Node RailNodeX
+Node RailNodeY
+Node RailNodeZ
+Node RailNodeAA
+Node RailNodeAB
+Node RailNodeAC
+Node RailNodeAD
+Node RailNodeAE
+Node RailNodeAF
+Node RailNodeAG
+Node RailNodeAH
+Node RailNodeAI
+Node RailNodeAJ
+Node RailNodeAK
+Node RailNodeAL
+Node RailNodeAM
+Node RailNodeAN
+Node RailNodeAO
+Node RailNodeAP
+Node RailNodeAQ
+Node RailNodeAR
+Node RailNodeAS
+Node RailNodeAT
+Node RailNodeAU
+Node RailNodeAV
+Node RailNodeAW
+Node RailNodeAX
+Rail CityA RailNodeA 15.0 250.0
+Rail RailNodeA RailNodeB 20.0 250.0
+Rail RailNodeB RailNodeC 13.0 175.0
+Rail RailNodeC CityC 50.0 150.0
+Rail CityC RailNodeD 50.0 150.0
+Rail RailNodeD RailNodeE 100.0 300.0
+Rail RailNodeE RailNodeF 70.5 250.0
+Rail RailNodeF CityD 70.5 250.0
+Rail CityD RailNodeG 38.456 145.5
+Rail RailNodeG CityB 17.4 150.0
+Rail CityB RailNodeH 12.0 180.0
+Rail RailNodeH RailNodeI 24.0 220.0
+Rail RailNodeI CityE 31.0 200.0
+Rail CityE RailNodeJ 18.5 160.0
+Rail RailNodeJ RailNodeK 28.5 190.0
+Rail RailNodeK CityF 40.0 250.0
+Rail CityF RailNodeL 10.0 120.0
+Rail RailNodeL RailNodeM 14.0 140.0
+Rail RailNodeM CityG 19.0 160.0
+Rail CityG RailNodeN 22.0 180.0
+Rail RailNodeN RailNodeO 26.0 200.0
+Rail RailNodeO CityH 35.0 220.0
+Rail CityH RailNodeP 17.0 170.0
+Rail RailNodeP RailNodeQ 45.0 260.0
+Rail RailNodeQ CityI 38.0 230.0
+Rail CityI RailNodeR 12.0 160.0
+Rail RailNodeR RailNodeS 16.0 180.0
+Rail RailNodeS CityJ 24.0 200.0
+Rail CityJ RailNodeT 20.0 210.0
+Rail RailNodeT RailNodeU 25.0 240.0
+Rail RailNodeU CityK 28.0 220.0
+Rail CityK RailNodeV 14.0 160.0
+Rail RailNodeV RailNodeW 36.0 250.0
+Rail RailNodeW CityL 30.0 230.0
+Rail CityL RailNodeX 11.0 140.0
+Rail RailNodeX RailNodeY 19.0 170.0
+Rail RailNodeY CityM 26.0 190.0
+Rail CityM RailNodeZ 15.0 150.0
+Rail RailNodeZ RailNodeAA 22.0 180.0
+Rail RailNodeAA CityN 33.0 210.0
+Rail CityN RailNodeAB 13.0 160.0
+Rail RailNodeAB RailNodeAC 18.0 180.0
+Rail RailNodeAC CityO 29.0 220.0
+Rail CityO RailNodeAD 20.0 200.0
+Rail RailNodeAD RailNodeAE 24.0 220.0
+Rail RailNodeAE CityP 42.0 260.0
+Rail CityP RailNodeAF 16.0 170.0
+Rail RailNodeAF RailNodeAG 30.0 210.0
+Rail RailNodeAG CityQ 48.0 280.0
+Rail CityQ RailNodeAH 12.0 150.0
+Rail RailNodeAH RailNodeAI 20.0 180.0
+Rail RailNodeAI CityR 25.0 200.0
+Rail CityR RailNodeAJ 18.0 160.0
+Rail RailNodeAJ RailNodeAK 32.0 230.0
+Rail RailNodeAK CityS 37.0 250.0
+Rail CityS RailNodeAL 14.0 140.0
+Rail RailNodeAL RailNodeAM 21.0 180.0
+Rail RailNodeAM CityT 34.0 220.0
+Rail CityT RailNodeAN 19.0 170.0
+Rail RailNodeAN RailNodeAO 28.0 210.0
+Rail RailNodeAO CityA 45.0 260.0
+Rail RailNodeA RailNodeH 23.5 250.0
+Rail RailNodeB RailNodeJ 31.2 240.0
+Rail RailNodeC RailNodeL 42.7 220.0
+Rail RailNodeD RailNodeN 37.8 210.0
+Rail RailNodeE RailNodeP 29.9 200.0
+Rail RailNodeF RailNodeR 33.3 230.0
+Rail RailNodeG RailNodeT 41.0 240.0
+Rail RailNodeH RailNodeV 52.5 280.0
+Rail RailNodeI RailNodeX 38.8 220.0
+Rail RailNodeJ RailNodeZ 44.4 250.0
+Rail RailNodeK RailNodeAB 35.5 210.0
+Rail RailNodeL RailNodeAD 39.1 230.0
+Rail RailNodeM RailNodeAF 46.0 260.0
+Rail RailNodeN RailNodeAH 31.7 200.0
+Rail RailNodeO RailNodeAJ 28.9 190.0
+Rail RailNodeP RailNodeAL 36.6 220.0
+Rail RailNodeQ RailNodeAN 48.2 270.0
+Rail RailNodeR RailNodeAP 27.0 180.0
+Rail RailNodeS RailNodeAQ 24.0 170.0
+Rail RailNodeT RailNodeAR 33.0 200.0
+Rail RailNodeU RailNodeAS 37.0 220.0
+Rail RailNodeV RailNodeAT 26.0 190.0
+Rail RailNodeW RailNodeAU 41.0 240.0
+Rail RailNodeX RailNodeAV 35.0 210.0
+Rail RailNodeY RailNodeAW 30.0 200.0
+Rail RailNodeZ RailNodeAX 47.0 280.0
+Rail RailNodeAP CityM 18.0 160.0
+Rail RailNodeAQ CityN 22.0 170.0
+Rail RailNodeAR CityO 26.0 180.0
+Rail RailNodeAS CityP 32.0 210.0
+Rail RailNodeAT CityQ 29.0 200.0
+Rail RailNodeAU CityR 36.0 220.0
+Rail RailNodeAV CityS 40.0 240.0
+Rail RailNodeAW CityT 44.0 260.0
+Rail RailNodeAX CityB 52.0 300.0

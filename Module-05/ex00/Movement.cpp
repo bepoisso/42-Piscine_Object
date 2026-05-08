@@ -14,24 +14,27 @@ AMovement::AMovement(int p_weight, double p_friction, double p_accelerate, doubl
 
 void AMovement::accelerateMove() {
 	double netForce = _tractionMax - _frictionForce;
+
 	if (netForce < 0)
 		_acceleration = 0;
 	else
 		_acceleration = netForce / _mass;
+
 	updateVelocity();
 	_currentState = ACCELERATING;
 }
 
 void AMovement::brakeMove() {
 	double netForce = -_brakeMax - _frictionForce;
+
 	_acceleration = netForce / _mass;
 	updateVelocity();
 	_currentState = BRAKING;
 }
 
 void AMovement::maintainMove() {
-	updateVelocity();
 	_acceleration = 0.0;
+	updateVelocity();
 	_currentState = MAINTAINING;
 }
 
@@ -43,15 +46,22 @@ void AMovement::stopMove() {
 
 void AMovement::updateVelocity() {
 	double maxSpeed = getCurrentSpeedLimit();
+
 	if (maxSpeed == -1.0)
 		throw std::runtime_error("Fail to get Current Speed Limit");
+
 	double oldVelocity = _velocity;
+
 	_velocity += _acceleration * _deltaTime;
+
 	if (_velocity > maxSpeed)
 		_velocity = maxSpeed;
+
 	if (_velocity < 0)
 		_velocity = 0;
+
 	_distanceRemaining -= (oldVelocity + _velocity) / 2.0 * _deltaTime;
+	
 	if (_distanceRemaining < 0)
 		_distanceRemaining = 0;
 }
