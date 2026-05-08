@@ -134,6 +134,9 @@ bool TrainManager::isSafeToEnterNextRail(Train* t) {
 
 	if (!nextR)
 		return true;
+
+	if (nextR->isBlocked())
+		return false;
 	
 	for (std::vector<Train*>::iterator it = _trains.begin(); it != _trains.end(); ++it) {
 		Train* other = *it;
@@ -207,23 +210,23 @@ void TrainManager::writeTrainState(Train* t) {
 	Rail* r;
 	size_t check = 0;
 
-	if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
-		return;
-	if (getCurrentTime() < t->getDepartureTime() || t->isFinished() || t->getPathIndex() == 0) {
-		if (t->isFinished()) {
-			double size = t->getPrevRail()->getLenght() / 1000;
-			out << "[" << Time(getCurrentTime() - t->getDepartureTime()) << "] - [";
-			out << std::setw(9) << std::right << t->getPath((t->getPathIndex() - 1) + check)->getName().substr(0, 9);
-			out << "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex() + check)->getName().substr(0, 9);
-			out << "] - [00.00km] - [ Stopped] - ";
-			for (int i = 0; i < size - 1; ++i)
-				out << "[ ]";
-			if (size - (int)size == 0)
-				out << "[ ]";
-			out << "[x]" << std::endl;
-		}
+	if (t->isFinished()) {
+		double size = t->getPrevRail()->getLenght() / 1000;
+		out << "[" << Time(getCurrentTime() - t->getDepartureTime()) << "] - [";
+		out << std::setw(9) << std::right << t->getPath((t->getPathIndex() - 1) + check)->getName().substr(0, 9);
+		out << "][" << std::setw(9) << std::right << t->getPath(t->getPathIndex() + check)->getName().substr(0, 9);
+		out << "] - [00.00km] - [ Stopped] - ";
+		for (int i = 0; i < size - 1; ++i)
+			out << "[ ]";
+		if (size - (int)size == 0)
+			out << "[ ]";
+		out << "[x]" << std::endl;
 		return;
 	}
+	if (((getCurrentTime() % Time("00h01").getTime()) != Time(0)))
+		return;
+	if (getCurrentTime() < t->getDepartureTime() || t->getPathIndex() == 0)
+		return;
 
 	if (t->getCurrentRail()) {
 		r = t->getCurrentRail();

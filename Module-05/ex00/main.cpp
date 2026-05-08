@@ -1,14 +1,18 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <cstdlib>
+#include <ctime>
 
 #include "Simulation.hpp"
 
 #define DELTA_TIME 1 		// secondes
-#define START_TIME 28800	// secondes 28800 seconde = 08h00
+#define START_TIME 43200	// 28800 seconde = 08h00
 
 
 int main(int ac, char **av) {
+
+	std::srand(std::time(NULL));
 
 	if (ac == 2 && std::strcmp(av[1], "--help") == 0) {
 		std::cout << "Choose your documentation :" << std::endl;

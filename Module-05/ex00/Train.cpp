@@ -178,7 +178,7 @@ void Train::update(long int p_dt) {
 	else if (distance <= 0) {
 		_currentRail = NULL;
 		if (_to->isStation() && _to != _arrivalStation) {
-			if (_waitingTime < _stopTime) {
+			if (_waitingTime < _stopTime + _to->getDelay().getTime()) {
 				_waitingTime = _waitingTime + p_dt;
 				move(STOPPED);
 				return;

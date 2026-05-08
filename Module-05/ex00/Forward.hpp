@@ -34,3 +34,8 @@ class Pathfinder;
 class Time;
 class SimulationEngine;
 class TrainManager;
+class AEvent;
+class EventManager;
+class CityDelayedEvent;
+class RailBlockedEvent;
+class RailLimitationEvent;

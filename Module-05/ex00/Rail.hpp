@@ -16,6 +16,9 @@ private:
 	const double			_lenght;		//	km -> m
 	const double			_speedMax;		//	km/h -> m/s
 
+	bool					_blocked;
+	double					_limitationSpeed; //	m/s
+
 public:
 	Rail(Node* p_departure, Node* p_arrival, double p_lenght, double p_speed);
 	~Rail();
@@ -23,7 +26,13 @@ public:
 	Node* getPrevNode() const { return const_cast<Node*>(_prevNode); }
 	Node* getNextNode() const { return const_cast<Node*>(_nextNode); }
 	double getLenght() const { return _lenght; }
-	double getSpeedMax() const { return _speedMax; }
+	double getSpeedMax() const;
+
+	void setBlocked(bool p) { _blocked = p; };
+	bool isBlocked() const { return _blocked; }
+	void setLimitationSpeed(double p_speed) { _limitationSpeed = p_speed; }
+	double getLimitationSpeed() const { return _limitationSpeed; }
+
 };
 
 std::ostream& operator<<(std::ostream& os, const Rail& rail);

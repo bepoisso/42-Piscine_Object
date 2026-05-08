@@ -1,7 +1,8 @@
 #include "Simulation.hpp"
 
 Simulation::Simulation(long int p_dt) :
-	_parser(nullptr), _factory(nullptr), _graph(nullptr), _pathfinder(nullptr), _trainManager(nullptr), _engine(nullptr), _deltaTime(p_dt) {
+	_parser(nullptr), _factory(nullptr), _graph(nullptr), _pathfinder(nullptr),
+	_engine(nullptr), _deltaTime(p_dt) {
 	
 }
 
@@ -10,8 +11,8 @@ Simulation::~Simulation() {
 	delete _factory;
 	delete _graph;
 	delete _pathfinder;
-	delete _trainManager;
 	delete _engine;
+
 	for (std::vector<Node*>::iterator it = _nodesList.begin(); it != _nodesList.end(); ++it)
 		delete *it;
 	_nodesList.clear();
@@ -83,8 +84,7 @@ bool Simulation::runSimulation(long int p_startTime) {
 		std::cout << "     Simulation process    " << std::endl;
 		std::cout << "===========================" << std::endl << std::endl;
 
-		_trainManager = new TrainManager(_graph, _trainsList, _paths, p_startTime);
-		_engine = new SimulationEngine(_trainManager, _graph, _paths, _deltaTime, p_startTime);
+		_engine = new SimulationEngine(_graph, _trainsList, _paths, _deltaTime, p_startTime);
 		_engine->run();
 		
 	} catch(const std::exception& e) {

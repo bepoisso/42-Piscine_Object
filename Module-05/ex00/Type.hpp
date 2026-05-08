@@ -6,3 +6,9 @@ enum TrainState {
 	BRAKING,
 	STOPPED
 };
+
+enum EventType {
+	CITY_DELAYED,
+	RAIL_LIMITATION,
+	RAIL_BLOCKED
+};

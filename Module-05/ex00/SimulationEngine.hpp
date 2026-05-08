@@ -13,14 +13,16 @@
 #include "Rail.hpp"
 #include "Train.hpp"
 #include "Time.hpp"
+#include "EventManager.hpp"
 
 class SimulationEngine {
 private:
-	TrainManager*	_trainManager;
-	Graph*			_graph;
+	Graph*			_graph;				// non-owning: Graph are owned by Simulation
+	TrainManager*	_trainManager;		// owning: SimulationEngine own TrainManager
+	EventManager*	_eventManager;		// owning: SimulationEngine own EventManager
+
 	std::map<Train*, std::vector<Node*>> _paths;
 
-	std::vector<int>	_trainsId;
 	Time				_time;
 	long int			_deltaTime;
 	bool				_finished;
@@ -29,8 +31,10 @@ private:
 	void update(long int p_dt);
 
 public:
-	SimulationEngine(TrainManager* p_tManage, Graph* p_graph, std::map<Train*, std::vector<Node*>> p_paths, long int p_dt, long int p_startTime);
+	SimulationEngine(Graph* p_graph, std::vector<Train*> p_trains, std::map<Train*, std::vector<Node*>> p_paths, long int p_dt, long int p_startTime);
 	~SimulationEngine();
 
 	void run();
+	Node* getRandCity();
+	Rail* getRandRail();
 };

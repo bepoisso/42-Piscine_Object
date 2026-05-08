@@ -32,7 +32,6 @@ private:
 	Factory*			_factory;
 	Graph*				_graph;
 	Pathfinder*			_pathfinder;
-	TrainManager*		_trainManager;
 	SimulationEngine*	_engine;
 
 	std::vector<Node*>		_nodesList;			// Owning: Simulation Own Nodes

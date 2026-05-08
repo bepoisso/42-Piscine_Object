@@ -20,6 +20,11 @@ SRCS =	main.cpp \
 		SimulationEngine.cpp\
 		TrainManager.cpp\
 		Clock.cpp\
+		Event.cpp\
+		EventManager.cpp\
+		CityDelayedEvent.cpp\
+		RailLimitationEvent.cpp\
+		RailBlockedEvent.cpp\
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.cpp=.o))
 
