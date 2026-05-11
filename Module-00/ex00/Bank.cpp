@@ -93,7 +93,7 @@ void Bank::withdraw(int id, int minudValue) {
 
 const Account* Bank::operator[](int id) const {
 	Account* client = clientAccounts[id];
-	return client ? client : nullptr;
+	return client ? client : NULL;
 }
 
 
