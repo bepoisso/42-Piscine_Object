@@ -180,10 +180,10 @@ void Parsing::trainChecker(std::string p_line) {
 	if (!isFloat(token[2]) || std::stod(token[2]) <= 0.0 || std::stod(token[2]) > 1.0)
 		throw std::runtime_error("[ERROR] parsing: friction: " + token[2] + " is not a valid arguments; in file: " + _trainComposePath);
 
-	if (!isFloat(token[3]) || std::stod(token[3]) < 100.0 || std::stod(token[3]) > 500.0)
+	if (!isFloat(token[3]) || std::stod(token[3]) < 100.0 || std::stod(token[3]) > 1000.0)
 		throw std::runtime_error("[ERROR] parsing: acceleration: " + token[3] + " is not a valid arguments; in file: " + _trainComposePath);
 	
-	if (!isFloat(token[4]) || std::stod(token[4]) < 5.0 || std::stod(token[4]) > 100.0)
+	if (!isFloat(token[4]) || std::stod(token[4]) < 5.0 || std::stod(token[4]) > 1000.0)
 		throw std::runtime_error("[ERROR] parsing: brake: " + token[4] + " is not a valid arguments; in file: " + _trainComposePath);
 	
 	if (!isANode(token[5]))
