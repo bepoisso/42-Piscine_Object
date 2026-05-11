@@ -10,13 +10,6 @@ public:
 	// Canonical Form
 	Tool() {}
 	virtual ~Tool() {}
-	Tool(const Tool &other) {
-		(void)other;
-	}
-	Tool &operator=(const Tool &other) {
-		(void)other;
-		return (*this);
-	}
 
 /* Operator */
 

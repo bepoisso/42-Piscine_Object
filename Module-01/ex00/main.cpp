@@ -6,9 +6,18 @@
 #include "Workshop.hpp"
 
 int main () {
+
+	Position mainP;
+	Statistic mainS;
+	mainP.x = 24;
+	mainP.y = 145;
+	mainP.z = 34;
+	mainS.exp = 0;
+	mainS.level = 0;
+
 	std::cout << std::endl << "========== IV.1 COMPOSITION ==========" << std::endl;
-	Worker bob("Bob");
-	Worker alex("Alex");
+	Worker bob("Bob", mainP, mainS);
+	Worker alex("Alex", mainP, mainS);
 
 	std::cout << std::endl << "========== IV.2 AGGREGATION ==========" << std::endl;
 	Shovel shov;
@@ -22,7 +31,7 @@ int main () {
 
 	std::cout << std::endl << "Worker deletion must not delete shovel" << std::endl;
 	{
-		Worker temp("Temp");
+		Worker temp("Temp", mainP, mainS);
 		temp.giveTool(&shov);
 		temp.takeTool(&shov);
 	}
@@ -66,7 +75,7 @@ int main () {
 	std::cout << std::endl << "Scoped worker auto-leaves workshops on destruction" << std::endl;
 	{
 		Shovel eveShovel;
-		Worker eve("Eve");
+		Worker eve("Eve", mainP, mainS);
 		eve.giveTool(&eveShovel);
 		forge.registerWorker(&eve);
 		mine.registerWorker(&eve);

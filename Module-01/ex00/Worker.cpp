@@ -3,7 +3,7 @@
 #include "Tool.hpp"
 #include "Workshop.hpp"
 
-Worker::Worker(std::string newName) : name(newName) {
+Worker::Worker(std::string newName, Position newPos, Statistic newStat) : name(newName), pos(newPos), stat(newStat) {
 	std::cout << "Worker constructor called" << std::endl;
 }
 

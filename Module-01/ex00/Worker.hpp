@@ -19,7 +19,7 @@ private:
 	std::vector<Workshop *> workshops;
 
 public:
-	Worker(std::string newName);
+	Worker(std::string newName, Position newPos, Statistic newStat);
 	~Worker();
 
 	void giveTool(Tool *newTool);
