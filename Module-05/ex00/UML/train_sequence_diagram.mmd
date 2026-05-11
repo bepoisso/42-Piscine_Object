@@ -1,0 +1,80 @@
+sequenceDiagram
+	autonumber
+	participant SE as SimulationEngine
+	participant EM as EventManager
+	participant TM as TrainManager
+	participant T as Train
+	participant G as Graph
+	participant R as Rail
+	participant N as Node
+
+	SE->>TM: initialization
+	loop on each trains:
+		TM->>T: initialization
+		TM->>T: i'm your mediator
+		TM->>T: this is your paths
+		TM->>T: give me your parameters
+		T-->>TM: this is my parameters
+		TM->>TM: get estimate travel time
+		TM->>TM: write trains's outputs header
+	end
+
+	loop each tick
+		SE->>EM: update events
+		SE->>TM: update your trains
+		loop: on each trains
+			TM->>T: update yourself
+
+			alt not started
+				T->>TM: is safe to enter on next rail ?
+				TM-->>T: yes or no
+				alt departure time reach and rail safe
+					T->>TM: need my next rail
+					TM->>G: give me rail start -> end
+					G-->>TM: this is the rail
+					TM-->>T: this is your next rail
+					T->>T: go on next rail
+				else can't start
+					T-->>TM: i can't start
+					TM->>TM: go to next train
+				end
+			else train started
+				T->>TM: i have a collistion risk ?
+				TM-->>T: yes or no
+				T->>TM: is safe to enter on next rail ?
+				TM-->>T: yes or no
+
+				alt colistion risk or next rail is not safe or next rail is a station
+					T->>T: i'm BRAKING
+				else distanceRemaining > distanceBrake and velocity < RailSpeedMax
+					T->>R: i need the limitation speed
+					R-->T: this is my limitation speed
+					T->>T: i'm ACCELERATING
+				else distance > 0
+					T->>T: i'm MAINTAINING or BRAKING
+				else: end of rail reach
+					T->>T: i'm in the station not on rail
+					alt node is a station
+						T->>N: are you a station ?
+						N-->>T: yes or no
+						T->>T: i'm STOPPED and waiting
+					else next rail safe
+						T->>TM: need my next rail
+						TM->>G: give me rail start -> end
+						G-->>TM: this is the rail
+						TM-->>T: this is your next rail
+						T->>T: go on next rail
+					else next rail blocked
+						T->>T: i'm STOPPED
+					end
+				end
+			end
+
+			TM->>TM: writing train state on output
+		end
+		SE->>TM: all train are arrived ?
+		TM-->>SE: yes or no
+		alt yes
+			SE->>SE: exit loop
+		end
+	end

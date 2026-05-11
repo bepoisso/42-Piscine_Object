@@ -1,0 +1,135 @@
+sequenceDiagram
+	autonumber
+	participant U as User
+	participant M as Main
+	participant S as Simulation
+	participant P as Parsing
+	participant F as Factory
+	participant G as Graph
+	participant PF as PathFinder
+	participant SE as SimulationEngine
+	participant EM as EventManager
+	participant E as Event
+	participant TM as TrainManager
+	participant T as Train
+	participant R as Rail
+	participant N as Node
+
+	alt: user need help
+		M->>U: choose your help
+		U-->>M: Rail network or train composition
+		M->>U: this is your file
+	end
+
+	M->>M: create Simulation
+	M->>S: parsing process
+	S->>S: create parsser
+	S->>P: check if this files has error
+	alt: files contain error ?
+		P->>U: error
+	end
+
+	M->>S: factory process
+	S->>S: create factory
+	S->>F: create nodes
+	F->>F: create nodes
+	S->>F: give me Nodes
+	F-->>S: this is all nodes
+	S->>F: create Rails
+	F->>F: create rails
+	S->>F: give me Rails
+	F-->>S: this is all rails
+	S->>F: create Trains
+	F->>F: create trains
+	S->>F: give me trains
+	F-->>S: this is all trains
+	alt: factory find error
+		F->>U: error
+	end
+
+	S->>S: create graph
+	S->>G: create rail network
+	G->>G: creating rail network
+	alt: graph find error
+		G->>U: error
+	end
+
+	M->>S: pathfinder Process
+	S->>PF: new create
+	loop: for each trains
+		S->>PF: give a path for this train
+		PF->>G: i need rail network
+		G-->>PF: this is rail network
+		PF->>PF: find best path
+		S->>S: assigne a path to train
+	end
+	alt: pathfinder find error
+		F->>U: error
+	end
+
+	M->>S: simulation process
+	S->>S: create Simulation Engine
+	SE->>SE: create Event Manager
+	SE->>SE: create Train Manager
+	S->>SE: run the simulation
+
+	SE->>TM: initialization
+	loop on each trains:
+		TM->>T: initialization
+		TM->>T: i'm your mediator
+		TM->>T: this is your paths
+		TM->>T: give me your parameters
+		T-->>TM: this is my parameters
+		TM->>TM: get estimate travel time
+		TM->>TM: write trains's outputs header
+	end
+
+	loop each tick
+		SE->>EM: update events
+		loop: on each event
+			EM->>E: update your time
+			E->>E: update time
+			EM-->E: are you finished ?
+			alt: yes
+				EM->>EM: delete this event
+			end
+		end
+		SE->>SE: i want to create event ? (random)
+		alt: yes
+			SE->>EM: create a new random event
+			EM->>EM: what event i want to create (random)
+			alt: City delayed event
+				EM->>SE: give me a random City
+				SE-->>EM: there it is
+				EM->>EM: create event
+				E->>N: this is your delayed time
+			else: Rail Limitation speed event
+				EM->>SE: give me a random rail
+				SE-->>EM: there it is
+				EM->>EM: create event
+				E->>R: this is your limitation speed
+			else: Rail Blocked Event
+				EM->>SE: give me a random rail
+				SE-->>EM: there it is
+				EM->>EM: create event
+				E->>N: you are now blocked
+			end
+		end
+		SE->>TM: update your trains
+		loop: on each trains
+			TM->>T: update yourself
+			T->>TM: the next rail is safe ?
+			T->>TM: i have a collition risk ?
+			TM->>T: what is your current state ?
+			T-->>TM: there it is
+			TM->>TM: writing train state on output
+		end
+		SE->>TM: all train are arrived ?
+		TM-->>SE: yes or no
+		alt yes
+			SE->>S: simulation finished
+		end
+	end
+	alt: simulation engine find error
+		F->>U: error
+	end
