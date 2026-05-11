@@ -28,7 +28,4 @@ public:
 	~Pathfinder();
 
 	std::vector<Node*> findOptimalPath(Node* p_start, Node* p_end, Train* p_train);
-
-	// TODO: a retirer avant mis en prod
-	void D_printPath(std::vector<Node*> p_nodes) { std::cout << "\033[32m___DEBUG PRINT PATH___\nFor: " << p_nodes.front()->getName() << " <--> " << p_nodes.back()->getName() << std::endl; for (std::vector<Node*>::iterator i = p_nodes.begin();i != p_nodes.end();++i) std::cout << (*i)->getName() << std::endl; std::cout << "___DEBUG PRINT END___\033[0m" << std::endl;}
 };

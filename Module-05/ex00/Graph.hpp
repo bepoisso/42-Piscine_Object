@@ -28,7 +28,4 @@ public:
 	std::vector<Node*>	getNodes() const { return _nodesList; }
 	std::vector<Rail*>	getRails() const { return _railsList; }
 	Rail*				getRail(Node* f, Node* t);
-
-	// TODO: (debug) retirer avant mis en prod
-	void D_printNetwork();
 };

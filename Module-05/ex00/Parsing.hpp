@@ -69,7 +69,4 @@ public:
 	std::vector<std::string> 	getNodes() const { return _nodes; }
 	std::vector<std::string> 	getRails() const { return _rails; }
 	std::vector<std::string> 	getTrains() const { return _trains; }
-
-	// TODO: delete pour la mise en prod
-	void D_printList(std::vector<std::string> p_list) { std::cout << "\033[32m___DEBUG PRINT LIST___" << std::endl; for (std::vector<std::string>::iterator it = p_list.begin(); it != p_list.end(); ++it) std::cout << *it << std::endl; std::cout << "___DEBUG PRINT END___\033[0m" << std::endl; }
 };

@@ -41,18 +41,3 @@ Rail*	Graph::getRail(Node* f, Node* t) {
 
 	return NULL;
 }
-
-void Graph::D_printNetwork() {
-	std::cout << "\033[32m___DEBUG PRINT NETWORK___" << std::endl;
-
-	for (std::map<Node*, std::vector<Rail*>>::iterator it = _railsNetwork.begin(); it != _railsNetwork.end(); ++it) {
-		std::cout << "_for: " << (*it).first->getName() << "___" << std::endl;
-		
-		for (std::vector<Rail*>::iterator jt = (*it).second.begin(); jt != (*it).second.end(); ++jt) {
-			std::cout << **jt << std::endl;
-		}
-		std::cout << std::endl;
-	}
-
-	std::cout << "___DEBUG PRINT END___\033[0m" << std::endl;
-}

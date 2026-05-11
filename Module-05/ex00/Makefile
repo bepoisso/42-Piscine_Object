@@ -1,4 +1,4 @@
-NAME = exec #TODO: modifier le nom de l'executable
+NAME = train_simulation
 OBJS_DIR = objs
 OUTPUT_DIR = outputs
 

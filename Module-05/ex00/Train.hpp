@@ -65,6 +65,4 @@ public:
 
 	void goToNextRail();
 	void update(long int p_dt);
-
-	void D_printPath() { std::cout<<"___PRINT_PATH_"<<getID()<<"___\n";for(std::vector<Node*>::iterator i=_path.begin();i!=_path.end();++i) std::cout<<(*i)->getName()<<std::endl;std::cout<<"___PRINT_PATH_END___\n"; }
 };
