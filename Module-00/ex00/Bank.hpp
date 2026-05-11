@@ -46,6 +46,5 @@ friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
 	void loan(int id, int addValue);
 	void withdraw(int id, int minudValue);
 
-
-
+	const Account* operator[](int id) const;
 };
