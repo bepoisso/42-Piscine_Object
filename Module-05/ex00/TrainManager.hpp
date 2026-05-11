@@ -1,3 +1,16 @@
+/**
+ * @file TrainManager.hpp
+ * @brief TrainManager class - Manage trains and safety
+ * 
+ * @details
+ * Owns train instances, tracks paths, ensures safety checks, and writes
+ * output files.
+ * 
+ * @note
+ * principles SRP, Encapsulation
+ * design_pattern Mediator
+ */
+
 #pragma once
 
 #include <vector>

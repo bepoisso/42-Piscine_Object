@@ -1,3 +1,15 @@
+/**
+ * @file Movement.hpp
+ * @brief AMovement class - Abstract train dynamics
+ * 
+ * @details
+ * Implements movement physics and state transitions for a train. Concrete
+ * trains provide identifiers and speed limits.
+ * 
+ * @note
+ * principles Abstraction, Encapsulation
+ */
+
 #pragma once
 
 #include <iostream>

@@ -1,3 +1,15 @@
+/**
+ * @file Rail.hpp
+ * @brief Rail class - Connection between nodes
+ * 
+ * @details
+ * Represents a rail segment with length, speed limits, and temporary
+ * constraints such as blocking or limitation speed.
+ * 
+ * @note
+ * principles Encapsulation
+ */
+
 #pragma once
 
 #include <iostream>

@@ -1,3 +1,15 @@
+/**
+ * @file EventManager.hpp
+ * @brief EventManager class - Manage simulation events
+ * 
+ * @details
+ * Owns and updates active events, and can generate random events through
+ * the simulation engine mediator.
+ * 
+ * @note
+ * principles SRP, Encapsulation, Management
+ */
+
 #pragma once
 
 #include <vector>

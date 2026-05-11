@@ -1,3 +1,15 @@
+/**
+ * @file Pathfinder.hpp
+ * @brief Pathfinder class - Route computation
+ * 
+ * @details
+ * Computes an optimal path between nodes using the graph and train
+ * constraints.
+ * 
+ * @note
+ * principles Encapsulation, Separation of concerns
+ */
+
 #pragma once
 
 #include <iostream>

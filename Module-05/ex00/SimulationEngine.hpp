@@ -1,3 +1,15 @@
+/**
+ * @file SimulationEngine.hpp
+ * @brief SimulationEngine class - Core simulation loop
+ * 
+ * @details
+ * Coordinates time progression, event updates, and train updates for the
+ * simulation execution.
+ * 
+ * @note
+ * principles SRP, Encapsulation
+ */
+
 #pragma once
 
 #include <vector>

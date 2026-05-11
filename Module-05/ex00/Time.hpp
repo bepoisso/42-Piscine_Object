@@ -1,3 +1,14 @@
+/**
+ * @file Time.hpp
+ * @brief Time class - Time value object
+ * 
+ * @details
+ * Stores time in seconds and provides formatting and arithmetic operators.
+ * 
+ * @note
+ * principles Encapsulation
+ */
+
 #pragma once
 
 #include <string>

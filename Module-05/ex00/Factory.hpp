@@ -1,19 +1,15 @@
 /**
  * @file Factory.hpp
- * @brief Factory class - Quick description
+ * @brief Factory class - Create domain objects
  * 
  * @details
- * This is a long comment section to describe
- * what this file do (on a multiple line).
+ * Centralizes creation of nodes, rails, and trains from parsed input data.
  * 
  * @note
- * Principles:
- * - Centralize object creation in a single class.
- * - Hide instantiation logic from client code.
- * - Make it easy to add new types without changing external usage.
- * - Provide a simple interface to request a concrete object.
- * - Isolate creation details to preserve encapsulation.
+ * principles SRP, Encapsulation
+ * design_pattern Factory
  */
+
 #pragma once
 
 #include <vector>

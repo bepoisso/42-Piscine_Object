@@ -1,25 +1,13 @@
 /**
  * @file Parsing.hpp
- * @brief Parsing class - Class for parse inputs files
+ * @brief Parsing class - Read and validate input files
  * 
  * @details
- * This class reads, verifies and extracts data from configuration inputs files
- * containing rail network and train information. It parses these files,
- * validates the data according to specific rules and formats, and transmits
- * the validated information to the simulation engine for processing and execution.
+ * Parses rail network and train composition files, validates their format,
+ * and exposes the raw data to the simulation.
  * 
  * @note
- * Principles used:
- * - Separation of concerns: the class is limited to reading and validating
- *		configuration files (rail network and train compositions).
- * - Encapsulation: internal data (_nodes, _rails, _trains) are private and
- *		accessed via const accessors to prevent external modification.
- * - Defensive validation (fail-fast): strict checks of formats and values
- *		to detect and report errors as early as possible.
- * - Resource management: file access via streams and cleanup in the
- *		destructor to avoid leaks (RAII-inspired behavior).
- * - Simplicity and robustness: explicit format rules and detailed checks
- *		to prevent undefined behavior during the simulation.
+ * principles SRP, Defensive validation
  */
 
 #pragma once

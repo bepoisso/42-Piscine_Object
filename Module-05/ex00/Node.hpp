@@ -1,3 +1,14 @@
+/**
+ * @file Node.hpp
+ * @brief Node class - Network vertex
+ * 
+ * @details
+ * Represents a city or station with a name, station flag, and optional delay.
+ * 
+ * @note
+ * principles Encapsulation
+ */
+
 #pragma once
 
 #include <string>

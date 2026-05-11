@@ -1,3 +1,15 @@
+/**
+ * @file Clock.hpp
+ * @brief AClock class - Abstract timekeeper
+ * 
+ * @details
+ * Defines the base interface for time management and exposes current time
+ * handling shared by clocks. Concrete clocks implement the update logic.
+ * 
+ * @note
+ * principles Abstraction, SRP
+ */
+
 #pragma once
 
 #include "Forward.hpp"

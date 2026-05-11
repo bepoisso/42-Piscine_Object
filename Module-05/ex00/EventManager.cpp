@@ -1,6 +1,5 @@
 #include "EventManager.hpp"
 
-
 EventManager::EventManager(SimulationEngine* p_sim) : _mediator(p_sim) {
 }
 

@@ -1,3 +1,15 @@
+/**
+ * @file RailBlockedEvent.hpp
+ * @brief RailBlockedEvent class - Block a rail segment
+ * 
+ * @details
+ * Event that marks a rail as blocked for a duration and can revert it
+ * when the event ends.
+ * 
+ * @note
+ * principles SRP, Polymorphism
+ */
+
 #pragma once
 
 #include "Forward.hpp"

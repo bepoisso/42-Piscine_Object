@@ -1,3 +1,15 @@
+/**
+ * @file RailLimitationEvent.hpp
+ * @brief RailLimitationEvent class - Limit rail speed
+ * 
+ * @details
+ * Event that applies a temporary speed limitation to a rail and can revert
+ * it when the event ends.
+ * 
+ * @note
+ * principles SRP, Polymorphism
+ */
+
 #pragma once
 
 #include "Forward.hpp"

@@ -1,3 +1,15 @@
+/**
+ * @file Train.hpp
+ * @brief Train class - Train entity and behavior
+ * 
+ * @details
+ * Combines movement physics, timing, and path state to simulate a train
+ * along its route.
+ * 
+ * @note
+ * principles Encapsulation, Polymorphism
+ */
+
 #pragma once
 
 #include <string>

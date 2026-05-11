@@ -1,3 +1,15 @@
+/**
+ * @file Event.hpp
+ * @brief AEvent class - Base class for simulation events
+ * 
+ * @details
+ * Defines the event lifecycle (update, apply, revert) and state flags that
+ * manage event duration and completion.
+ * 
+ * @note
+ * principles Abstraction, Polymorphism
+ */
+
 #pragma once
 
 #include <string>

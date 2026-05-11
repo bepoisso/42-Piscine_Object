@@ -1,3 +1,14 @@
+/**
+ * @file Utils.hpp
+ * @brief Utils - Shared helper functions
+ * 
+ * @details
+ * Provides string parsing and lookup helpers used by multiple subsystems.
+ * 
+ * @note
+ * principles DRY, Reuse
+ */
+
 #pragma once
 
 #include <string>

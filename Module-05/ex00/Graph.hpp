@@ -1,3 +1,15 @@
+/**
+ * @file Graph.hpp
+ * @brief Graph class - Rail network representation
+ * 
+ * @details
+ * Stores nodes and rails and builds an adjacency map to query connections
+ * within the rail network.
+ * 
+ * @note
+ * principles Encapsulation, SRP
+ */
+
 #pragma once
 
 #include <vector>

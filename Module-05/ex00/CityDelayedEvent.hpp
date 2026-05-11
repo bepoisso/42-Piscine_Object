@@ -1,3 +1,15 @@
+/**
+ * @file CityDelayedEvent.hpp
+ * @brief CityDelayedEvent class - Delay a node for a time window
+ * 
+ * @details
+ * This event applies a delay to a target node and reverts it when the
+ * event duration ends. It is used by the event system to model city delays.
+ * 
+ * @note
+ * principles SRP, Polymorphism
+ */
+
 #pragma once
 
 #include "Forward.hpp"
