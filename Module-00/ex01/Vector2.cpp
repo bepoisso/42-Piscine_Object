@@ -13,11 +13,3 @@ float Vector2::getX() const {
 float Vector2::getY() const {
 	return y;
 }
-
-void Vector2::setX(float newX) {
-	x = newX;
-}
-
-void Vector2::setY(float newY) {
-	y = newY;
-}

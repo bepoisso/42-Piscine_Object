@@ -11,6 +11,4 @@ public:
 	~Vector2();
 	float getX() const;
 	float getY() const;
-	void setX(float newX);
-	void setY(float newY);
 };
