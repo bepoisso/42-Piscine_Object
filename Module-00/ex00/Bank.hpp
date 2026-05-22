@@ -33,8 +33,7 @@ friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
 	}
 
 /* Getter / Setter */
-	int getLiquidity() const;
-	void setLiquidity(int newLiquidity);
+	const int& getLiquidity() const;
 
 
 /* Methode */
@@ -46,5 +45,6 @@ friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
 	void loan(int id, int addValue);
 	void withdraw(int id, int minudValue);
 
-	const Account* operator[](int id) const;
+	const Account& getAccount(int id) const;
+	const Account& operator[](int id) const;
 };

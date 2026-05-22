@@ -1,6 +1,8 @@
 #include "Account.hpp"
 
 Account::Account(int newId, int newValue) : id(newId), value(newValue) {
+	if (newValue < 0)
+		throw std::runtime_error("error: can't create Account, negative value");
 }
 
 Account::~Account() {
