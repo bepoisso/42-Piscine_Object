@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
+#include <cstdlib>
 #include "Vector2.hpp"
 
 class Graph {

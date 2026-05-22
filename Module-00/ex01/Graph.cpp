@@ -1,7 +1,11 @@
-#include <iostream>
 #include "Graph.hpp"
 
-Graph::Graph(float width, float height) : size(width, height) {}
+Graph::Graph(float width, float height) : size(width, height) {
+	if (width <= 0.0 || height <= 0.0) {
+		std::cerr << "Error: width and height must be positive" << std::endl;
+		exit(1);
+	}
+}
 
 Graph::~Graph() {}
 
