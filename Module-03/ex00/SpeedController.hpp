@@ -36,5 +36,5 @@ SpeedController &SpeedController::operator=(const SpeedController &other) {
 
 /* Methode */
 void	SpeedController::accelerate(float speed) {
-	std::cout << "SpeedController: accelerating to " << speed << " km/h" << std::endl;
+	std::cout << "accelerating to " << speed << " km/h" << std::endl;
 }
