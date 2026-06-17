@@ -40,5 +40,5 @@ void	BrakeSystem::apply_force_on_brakes(float force) {
 }
 
 void	BrakeSystem::apply_emergency_brakes() {
-	std::cout << "Emergency brakes are acctivated" << std::endl;
+	std::cout << "Emergency brakes are acctivated. Maximum force applied" << std::endl;
 }
