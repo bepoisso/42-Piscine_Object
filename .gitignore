@@ -2,3 +2,4 @@
 */*/exec
 *.o
 *.result
+*.gch
