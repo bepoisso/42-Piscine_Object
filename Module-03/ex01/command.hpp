@@ -6,13 +6,15 @@
 #include <cstdio>
 #include <string>
 
+int g_currentId = 0;
+
 
 class Command {
 private:
 	// Attributes
-	int 				id;
-	time_t				date;
-	std::string			client;
+	const int 					id;
+	time_t						date;
+	const std::string			client;
 	std::map<std::string, int>	articles;
 	std::map<std::string, int>	articlesPrice;
 
@@ -23,11 +25,8 @@ protected:
 	int				get_raw_total_price() const;
 
 public:
-	// Canonical Form
-	Command(int newId, std::string newClient, std::string dateInput, std::map<std::string, int> newArticlesPrice);
+	Command(std::string newClient, std::string dateInput, std::map<std::string, int> newArticlesPrice);
 	virtual ~Command();
-	Command(const Command &other);
-	Command &operator=(const Command &other);
 
 /* Methode */
 	void			addToCart(std::string name, int value);
@@ -37,27 +36,13 @@ public:
 
 
 
-Command::Command(int newId, std::string newClient, std::string dateInput, std::map<std::string, int> newArticlesPrice)
-	: id(newId), date(time(NULL)), client(newClient), articlesPrice(newArticlesPrice) {
+Command::Command(std::string newClient, std::string dateInput, std::map<std::string, int> newArticlesPrice)
+	: id(++g_currentId), date(time(NULL)), client(newClient), articlesPrice(newArticlesPrice) {
 	parseDate(dateInput, date);
 }
 
 Command::~Command() {}
 
-Command::Command(const Command &other) {
-	*this = other;
-}
-
-Command &Command::operator=(const Command &other) {
-	if (this != &other) {
-		id = other.id;
-		date = other.date;
-		client = other.client;
-		articles = other.articles;
-		articlesPrice = other.articlesPrice;
-	}
-	return *this;
-}
 
 bool Command::parseDate(const std::string &dateInput, time_t &outDate) const {
 	int year = 0;
@@ -95,7 +80,7 @@ void Command::displayCart() const {
 		std::snprintf(buffer, sizeof(buffer), "invalid date");
 
 	std::cout << "=== CART ===" << std::endl;
-	std::cout << "Command for " << client << " date: " << buffer << std::endl << std::endl;
+	std::cout << "Command id: " << id << ", client: " << client << ", date: " << buffer << std::endl << std::endl;
 	for (auto &item : articles) {
 		std::cout << item.first << ": " << item.second << std::endl;
 	}

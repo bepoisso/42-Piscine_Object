@@ -45,7 +45,6 @@ static bool	is_tuesday(const std::string &dateInput)
 
 int main(void)
 {
-	int							cmdId = 1;
 	int							choice;
 	int							quantity;
 	std::string					name;
@@ -79,8 +78,8 @@ int main(void)
 	
 	std::cout << std::endl;
 	
-	ThuesdayDiscount thuesdayCmd(cmdId, name, date, articlesPrice);
-	PakageReductionDiscount packageCmd(cmdId, name, date, articlesPrice);
+	ThuesdayDiscount thuesdayCmd(name, date, articlesPrice);
+	PakageReductionDiscount packageCmd(name, date, articlesPrice);
 
 	while (true) {
 		std::cout << "CHOCE YOUR ITEMS:" << std::endl;
