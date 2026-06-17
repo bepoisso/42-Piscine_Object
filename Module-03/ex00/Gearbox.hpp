@@ -5,10 +5,11 @@
 class Gearbox {
 private:
 	// Attributes
+	int _current;
 
 public:
 	// Canonical Form
-	Gearbox(/* Data */);
+	Gearbox();
 	~Gearbox();
 	Gearbox(const Gearbox &other);
 	Gearbox &operator=(const Gearbox &other);
@@ -16,6 +17,7 @@ public:
 /* Operator */
 
 /* Getter / Setter */
+int getCurrent() const;
 
 /* Methode */
 void	shift_gears_up();
@@ -24,7 +26,7 @@ void	reverse();
 
 };
 
-Gearbox::Gearbox() {
+Gearbox::Gearbox(): _current(0) {
 }
 
 Gearbox::~Gearbox() {
@@ -41,14 +43,22 @@ Gearbox &Gearbox::operator=(const Gearbox &other) {
 }
 
 /* Methode */
+
+int Gearbox::getCurrent() const {
+	return _current;
+}
+
 void	Gearbox::shift_gears_up() {
-	std::cout << "Shifting up" << std::endl;
+	_current++;
+	std::cout << "Shifting up. Gear [" << _current << "] engaged." << std::endl;
 }
 
 void	Gearbox::shift_gears_down() {
-	std::cout << "Shifting down" << std::endl;
+	_current--;
+	std::cout << "Shifting down. Gear [" << _current << "] engaged." << std::endl;
 }
 
 void	Gearbox::reverse() {
-	std::cout << "Reversing" << std::endl;
+	_current = -1;
+	std::cout << "Reversing engaged" << std::endl;
 }

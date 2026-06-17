@@ -59,6 +59,7 @@ void Car::start() {
 
 void Car::stop() {
 	_engine.stop();
+	_brake.apply_force_on_brakes(100.0f);
 }
 
 void Car::accelerate(float speed) {
@@ -66,15 +67,18 @@ void Car::accelerate(float speed) {
 }
 
 void Car::shift_gears_up() {
-	_gearbox.shift_gears_up();
+	if (_gearbox.getCurrent() < 6)
+		_gearbox.shift_gears_up();
 }
 
 void Car::shift_gears_down() {
-	_gearbox.shift_gears_down();
+	if (_gearbox.getCurrent() > 0)
+		_gearbox.shift_gears_down();
 }
 
 void Car::reverse() {
-	_gearbox.reverse();
+	if (_gearbox.getCurrent() == 0)
+		_gearbox.reverse();
 }
 
 void Car::turn_wheel(float angle) {
