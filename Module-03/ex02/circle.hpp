@@ -10,16 +10,8 @@ private:
 	double radius;
 
 public:
-	// Canonical Form
 	Circle(double newRadius) : radius(newRadius < 0 ? 0 : newRadius) {}
 	virtual ~Circle() {}
-	Circle(const Circle &other) : Shape(other), radius(other.radius) {}
-	Circle &operator=(const Circle &other) {
-		if (this != &other) {
-			radius = other.radius;
-		}
-		return *this;
-	}
 
 /* Operator */
 

@@ -18,18 +18,8 @@ private:
 	}
 
 public:
-	// Canonical Form
 	Triangle(double newA, double newB, double newC) : a(newA), b(newB), c(newC) {}
 	virtual ~Triangle() {}
-	Triangle(const Triangle &other) : Shape(other), a(other.a), b(other.b), c(other.c) {}
-	Triangle &operator=(const Triangle &other) {
-		if (this != &other) {
-			a = other.a;
-			b = other.b;
-			c = other.c;
-		}
-		return *this;
-	}
 
 /* Operator */
 
