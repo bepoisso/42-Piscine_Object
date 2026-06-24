@@ -1,7 +1,7 @@
 #pragma once
 
-#include "singletons.hpp"
+#include "Singetons.hpp"
 
 class Course;
 
-using CourseList = SingletonList<Course*>;
+using CourseList = SingetonList<Course*>;
