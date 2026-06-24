@@ -34,28 +34,50 @@ public:
 	std::string _name;
 };
 
+void AExternalFunction() {
+	Student victor("Victor");
+	Student jack("Jack");
+	Staff profB("Professor B");
+	Course Algorithm("Algorithm");
+	Room c418("C418");
+
+	StudentList::getInstance().add(&victor);
+	StudentList::getInstance().add(&jack);
+	StaffList::getInstance().add(&profB);
+	CourseList::getInstance().add(&Algorithm);
+	RoomList::getInstance().add(&c418);
+}
+
 int main()
 {
 	Student alice("Alice");
 	Student bob("Bob");
 	Staff profX("Professor X");
 	Course cpp("C++ Design Patterns");
-	Room b12("B404");
+	Room b404("B404");
 
 	StudentList::getInstance().add(&alice);
 	StudentList::getInstance().add(&bob);
 	StaffList::getInstance().add(&profX);
 	CourseList::getInstance().add(&cpp);
-	RoomList::getInstance().add(&b12);
+	RoomList::getInstance().add(&b404);
 
-	std::cout << "Students count: " << StudentList::getInstance().size() << '\n';
-	std::cout << "Staff count: " << StaffList::getInstance().size() << '\n';
-	std::cout << "Courses count: " << CourseList::getInstance().size() << '\n';
-	std::cout << "Rooms count: " << RoomList::getInstance().size() << '\n';
+	std::cout << "Students count: " << StudentList::getInstance().size() << std::endl;
+	std::cout << "Staff count: " << StaffList::getInstance().size() << std::endl;
+	std::cout << "Courses count: " << CourseList::getInstance().size() << std::endl;
+	std::cout << "Rooms count: " << RoomList::getInstance().size() << std::endl;
+	std::cout << "----------" << std::endl;
+
+	AExternalFunction();
+
+	std::cout << "Students count: " << StudentList::getInstance().size() << std::endl;
+	std::cout << "Staff count: " << StaffList::getInstance().size() << std::endl;
+	std::cout << "Courses count: " << CourseList::getInstance().size() << std::endl;
+	std::cout << "Rooms count: " << RoomList::getInstance().size() << std::endl;
 
 	Student* firstStudent = 0;
 	if (StudentList::getInstance().get(0, firstStudent) && firstStudent != 0)
-		std::cout << "First student: " << firstStudent->_name << '\n';
+		std::cout << "First student: " << firstStudent->_name << std::endl;
 
 	return 0;
 }
