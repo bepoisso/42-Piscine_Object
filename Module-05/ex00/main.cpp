@@ -5,11 +5,8 @@
 #include <ctime>
 #include <fstream>
 
+#include "Config.hpp"
 #include "Simulation.hpp"
-
-#define DELTA_TIME 1 		// secondes
-#define START_TIME 28800	// 28800 seconde = 08h00
-
 
 int main(int ac, char **av) {
 

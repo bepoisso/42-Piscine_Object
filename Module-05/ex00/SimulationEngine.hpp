@@ -26,6 +26,7 @@
 #include "Train.hpp"
 #include "Time.hpp"
 #include "EventManager.hpp"
+#include "Config.hpp"
 
 class SimulationEngine {
 private:

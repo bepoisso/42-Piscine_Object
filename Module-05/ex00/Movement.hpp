@@ -33,8 +33,6 @@ private:
 	const double			_gravity;
 
 	// DYNAMIC
-	Rail*					_currentRail;
-
 	double					_velocity;				//		m/s
 	double					_acceleration;
 	double					_distanceRemaining;		//		meter

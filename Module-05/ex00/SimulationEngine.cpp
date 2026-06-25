@@ -20,10 +20,11 @@ void SimulationEngine::init() {
 void SimulationEngine::run() {
 	init();
 	while (!_finished) {
-		int rand = std::rand() % 1000;		// 1000 = 0.1% of chance on each ticks
-
-		if (rand == 0)
-			_eventManager->generateRandomEvent();
+		if (EVENTS) {
+			int rand = std::rand() % 1000;		// 1000 = 0.1% of chance on each ticks
+			if (rand == 0)
+				_eventManager->generateRandomEvent();
+		}
 
 		update(_deltaTime);
 		_finished = _trainManager->allIsFinish();
